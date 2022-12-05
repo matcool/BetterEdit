@@ -11,8 +11,7 @@ bool isLeftMouseButtonPressed() {
     return g_bPressedButtons[0];
 }
 
-GDMAKE_HOOK("libcocos2d.dll::?onGLFWMouseCallBack@CCEGLView@cocos2d@@IAEXPAUGLFWwindow@@HHH@Z")
-void __fastcall CCEGLView_onGLFWMouseCallBack(CCEGLView* self, edx_t edx, GLFWwindow* wnd, int btn, int pressed, int z) {
+void CCEGLView_onGLFWMouseCallBack(CCEGLView* self, GLFWwindow* wnd, int btn, int pressed, int z) {
     g_bPressedButtons[btn] = pressed;
 
     KeybindManager::get()->registerMousePress(static_cast<MouseButton>(btn), pressed);
@@ -38,5 +37,5 @@ void __fastcall CCEGLView_onGLFWMouseCallBack(CCEGLView* self, edx_t edx, GLFWwi
         );
     }
 
-    return GDMAKE_ORIG_V(self, edx, wnd, btn, pressed, z);
-}
+    return matdash::orig<&CCEGLView_onGLFWMouseCallBack>(self, wnd, btn, pressed, z);
+} MAT_GDMAKE_HOOK_C("?onGLFWMouseCallBack@CCEGLView@cocos2d@@IAEXPAUGLFWwindow@@HHH@Z", CCEGLView_onGLFWMouseCallBack)

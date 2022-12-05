@@ -5,18 +5,16 @@
 #include "SuperMouseManager.hpp"
 #include "../settings/BESettingsLayer.hpp"
 
-GDMAKE_HOOK("libcocos2d.dll::?dispatchScrollMSG@CCMouseDispatcher@cocos2d@@QAE_NMM@Z")
-bool __fastcall dispatchScrollMSGHook(CCMouseDelegate* self, edx_t edx, float y, float x) {
+
+matdash::cc::thiscall<bool> dispatchScrollMSGHook(CCMouseDelegate* self, float y, float x) {
     if (SuperMouseManager::get()->dispatchScrollEvent(y, x, getMousePos()))
         return true;
 
-    return GDMAKE_ORIG(self, edx, y, x);
-}
+    return matdash::orig<&dispatchScrollMSGHook>(self, y, x);
+} MAT_GDMAKE_HOOK_C("?dispatchScrollMSG@CCMouseDispatcher@cocos2d@@QAE_NMM@Z", dispatchScrollMSGHook)
 
-GDMAKE_HOOK("libcocos2d.dll::?dispatchKeyboardMSG@CCKeyboardDispatcher@cocos2d@@QAE_NW4enumKeyCodes@2@_N@Z")
-void __fastcall dispatchKeyboardMSGHook(
+matdash::cc::thiscall<void> dispatchKeyboardMSGHook(
     CCKeyboardDispatcher* self,
-    edx_t edx,
     enumKeyCodes key,
     bool down
 ) {
@@ -24,12 +22,13 @@ void __fastcall dispatchKeyboardMSGHook(
         self->updateModifierKeys(false, false, false, false);
 
     if (SuperKeyboardManager::get()->dispatchEvent(key, down))
-        return;
-    
+        return {};
+
     KeybindManager::get()->registerKeyPress(key, down);
 
-    GDMAKE_ORIG_V(self, edx, key, down);
-}
+    matdash::orig<&dispatchKeyboardMSGHook>(self, key, down);
+    return {};
+} MAT_GDMAKE_HOOK_C("?dispatchKeyboardMSG@CCKeyboardDispatcher@cocos2d@@QAE_NW4enumKeyCodes@2@_N@Z", dispatchKeyboardMSGHook)
 
 void  AppDelegate_applicationWillEnterForeground(CCApplication* self) {
     matdash::orig<&AppDelegate_applicationWillEnterForeground>(self);

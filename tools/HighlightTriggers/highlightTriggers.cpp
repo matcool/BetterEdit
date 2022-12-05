@@ -58,8 +58,8 @@ public:
     }
 };
 
-void  EffectGameObject_triggerObject(GameObject* self, edx_t, GJBaseGameLayer* layer) {
-    matdash::orig<&EffectGameObject_triggerObject>(self, 0, layer);
+void  EffectGameObject_triggerObject(GameObject* self, GJBaseGameLayer* layer) {
+    matdash::orig<&EffectGameObject_triggerObject>(self, layer);
     
     if (BetterEdit::getHighlightTriggers()) {
         constexpr int TAG = 400123;

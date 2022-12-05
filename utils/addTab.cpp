@@ -9,9 +9,8 @@ void addEditorTab(const char* spr, addEditorTabFunc bbar) {
     g_tabs.push_back({ spr, bbar });
 }
 
-GDMAKE_HOOK(0x7caf0, "_ZN8EditorUI15setupCreateMenuEv")
-void __fastcall EditorUI_setupCreateMenu(gd::EditorUI* self) {
-    GDMAKE_ORIG_V(self);
+void  EditorUI_setupCreateMenu(gd::EditorUI* self) {
+    matdash::orig<&EditorUI_setupCreateMenu>(self);
 
     if (BetterEdit::isEditorViewOnlyMode())
         return;
@@ -71,4 +70,4 @@ void __fastcall EditorUI_setupCreateMenu(gd::EditorUI* self) {
         self->m_pTabsMenu->alignItemsHorizontallyWithPadding(-1.0f);
 
     self->m_pTabsMenu->setPosition(pos);
-}
+} MAT_GDMAKE_HOOK(0x7caf0, EditorUI_setupCreateMenu);

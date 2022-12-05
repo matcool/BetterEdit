@@ -175,3 +175,8 @@ namespace matstuff {
     static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
         matdash::add_hook<&func>(gd::base + addr); \
     }), 69);
+#define MAT_GDMAKE_HOOK_C(symbolname, func) \
+    static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
+        const auto addr = GetProcAddress(GetModuleHandleA("libcocos2d.dll"), symbolname); \
+        matdash::add_hook<&func>(reinterpret_cast<void*>(addr)); \
+    }), 69);

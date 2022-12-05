@@ -524,7 +524,7 @@ void  EditorUI_updateZoom(gd::EditorUI* self) {
     updatePercentLabelPosition(self);
 } MAT_GDMAKE_HOOK(0x878a0, EditorUI_updateZoom);
 
-void  EditorUI_keyDown(EditorUI* self_, edx_t, enumKeyCodes key) {
+void  EditorUI_keyDown(EditorUI* self_, enumKeyCodes key) {
     auto self = offset_cast<EditorUI*>(self_, -0xf8);
     
     KeybindManager::get()->executeEditorCallbacks(
@@ -532,7 +532,7 @@ void  EditorUI_keyDown(EditorUI* self_, edx_t, enumKeyCodes key) {
     );
 } MAT_GDMAKE_HOOK(0x91a30, EditorUI_keyDown);
 
-void  EditorUI_keyUp(EditorUI* self_, edx_t, enumKeyCodes key) {
+void  EditorUI_keyUp(EditorUI* self_, enumKeyCodes key) {
     auto self = offset_cast<EditorUI*>(self_, -0xf8);
 
     KeybindManager::get()->executeEditorCallbacks(
@@ -542,7 +542,7 @@ void  EditorUI_keyUp(EditorUI* self_, edx_t, enumKeyCodes key) {
 
 // Credits to Alk1m123 (https://github.com/altalk23) for this scale fix
 // this lets you scale multiple objects without it fucking up the position
-void  EditorUI_scaleObjects(gd::EditorUI* self, edx_t, CCArray* objs, CCPoint centerPos) {
+void  EditorUI_scaleObjects(gd::EditorUI* self, CCArray* objs, CCPoint centerPos) {
     float scale;
     __asm movss scale, xmm2;
     CCObject* obj;

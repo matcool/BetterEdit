@@ -9,23 +9,23 @@ void updateEdge() {
     g_fEdgeInverted = -g_fEdge;
 }
 
-void  DrawGridLayer_draw(DrawGridLayer* self) {
-    // updateEdge();
+// void  DrawGridLayer_draw(DrawGridLayer* self) {
+//     // updateEdge();
 
-    // __asm { movss xmm2, g_fEdge }
+//     // __asm { movss xmm2, g_fEdge }
 
-    matdash::orig<&DrawGridLayer_draw>(self);
+//     matdash::orig<&DrawGridLayer_draw>(self);
 
-    drawDashOrbLines(self);
-} MAT_GDMAKE_HOOK(0x16ce90, DrawGridLayer_draw);
+//     drawDashOrbLines(self);
+// } MAT_GDMAKE_HOOK(0x16ce90, DrawGridLayer_draw);
 
-void  EditorUI_constrainGameLayerPosition(EditorUI* self) {
-    // updateEdge();
+// void  EditorUI_constrainGameLayerPosition(EditorUI* self) {
+//     // updateEdge();
     
-    // __asm { movss xmm3, g_fEdge }
+//     // __asm { movss xmm3, g_fEdge }
 
-    return matdash::orig<&EditorUI_constrainGameLayerPosition>(self);
-} MAT_GDMAKE_HOOK(0x8f920, EditorUI_constrainGameLayerPosition);
+//     return matdash::orig<&EditorUI_constrainGameLayerPosition>(self);
+// } MAT_GDMAKE_HOOK(0x8f920, EditorUI_constrainGameLayerPosition);
 
 void loadPlaceObjectsBefore() {
     // patch onCreateObject
