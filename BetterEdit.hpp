@@ -52,13 +52,13 @@ struct DebugMsg {
     __macro__(ShowGridOnChange, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
     __macro__(AlwaysUseCustomGridSize, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)       \
     __macro__(PasteStateEnabled, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)              \
-    __macro__(DisableMouseZoomMove, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
+    __macro__(DisableMouseZoomMove, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
     __macro__(FadeOutPercentage, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
     __macro__(PulseObjectsInEditor, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
     __macro__(HasShownPulseVolumeWarning, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)    \
     __macro__(RotateSawsInEditor, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
     __macro__(DisableEditorPos, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)              \
-    __macro__(DisableZoomText, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
+    __macro__(DisableZoomText, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
     __macro__(DisablePercentage, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
     __macro__(DisableExtraObjectInfo, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
     __macro__(DisableGlobalClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
@@ -69,15 +69,15 @@ struct DebugMsg {
     __macro__(RepeatCopyPaste, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
     __macro__(EnableRelativeSwipe, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
     __macro__(DisableNewColorSelection, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)      \
-    __macro__(UseUpArrowForGameplay, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
+    __macro__(UseUpArrowForGameplay, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
     __macro__(EnableAutoSave, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                \
     __macro__(DisableVisibilityTab, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
     __macro__(HighlightTriggers, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(DisableDoubleClick, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
+    __macro__(DisableDoubleClick, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
     __macro__(KeybindRepeatEnabled, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
     __macro__(KeybindRepeatInterval, int, 300, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1,10000)\
     __macro__(KeybindRepeatStart, int, 700, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 10000)  \
-    __macro__(ShowKeybindOnHover, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    __macro__(ShowKeybindOnHover, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
     __macro__(CopyObjectsToClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
     __macro__(EnableCustomEditMenu, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
     __macro__(NoEasterEggs, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                  \
@@ -141,8 +141,8 @@ struct DebugMsg {
     static std::string get##__name__##AsString() { return formatToString(get##__name__()); }
 #pragma endregion macros (ew)
 
-static constexpr const char* g_sLogfileDat = "BE_log_t.dat";
-static constexpr const char* g_sLogfile = "BE_log.log";
+// static constexpr const char* g_sLogfileDat = "BE_log_t.dat";
+// static constexpr const char* g_sLogfile = "BE_log.log";
 
 struct log_end {};
 

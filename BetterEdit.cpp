@@ -31,19 +31,19 @@ bool DSdictHasKey(DS_Dictionary* dict, std::string const& key) {
 }
 
 log_stream::log_stream() {
-    if (std::filesystem::exists(g_sLogfileDat)) {
-        try {
-            this->type = std::stoi(readFileString(g_sLogfileDat));
-        } catch (...) {}
-    }
-    this->setType(this->type);
-    this->type |= kLogTypeInternal;
-    writeFileString(g_sLogfile, "");
+    // if (std::filesystem::exists(g_sLogfileDat)) {
+    //     try {
+    //         this->type = std::stoi(readFileString(g_sLogfileDat));
+    //     } catch (...) {}
+    // }
+    // this->setType(this->type);
+    // this->type |= kLogTypeInternal;
+    // writeFileString(g_sLogfile, "");
 }
 
 void log_stream::setType(int t) {
     this->type = t;
-    writeFileString(g_sLogfileDat, std::to_string(t));
+    // writeFileString(g_sLogfileDat, std::to_string(t));
 }
 
 log_stream& log_stream::operator<<(log_end end) {
@@ -54,10 +54,10 @@ log_stream& log_stream::operator<<(log_end end) {
         this->output.str() + "\n";
 
     if (this->type & kLogTypeFile) {
-        std::ofstream outfile;
-        outfile.open(g_sLogfile, std::ios_base::app);
-        outfile << s;
-        outfile.close();
+        // std::ofstream outfile;
+        // outfile.open(g_sLogfile, std::ios_base::app);
+        // outfile << s;
+        // outfile.close();
     }
     if (this->type & kLogTypeConsole) {
         std::cout << s;

@@ -1,7 +1,7 @@
 import glob
 import re
 
-files = glob.glob('hooks/*.cpp') + glob.glob('tools/**/*.cpp')
+files = glob.glob('hooks/*.cpp') + glob.glob('tools/*.cpp', recursive=True)
 
 total = 0
 for file_name in files:
