@@ -47,25 +47,25 @@ struct bbbbb : public LevelBrowserLayer {
     }
 };
 
-bool LevelBrowserLayer_init(LevelBrowserLayer* self,  GJSearchObject* search) {
-    if (!matdash::orig<&LevelBrowserLayer_init>(self,  search))
-        return false;
+// bool LevelBrowserLayer_init(LevelBrowserLayer* self,  GJSearchObject* search) {
+//     if (!matdash::orig<&LevelBrowserLayer_init>(self,  search))
+//         return false;
 
-    if (search->m_nScreenID == kGJSearchTypeMyLevels) {
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
+//     if (search->m_nScreenID == kGJSearchTypeMyLevels) {
+//         auto winSize = CCDirector::sharedDirector()->getWinSize();
         
-        auto menu = CCMenu::create();
-        menu->setPosition(winSize.width / 2, 30.f);
+//         auto menu = CCMenu::create();
+//         menu->setPosition(winSize.width / 2, 30.f);
 
-        auto btnSpr = ButtonSprite::create("Backup All", 0, 0, "bigFont.fnt", "GJ_button_01.png", 0, .8f);
-        btnSpr->setScale(.6f);
+//         auto btnSpr = ButtonSprite::create("Backup All", 0, 0, "bigFont.fnt", "GJ_button_01.png", 0, .8f);
+//         btnSpr->setScale(.6f);
 
-        auto btn = CCMenuItemSpriteExtra::create(btnSpr, self, menu_selector(bbbbb::backupEverything));
-        btn->setPosition(0, 0);
-        menu->addChild(btn);
+//         auto btn = CCMenuItemSpriteExtra::create(btnSpr, self, menu_selector(bbbbb::backupEverything));
+//         btn->setPosition(0, 0);
+//         menu->addChild(btn);
 
-        self->addChild(menu);
-    }
+//         self->addChild(menu);
+//     }
 
-    return true;
-} MAT_GDMAKE_HOOK(0x15a040, LevelBrowserLayer_init)
+//     return true;
+// } MAT_GDMAKE_HOOK(0x15a040, LevelBrowserLayer_init)

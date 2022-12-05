@@ -298,8 +298,8 @@ void BESettingsLayer::incrementPageCount(bool skip) {
 }
 
 void BESettingsLayer::addItem(CCNode* item) {
-    if (this->m_nDestPage > this->m_vPages.size() - 1 || !this->m_vPages.size())
-        this->m_vPages.push_back(std::vector<CCNode*>());
+    while (this->m_nDestPage >= this->m_vPages.size())
+        this->m_vPages.emplace_back();
 
     this->m_vPages[this->m_nDestPage].push_back(item);
 

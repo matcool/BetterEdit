@@ -159,6 +159,7 @@ bool  EditorPauseLayer_init(
         CCNodeConstructor()
             .fromFrameName("GJ_optionsBtn02_001.png")
             .scale(.8f)
+            .color(ccc3(255, 0, 0))
             .done(),
         self,
         (SEL_MenuHandler)&EditorPauseLayer_CB::onBESettings
