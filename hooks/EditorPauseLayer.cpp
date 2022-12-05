@@ -61,17 +61,15 @@ int countLDMObjects(LevelEditorLayer* lel) {
     return count;
 }
 
-GDMAKE_HOOK(0x758d0, "_ZN16EditorPauseLayer7keyDownEN7cocos2d12enumKeyCodesE")
-void __fastcall EditorPauseLayer_keyDown(EditorPauseLayer* self, edx_t edx, enumKeyCodes key) {
+void  EditorPauseLayer_keyDown(EditorPauseLayer* self,  enumKeyCodes key) {
     if (key == KEY_Escape)
         as<EditorPauseLayer*>(as<uintptr_t>(self) - 0xf8)->onResume(nullptr);
     else
-        GDMAKE_ORIG_V(self, edx, key);
-}
+        matdash::orig<&EditorPauseLayer_keyDown>(self,  key);
+} MAT_GDMAKE_HOOK(0x758d0, EditorPauseLayer_keyDown);
 
-GDMAKE_HOOK(0x74fe0, "_ZN16EditorPauseLayer8onResumeEPN7cocos2d8CCObjectE")
-void __fastcall EditorPauseLayer_onResume(EditorPauseLayer* self, edx_t edx, CCObject* pSender) {
-    GDMAKE_ORIG_V(self, edx, pSender);
+void  EditorPauseLayer_onResume(EditorPauseLayer* self,  CCObject* pSender) {
+    matdash::orig<&EditorPauseLayer_onResume>(self,  pSender);
 
     for (auto const& addr : std::initializer_list<int> {
         0x73169,
@@ -115,29 +113,27 @@ void __fastcall EditorPauseLayer_onResume(EditorPauseLayer* self, edx_t edx, CCO
 
     updatePercentLabelPosition(ui);
     // showPositionLabel(LevelEditorLayer::get()->getEditorUI(), true);
-}
+} MAT_GDMAKE_HOOK(0x74fe0, EditorPauseLayer_onResume);
 
-GDMAKE_HOOK(0x75660, "_ZN16EditorPauseLayer12onExitEditorEPN7cocos2d8CCObjectE")
-void __fastcall EditorPauseLayer_onExitEditor(
+void  EditorPauseLayer_onExitEditor(
     EditorPauseLayer* self,
-    edx_t edx,
+    
     CCObject* pSender
 ) {
     stopRotations(self->m_pEditorLayer);
     // resetAutoSaveTimer(self->m_pEditorLayer->m_pEditorUI);
 
-    GDMAKE_ORIG_V(self, edx, pSender);
+    matdash::orig<&EditorPauseLayer_onExitEditor>(self,  pSender);
 
     self->removeFromParentAndCleanup(true);
-}
+} MAT_GDMAKE_HOOK(0x75660, EditorPauseLayer_onExitEditor);
 
-GDMAKE_HOOK(0x730e0, "_ZN16EditorPauseLayer4initEP16LevelEditorLayer")
-bool __fastcall EditorPauseLayer_init(
+bool  EditorPauseLayer_init(
     EditorPauseLayer* self,
-    edx_t edx,
+    
     LevelEditorLayer* el
 ) {
-    if (!GDMAKE_ORIG(self, edx, el))
+    if (!matdash::orig<&EditorPauseLayer_init>(self,  el))
         return false;
 
     auto menu = as<CCMenu*>(self->m_pButton0->getParent());
@@ -217,4 +213,4 @@ bool __fastcall EditorPauseLayer_init(
     // getAutoSaveTimer(LevelEditorLayer::get()->getEditorUI())->pause();
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x730e0, EditorPauseLayer_init);

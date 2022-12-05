@@ -19,23 +19,20 @@ void fixLayering(FLAlertLayer* layer) {
     layer->setZOrder(layer->m_nZOrder2);
 }
 
-GDMAKE_HOOK(0x23560, "_ZN12FLAlertLayer4showEv")
-void __fastcall FLAlertLayer_show(FLAlertLayer* layer) {
-    GDMAKE_ORIG_V(layer);
+void  FLAlertLayer_show(FLAlertLayer* layer) {
+    matdash::orig<&FLAlertLayer_show>(layer);
     fixLayering(layer);
-}
+} MAT_GDMAKE_HOOK(0x23560, FLAlertLayer_show);
 
-GDMAKE_HOOK(0x46ff0, "_ZN16ColorSelectPopup4showEv")
-void __fastcall ColorSelectPopup_show(ColorSelectPopup* layer) {
-    GDMAKE_ORIG_V(layer);
+void  ColorSelectPopup_show(ColorSelectPopup* layer) {
+    matdash::orig<&ColorSelectPopup_show>(layer);
     fixLayering(layer);
-}
+} MAT_GDMAKE_HOOK(0x46ff0, ColorSelectPopup_show);
 
-GDMAKE_HOOK(0x672c0, "_ZN15CustomSongLayer4showEv")
-void __fastcall CustomSongLayer_show(FLAlertLayer* layer) {
-    GDMAKE_ORIG_V(layer);
+void  CustomSongLayer_show(FLAlertLayer* layer) {
+    matdash::orig<&CustomSongLayer_show>(layer);
     fixLayering(layer);
-}
+} MAT_GDMAKE_HOOK(0x672c0, CustomSongLayer_show);
 
 void loadFLAlertLayerFix() {}
 

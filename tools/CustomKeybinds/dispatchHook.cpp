@@ -31,9 +31,8 @@ void __fastcall dispatchKeyboardMSGHook(
     GDMAKE_ORIG_V(self, edx, key, down);
 }
 
-GDMAKE_HOOK(0x3d130, "_ZN11AppDelegate30applicationWillEnterForegroundEv")
-void __fastcall AppDelegate_applicationWillEnterForeground(CCApplication* self) {
-    GDMAKE_ORIG_V(self);
+void  AppDelegate_applicationWillEnterForeground(CCApplication* self) {
+    matdash::orig<&AppDelegate_applicationWillEnterForeground>(self);
     
     CCDirector::sharedDirector()->getKeyboardDispatcher()
         ->updateModifierKeys(false, false, false, false);
@@ -44,4 +43,4 @@ void __fastcall AppDelegate_applicationWillEnterForeground(CCApplication* self) 
         );
         showedFoolAchievement();
     }
-}
+} MAT_GDMAKE_HOOK(0x3d130, AppDelegate_applicationWillEnterForeground);

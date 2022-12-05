@@ -8,18 +8,16 @@ using namespace gdmake;
 
 static bool g_bUndid = false;
 
-GDMAKE_HOOK(0x86250, "_ZN8EditorUI12selectObjectEP10GameObjectb")
-void __fastcall EditorUI_selectObject(EditorUI* self, edx_t edx, GameObject* obj, bool idk) {
+void  EditorUI_selectObject(EditorUI* self,  GameObject* obj, bool idk) {
     if (BetterEdit::isEditorViewOnlyMode())
         return;
     
     if (AdvancedFilterLayer::testSelectObject(obj) && testSelectObjectLayer(obj)) {
-        GDMAKE_ORIG_V(self, edx, obj, idk);
+        matdash::orig<&EditorUI_selectObject>(self,  obj, idk);
     }
-}
+} MAT_GDMAKE_HOOK(0x86250, EditorUI_selectObject);
 
-GDMAKE_HOOK(0x864a0, "_ZN8EditorUI13selectObjectsEPN7cocos2d7CCArrayEb")
-void __fastcall EditorUI_selectObjects(EditorUI* self, edx_t edx, cocos2d::CCArray* objs, bool idk) {
+void  EditorUI_selectObjects(EditorUI* self,  cocos2d::CCArray* objs, bool idk) {
     if (BetterEdit::isEditorViewOnlyMode())
         return;
 
@@ -31,12 +29,11 @@ void __fastcall EditorUI_selectObjects(EditorUI* self, edx_t edx, cocos2d::CCArr
         }
     }
     
-    GDMAKE_ORIG_V(self, edx, objs, idk);
-}
+    matdash::orig<&EditorUI_selectObjects>(self,  objs, idk);
+} MAT_GDMAKE_HOOK(0x864a0, EditorUI_selectObjects);
 
-GDMAKE_HOOK(0x87070, "_ZN8EditorUI14undoLastActionEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_undoLastAction(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_undoLastAction(EditorUI* self,  CCObject* pSender) {
     g_bUndid = true;
-    GDMAKE_ORIG_V(self, edx, pSender);
+    matdash::orig<&EditorUI_undoLastAction>(self,  pSender);
     g_bUndid = false;
-}
+} MAT_GDMAKE_HOOK(0x87070, EditorUI_undoLastAction);

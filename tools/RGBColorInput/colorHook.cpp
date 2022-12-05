@@ -3,15 +3,14 @@
 
 static constexpr const int WIDGET_TAG = 69696;
 
-GDMAKE_HOOK(0x43ae0, "_ZN16ColorSelectPopup4initEP16EffectGameObjectPN7cocos2d7CCArrayEP11ColorAction")
-bool __fastcall ColorSelectPopup_init(
+bool  ColorSelectPopup_init(
     ColorSelectPopup* self,
-    edx_t edx,
+    
     EffectGameObject* eff_obj,
     CCArray* arr,
     ColorAction* action
 ) {
-    if (!GDMAKE_ORIG(self, edx, eff_obj, arr, action))
+    if (!matdash::orig<&ColorSelectPopup_init>(self,  eff_obj, arr, action))
         return false;
     
     auto layer = self->getAlertLayer();
@@ -30,25 +29,22 @@ bool __fastcall ColorSelectPopup_init(
     widget->setVisible(!self->copyColor);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x43ae0, ColorSelectPopup_init);
 
-GDMAKE_HOOK(0x46f30, "_ZN16ColorSelectPopup17colorValueChangedEN7cocos2d10_ccColor3BE")
-void __fastcall ColorSelectPopup_colorValueChanged(ColorSelectPopup* self) {
-    GDMAKE_ORIG(self);
+void  ColorSelectPopup_colorValueChanged(ColorSelectPopup* self) {
+    matdash::orig<&ColorSelectPopup_colorValueChanged>(self);
     CATCH_NULL(as<RGBColorInputWidget*>(self->getAlertLayer()->getChildByTag(WIDGET_TAG)))
         ->update_labels(true, true);
-}
+} MAT_GDMAKE_HOOK(0x46f30, ColorSelectPopup_colorValueChanged);
 
-GDMAKE_HOOK(0x479c0, "_ZN16ColorSelectPopup15updateCopyColorEv")
-void __fastcall ColorSelectPopup_updateCopyColor(ColorSelectPopup* self) {
-    GDMAKE_ORIG(self);
+void  ColorSelectPopup_updateCopyColor(ColorSelectPopup* self) {
+    matdash::orig<&ColorSelectPopup_updateCopyColor>(self);
     CATCH_NULL(as<RGBColorInputWidget*>(self->getAlertLayer()->getChildByTag(WIDGET_TAG)))
         ->setVisible(!self->copyColor);
-}
+} MAT_GDMAKE_HOOK(0x479c0, ColorSelectPopup_updateCopyColor);
 
-GDMAKE_HOOK(0x23e980, "_ZN15SetupPulsePopup4initEP16EffectGameObjectPN7cocos2d7CCArrayE")
-bool __fastcall SetupPulsePopup_init(SetupPulsePopup* self, edx_t edx, EffectGameObject* eff_obj, CCArray* arr) {
-    if (!GDMAKE_ORIG(self, edx, eff_obj, arr))
+bool  SetupPulsePopup_init(SetupPulsePopup* self,  EffectGameObject* eff_obj, CCArray* arr) {
+    if (!matdash::orig<&SetupPulsePopup_init>(self,  eff_obj, arr))
         return false;
 
     auto layer = as<ColorSelectPopup*>(self)->getAlertLayer();
@@ -72,18 +68,16 @@ bool __fastcall SetupPulsePopup_init(SetupPulsePopup* self, edx_t edx, EffectGam
     widget->setVisible(self->pulseMode == 0);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x23e980, SetupPulsePopup_init);
 
-GDMAKE_HOOK(0x2426b0, "_ZN15SetupPulsePopup17colorValueChangedEN7cocos2d10_ccColor3BE")
-void __fastcall SetupPulsePopup_colorValueChanged(SetupPulsePopup* self) {
-    GDMAKE_ORIG_V(self);
+void  SetupPulsePopup_colorValueChanged(SetupPulsePopup* self) {
+    matdash::orig<&SetupPulsePopup_colorValueChanged>(self);
     CATCH_NULL(as<RGBColorInputWidget*>(as<ColorSelectPopup*>(self)->getAlertLayer()->getChildByTag(WIDGET_TAG)))
         ->update_labels(true, true);
-}
+} MAT_GDMAKE_HOOK(0x2426b0, SetupPulsePopup_colorValueChanged);
 
-GDMAKE_HOOK(0x242cf0, "_ZN15SetupPulsePopup15updatePulseModeEv")
-void __fastcall SetupPulsePopup_updatePulseMode(SetupPulsePopup* self) {
-    GDMAKE_ORIG_V(self);
+void  SetupPulsePopup_updatePulseMode(SetupPulsePopup* self) {
+    matdash::orig<&SetupPulsePopup_updatePulseMode>(self);
     CATCH_NULL(as<RGBColorInputWidget*>(as<ColorSelectPopup*>(self)->getAlertLayer()->getChildByTag(WIDGET_TAG)))
         ->setVisible(self->pulseMode == 0);
-}
+} MAT_GDMAKE_HOOK(0x242cf0, SetupPulsePopup_updatePulseMode);

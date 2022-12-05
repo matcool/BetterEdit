@@ -5,9 +5,8 @@
 #include "../tools/other/teleportScaleFix.hpp"
 #include "../tools/other/dashOrbLine.hpp"
 
-GDMAKE_HOOK(0x15ee00, "_ZN16LevelEditorLayer4initEP11GJGameLevel")
-bool __fastcall LevelEditorLayer_init(LevelEditorLayer* self, edx_t edx, GJGameLevel* level) {
-    if (!GDMAKE_ORIG(self, edx, level))
+bool  LevelEditorLayer_init(LevelEditorLayer* self,  GJGameLevel* level) {
+    if (!matdash::orig<&LevelEditorLayer_init>(self,  level))
         return false;
 
     BetterEdit::setEditorInitialized(true);
@@ -16,24 +15,22 @@ bool __fastcall LevelEditorLayer_init(LevelEditorLayer* self, edx_t edx, GJGameL
     // getAutoSaveTimer(self->m_pEditorUI)->resetTimer();
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x15ee00, LevelEditorLayer_init);
 
-GDMAKE_HOOK(0x15e8d0, "_ZN16LevelEditorLayerD2Ev")
-void __fastcall LevelEditorLayer_destructorHook(LevelEditorLayer* self) {
+void  LevelEditorLayer_destructorHook(LevelEditorLayer* self) {
     BetterEdit::setEditorInitialized(false);
     BetterEdit::setEditorViewOnlyMode(false);
     clearDashOrbLines();
 
-    return GDMAKE_ORIG_V(self);
-}
+    return matdash::orig<&LevelEditorLayer_destructorHook>(self);
+} MAT_GDMAKE_HOOK(0x15e8d0, LevelEditorLayer_destructorHook);
 
-GDMAKE_HOOK(0x162650, "_ZN16LevelEditorLayer10addSpecialEP10GameObject")
-void __fastcall LevelEditorLayer_addSpecial(
+void  LevelEditorLayer_addSpecial(
     LevelEditorLayer* self,
-    edx_t edx,
+    
     GameObject* obj
 ) {
-    GDMAKE_ORIG_V(self, edx, obj);
+    matdash::orig<&LevelEditorLayer_addSpecial>(self,  obj);
 
     handleObjectAddForSlider(self, obj);
 
@@ -43,16 +40,15 @@ void __fastcall LevelEditorLayer_addSpecial(
         beginRotateSaw(obj);
 
     fixPortalScale(obj);
-}
+} MAT_GDMAKE_HOOK(0x162650, LevelEditorLayer_addSpecial);
 
-GDMAKE_HOOK(0x161cb0, "_ZN16LevelEditorLayer12removeObjectEP10GameObjectb")
-void __fastcall LevelEditorLayer_removeObject(
+void  LevelEditorLayer_removeObject(
     LevelEditorLayer* self,
-    edx_t edx,
+    
     GameObject* obj,
     bool idk
 ) {
-    GDMAKE_ORIG_V(self, edx, obj, idk);
+    matdash::orig<&LevelEditorLayer_removeObject>(self,  obj, idk);
 
     unregisterDashOrb(obj);
 
@@ -60,4 +56,4 @@ void __fastcall LevelEditorLayer_removeObject(
     
     if (shouldRotateSaw() && objectIsSaw(obj))
         stopRotateSaw(obj);
-}
+} MAT_GDMAKE_HOOK(0x161cb0, LevelEditorLayer_removeObject);

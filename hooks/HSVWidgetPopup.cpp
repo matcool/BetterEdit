@@ -141,9 +141,8 @@ void updateHSVPreviewColor(HSVWidgetPopup* self) {
     }
 }
 
-GDMAKE_HOOK(0x4adf0, "_ZN18ConfigureHSVWidget12updateLabelsEv")
-void __fastcall ConfigureHSVWidget_updateLabels(ConfigureHSVWidget* self) {
-    GDMAKE_ORIG_V(self);
+void  ConfigureHSVWidget_updateLabels(ConfigureHSVWidget* self) {
+    matdash::orig<&ConfigureHSVWidget_updateLabels>(self);
 
     if (self->getChildByTag(69))
         updateInputText(reinterpret_cast<CCTextInputNode*>(self->getChildByTag(69)), self->m_obValue.h);
@@ -154,11 +153,10 @@ void __fastcall ConfigureHSVWidget_updateLabels(ConfigureHSVWidget* self) {
     
     if (self->getUserData())
         updateHSVPreviewColor(as<HSVWidgetPopup*>(self->getUserData()));
-}
+} MAT_GDMAKE_HOOK(0x4adf0, ConfigureHSVWidget_updateLabels);
 
-GDMAKE_HOOK(0x4a3f0, "_ZN18ConfigureHSVWidget4initEN7cocos2d11_ccHSVValueEb")
-bool __fastcall ConfigureHSVWidget_init(ConfigureHSVWidget* self, edx_t edx, int abs, ccHSVValue val) {
-    if (!GDMAKE_ORIG(self, edx, abs, val))
+bool  ConfigureHSVWidget_init(ConfigureHSVWidget* self,  int abs, ccHSVValue val) {
+    if (!matdash::orig<&ConfigureHSVWidget_init>(self,  abs, val))
         return false;
     
     auto hsva = AddHSVTextDelegate::create(self);
@@ -191,18 +189,16 @@ bool __fastcall ConfigureHSVWidget_init(ConfigureHSVWidget* self, edx_t edx, int
     self->addChild(hsva);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x4a3f0, ConfigureHSVWidget_init);
 
-GDMAKE_HOOK(0x567c0, "_ZN20CustomizeObjectLayer5onHSVEPN7cocos2d8CCObjectE")
-void __fastcall CustomizeObjectLayer_onHSV(CustomizeObjectLayer* self, edx_t edx, CCMenuItemSpriteExtra* pSender) {
+void  CustomizeObjectLayer_onHSV(CustomizeObjectLayer* self,  CCMenuItemSpriteExtra* pSender) {
     g_hsvColorChannel = self->getActiveMode(true);
 
-    GDMAKE_ORIG(self, edx, pSender);
-}
+    matdash::orig<&CustomizeObjectLayer_onHSV>(self,  pSender);
+} MAT_GDMAKE_HOOK(0x567c0, CustomizeObjectLayer_onHSV);
 
-GDMAKE_HOOK(0x49f10, "_ZN14HSVWidgetPopup4initEN7cocos2d11_ccHSVValueEP22HSVWidgetPopupDelegateSs")
-bool __fastcall HSVWidgetPopup_init(HSVWidgetPopup* self, edx_t edx, HSVWidgetPopupDelegate* delegate, ccHSVValue hsv, std::string str) {
-    if (!GDMAKE_ORIG(self, edx, delegate, hsv, str))
+bool  HSVWidgetPopup_init(HSVWidgetPopup* self,  HSVWidgetPopupDelegate* delegate, ccHSVValue hsv, std::string str) {
+    if (!matdash::orig<&HSVWidgetPopup_init>(self,  delegate, hsv, str))
         return false;
 
     if (g_hsvColorChannel < 1)
@@ -235,4 +231,4 @@ bool __fastcall HSVWidgetPopup_init(HSVWidgetPopup* self, edx_t edx, HSVWidgetPo
     g_hsvColorChannel = 0;
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x49f10, HSVWidgetPopup_init);

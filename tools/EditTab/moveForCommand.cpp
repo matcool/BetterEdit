@@ -1,7 +1,6 @@
 #include "moveForCommand.hpp"
 
-GDMAKE_HOOK(0x8d890, "_ZN8EditorUI14moveForCommandE11EditCommand")
-CCPoint* __fastcall EditorUI_moveForCommand(EditorUI* self, edx_t edx, CCPoint* pos, EditCommand com) {
+CCPoint*  EditorUI_moveForCommand(EditorUI* self,  CCPoint* pos, EditCommand com) {
     switch (com) {
         case kEditCommandHalfLeft:
             *pos = CCPoint(-15.0f, 0.0f);
@@ -68,5 +67,5 @@ CCPoint* __fastcall EditorUI_moveForCommand(EditorUI* self, edx_t edx, CCPoint* 
             return pos;
     }
 
-    return GDMAKE_ORIG_P(self, edx, pos, com);
-}
+    return matdash::orig<&EditorUI_moveForCommand>(self,  pos, com);
+} MAT_GDMAKE_HOOK(0x8d890, EditorUI_moveForCommand);

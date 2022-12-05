@@ -165,6 +165,7 @@ namespace gdmake {
 #define GDMAKE_ORIG_P(...) nullptr
 
 #include <matdash.hpp>
+#include <matdash/minhook.hpp>
 #include <vector>
 
 namespace matstuff {

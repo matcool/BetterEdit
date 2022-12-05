@@ -232,21 +232,19 @@ CCSprite* createBGSprite() {
     return bgTexture->getSprite();
 }
 
-GDMAKE_HOOK(0x56db0, "_ZN20CustomizeObjectLayer12onSelectModeEPN7cocos2d8CCObjectE")
-void __fastcall CustomizeObjectLayer_onSelectMode(
+void  CustomizeObjectLayer_onSelectMode(
     CustomizeObjectLayer* self,
-    edx_t edx,
+    
     CCObject* pSender
 ) {
-    GDMAKE_ORIG_V(self, edx, pSender);
+    matdash::orig<&CustomizeObjectLayer_onSelectMode>(self,  pSender);
 
     updateButtons(self);
-}
+} MAT_GDMAKE_HOOK(0x56db0, CustomizeObjectLayer_onSelectMode);
 
-GDMAKE_HOOK(0x53e00, "_ZN20CustomizeObjectLayer4initEP10GameObjectPN7cocos2d7CCArrayE")
-bool __fastcall CustomizeObjectLayer_init(
+bool  CustomizeObjectLayer_init(
     CustomizeObjectLayer* self,
-    edx_t edx,
+    
     EffectGameObject* obj,
     CCArray* objs
 ) {
@@ -255,7 +253,7 @@ bool __fastcall CustomizeObjectLayer_init(
     else
         patch(0x5737e, { 0xb9, colorCountOnPage });
 
-    if (!GDMAKE_ORIG(self, edx, obj, objs))
+    if (!matdash::orig<&CustomizeObjectLayer_init>(self,  obj, objs))
         return false;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -400,13 +398,12 @@ bool __fastcall CustomizeObjectLayer_init(
     self->m_pCustomColorInputBG->setVisible(showInput);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x53e00, CustomizeObjectLayer_init);
 
-GDMAKE_HOOK(0x574d0, "_ZN20CustomizeObjectLayer11textChangedEP15CCTextInputNode")
-void __fastcall CustomizeObjectLayer_textChanged(
-    CustomizeObjectLayer* self_, edx_t edx, CCTextInputNode* input
+void  CustomizeObjectLayer_textChanged(
+    CustomizeObjectLayer* self_,  CCTextInputNode* input
 ) {
-    GDMAKE_ORIG_V(self_, edx, input);
+    matdash::orig<&CustomizeObjectLayer_textChanged>(self_,  input);
 
     auto self = as<CustomizeObjectLayer*>(as<uintptr_t>(self_) - 0x1cc);
 
@@ -419,39 +416,36 @@ void __fastcall CustomizeObjectLayer_textChanged(
         self->m_nCustomColorChannel = 1;
 
     updateCustomChannelSprite(self);
-}
+} MAT_GDMAKE_HOOK(0x574d0, CustomizeObjectLayer_textChanged);
 
-GDMAKE_HOOK(0x57350, "_ZN20CustomizeObjectLayer19onUpdateCustomColorEPN7cocos2d8CCObjectE")
-void __fastcall CustomizeObjectLayer_onUpdateCustomColor(
+void  CustomizeObjectLayer_onUpdateCustomColor(
     CustomizeObjectLayer* self,
-    edx_t edx,
+    
     CCObject* pSender
 ) {
-    GDMAKE_ORIG(self, edx, pSender);
+    matdash::orig<&CustomizeObjectLayer_onUpdateCustomColor>(self,  pSender);
 
     updateButtons(self);
-}
+} MAT_GDMAKE_HOOK(0x57350, CustomizeObjectLayer_onUpdateCustomColor);
 
-GDMAKE_HOOK(0x564a0, "_ZThn468_N20CustomizeObjectLayer17colorSelectClosedEPN7cocos2d6CCNodeE")
-void __fastcall CustomizeObjectLayer_colorSelectClosed(
-    CustomizeObjectLayer* self, edx_t edx, CCNode* node
+void  CustomizeObjectLayer_colorSelectClosed(
+    CustomizeObjectLayer* self,  CCNode* node
 ) {
     updateButtons(as<CustomizeObjectLayer*>(as<uintptr_t>(self) - 0x1d4));
 
-    GDMAKE_ORIG(self, edx, node);
-}
+    matdash::orig<&CustomizeObjectLayer_colorSelectClosed>(self,  node);
+} MAT_GDMAKE_HOOK(0x564a0, CustomizeObjectLayer_colorSelectClosed);
 
-GDMAKE_HOOK(0x579d0, "_ZN20CustomizeObjectLayer17highlightSelectedEP12ButtonSprite")
-void __fastcall CustomizeObjectLayer_highlightSelected(
+void  CustomizeObjectLayer_highlightSelected(
     CustomizeObjectLayer* self,
-    edx_t edx,
+    
     ButtonSprite* bspr
 ) {
     if (BetterEdit::getDisableNewColorSelection())
-        return GDMAKE_ORIG_V(self, edx, bspr);
+        return matdash::orig<&CustomizeObjectLayer_highlightSelected>(self,  bspr);
 
     if (self->m_nCustomColorChannel < colorCountOnPage)
         self->m_nCustomColorChannel = colorCountOnPage;
 
     updateButtons(self);
-}
+} MAT_GDMAKE_HOOK(0x579d0, CustomizeObjectLayer_highlightSelected);

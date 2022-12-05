@@ -52,41 +52,37 @@ void EditorUI_CB::onShowLayerPopup(CCObject*) {
     LayerViewPopup::create()->show();
 }
 
-GDMAKE_HOOK(0x886b0, "_ZN8EditorUI11onGoToLayerEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onGoToLayer(gd::EditorUI* self, edx_t edx, cocos2d::CCObject* pSender) {
-    GDMAKE_ORIG_V(self, edx, pSender);
+void  EditorUI_onGoToLayer(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+    matdash::orig<&EditorUI_onGoToLayer>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
 
     updateEditorLayerInputText(self);
-}
+} MAT_GDMAKE_HOOK(0x886b0, EditorUI_onGoToLayer);
 
-GDMAKE_HOOK(0x8d7e0, "_ZN8EditorUI11onGroupDownEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onGroupDown(gd::EditorUI* self, edx_t edx, cocos2d::CCObject* pSender) {
-    GDMAKE_ORIG(self, edx, pSender);
-
-    LayerManager::get()->getLevel()->clearVisible();
-
-    updateEditorLayerInputText(self);
-}
-
-GDMAKE_HOOK(0x8d780, "_ZN8EditorUI9onGroupUpEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onGroupUp(gd::EditorUI* self, edx_t edx, cocos2d::CCObject* pSender) {
-    GDMAKE_ORIG(self, edx, pSender);
+void  EditorUI_onGroupDown(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+    matdash::orig<&EditorUI_onGroupDown>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
 
     updateEditorLayerInputText(self);
-}
+} MAT_GDMAKE_HOOK(0x8d7e0, EditorUI_onGroupDown);
 
-GDMAKE_HOOK(0x88790, "_ZN8EditorUI15onGoToBaseLayerEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onGoToBaseLayer(gd::EditorUI* self, edx_t edx, cocos2d::CCObject* pSender) {
-    GDMAKE_ORIG(self, edx, pSender);
+void  EditorUI_onGroupUp(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+    matdash::orig<&EditorUI_onGroupUp>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
 
     updateEditorLayerInputText(self);
-}
+} MAT_GDMAKE_HOOK(0x8d780, EditorUI_onGroupUp);
+
+void  EditorUI_onGoToBaseLayer(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+    matdash::orig<&EditorUI_onGoToBaseLayer>(self,  pSender);
+
+    LayerManager::get()->getLevel()->clearVisible();
+
+    updateEditorLayerInputText(self);
+} MAT_GDMAKE_HOOK(0x88790, EditorUI_onGoToBaseLayer);
 
 void showLayerControls(EditorUI* self, bool show) {
     self->m_pCurrentLayerLabel->setVisible(false);

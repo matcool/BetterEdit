@@ -39,27 +39,25 @@ bool verifyObjectString(std::string const& str) {
     return true;
 }
 
-GDMAKE_HOOK(0x87fb0, "_ZN8EditorUI6onCopyEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onCopy(EditorUI* self, edx_t edx, CCObject* pSender) {
-    GDMAKE_ORIG_V(self, edx, pSender);
+void  EditorUI_onCopy(EditorUI* self,  CCObject* pSender) {
+    matdash::orig<&EditorUI_onCopy>(self,  pSender);
 
     if (BetterEdit::getCopyObjectsToClipboard()) {
         copyToWin32Clipboard(self->m_sClipboard);
     }
-}
+} MAT_GDMAKE_HOOK(0x87fb0, EditorUI_onCopy);
 
-GDMAKE_HOOK(0x880c0, "_ZN8EditorUI7onPasteEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onPaste(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_onPaste(EditorUI* self,  CCObject* pSender) {
     if (BetterEdit::getCopyObjectsToClipboard()) {
         auto str = readWin32Clipboard();
 
         if (str.size()) {
             auto orig = self->m_sClipboard;
             self->m_sClipboard = str;
-            GDMAKE_ORIG_V(self, edx, pSender);
+            matdash::orig<&EditorUI_onPaste>(self,  pSender);
             self->m_sClipboard = orig;
             return;
         }
     }
-    GDMAKE_ORIG_V(self, edx, pSender);
-}
+    matdash::orig<&EditorUI_onPaste>(self,  pSender);
+} MAT_GDMAKE_HOOK(0x880c0, EditorUI_onPaste);

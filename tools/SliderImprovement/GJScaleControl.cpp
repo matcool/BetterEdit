@@ -184,8 +184,7 @@ bool pointIntersectsScaleControls(EditorUI* self, CCTouch* touch, CCEvent* event
     return false;
 }
 
-GDMAKE_HOOK(0x94840, "_ZN14GJScaleControl12ccTouchMovedEPN7cocos2d7CCTouchEPNS0_7CCEventE")
-void __fastcall GJScaleControl_ccTouchMoved(GJScaleControl* self_, edx_t edx, CCTouch* touch, CCEvent* event) {
+void  GJScaleControl_ccTouchMoved(GJScaleControl* self_,  CCTouch* touch, CCEvent* event) {
     auto self = reinterpret_cast<GJScaleControl*>(reinterpret_cast<uintptr_t>(self_) - 0xEC);
 
     if (self->m_nTouchID == touch->getID()) {
@@ -210,13 +209,12 @@ void __fastcall GJScaleControl_ccTouchMoved(GJScaleControl* self_, edx_t edx, CC
         
         self->updateLabel(val);
     }
-}
+} MAT_GDMAKE_HOOK(0x94840, GJScaleControl_ccTouchMoved);
 
-GDMAKE_HOOK(0x94990, "_ZN14GJScaleControl11updateLabelEf")
-void __fastcall GJScaleControl_updateLabel(GJScaleControl* self) {
+void  GJScaleControl_updateLabel(GJScaleControl* self) {
     // note: there's a float in xmm0
 
-    GDMAKE_ORIG_V(self);
+    matdash::orig<&GJScaleControl_updateLabel>(self);
 
     auto t = self->getChildByTag(6978);
 
@@ -226,11 +224,10 @@ void __fastcall GJScaleControl_updateLabel(GJScaleControl* self) {
 
     if (t)
         reinterpret_cast<CCTextInputNode*>(t)->setString(s.c_str());
-}
+} MAT_GDMAKE_HOOK(0x94990, GJScaleControl_updateLabel);
 
-GDMAKE_HOOK(0x94590, "_ZN14GJScaleControl10loadValuesEP10GameObjectPN7cocos2d7CCArrayE")
-void __fastcall GJScaleControl_loadValues(GJScaleControl* self, edx_t edx, GameObject* obj, CCArray* objs) {
-    GDMAKE_ORIG_V(self, edx, obj, objs);
+void  GJScaleControl_loadValues(GJScaleControl* self,  GameObject* obj, CCArray* objs) {
+    matdash::orig<&GJScaleControl_loadValues>(self,  obj, objs);
 
     auto scale = 1.5f * self->m_pSlider->getValue() + .5f;
 
@@ -242,11 +239,10 @@ void __fastcall GJScaleControl_loadValues(GJScaleControl* self, edx_t edx, GameO
 
     if (t)
         reinterpret_cast<CCTextInputNode*>(t)->setString(s.c_str());
-}
+} MAT_GDMAKE_HOOK(0x94590, GJScaleControl_loadValues);
 
-GDMAKE_HOOK(0x94490, "_ZN14GJScaleControl4initEv")
-bool __fastcall GJScaleControl_init(GJScaleControl* self) {
-    if (!GDMAKE_ORIG(self))
+bool  GJScaleControl_init(GJScaleControl* self) {
+    if (!matdash::orig<&GJScaleControl_init>(self))
         return false;
 
     BetterEdit::saveGlobalBool("scale-lock-pos",  &g_bLockPosEnabled);
@@ -337,10 +333,9 @@ bool __fastcall GJScaleControl_init(GJScaleControl* self) {
     ed->setTag(7777);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x94490, GJScaleControl_init);
 
-GDMAKE_HOOK(0x889b0, "_ZN8EditorUI20activateScaleControlEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_activateScaleControl(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_activateScaleControl(EditorUI* self,  CCObject* pSender) {
     auto fixPos =
         BetterEdit::getFixScaleSliderPosition() &&
         self->m_pEditorLayer->m_pObjectLayer->getScale() >= 2.f;
@@ -351,7 +346,7 @@ void __fastcall EditorUI_activateScaleControl(EditorUI* self, edx_t edx, CCObjec
         unpatch(0x88b64);
     }
 
-    GDMAKE_ORIG_V(self, edx, pSender);
+    matdash::orig<&EditorUI_activateScaleControl>(self,  pSender);
 
     if (fixPos) {
         auto pos = CCDirector::sharedDirector()->getWinSize() / 2;
@@ -359,11 +354,10 @@ void __fastcall EditorUI_activateScaleControl(EditorUI* self, edx_t edx, CCObjec
         pos = self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(pos);
         self->m_pScaleControl->setPosition(pos);
     }
-}
+} MAT_GDMAKE_HOOK(0x889b0, EditorUI_activateScaleControl);
 
-GDMAKE_HOOK(0x87030, "_ZN8EditorUI23updateSpecialUIElementsEv")
-void __fastcall EditorUI_updateSpecialUIElements(EditorUI* self) {
-    GDMAKE_ORIG_V(self);
+void  EditorUI_updateSpecialUIElements(EditorUI* self) {
+    matdash::orig<&EditorUI_updateSpecialUIElements>(self);
 
     CATCH_NULL(reinterpret_cast<CCTextInputNode*>(self->getChildByTag(6978)))->detachWithIME();
-}
+} MAT_GDMAKE_HOOK(0x87030, EditorUI_updateSpecialUIElements);

@@ -5,9 +5,8 @@
 
 using namespace gdmake;
 
-GDMAKE_HOOK(0x6f5d0, "_ZN14EditLevelLayer4initEP11GJGameLevel")
-bool __fastcall EditLevelLayer_init(EditLevelLayer* self, edx_t edx, GJGameLevel* level) {
-    if (!GDMAKE_ORIG(self, edx, level))
+bool  EditLevelLayer_init(EditLevelLayer* self,  GJGameLevel* level) {
+    if (!matdash::orig<&EditLevelLayer_init>(self,  level))
         return false;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -30,4 +29,4 @@ bool __fastcall EditLevelLayer_init(EditLevelLayer* self, edx_t edx, GJGameLevel
     // setupBackupButton(self, level);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x6f5d0, EditLevelLayer_init);

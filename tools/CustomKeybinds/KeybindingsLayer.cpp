@@ -187,8 +187,7 @@ void KeybindingsLayer_CB::setSelectMode(bool b, Keybind const& kb) {
     this->reloadList();
 }
 
-GDMAKE_HOOK(0x152f40, "_ZN16KeybindingsLayer4initEv")
-bool __fastcall KeybindingsLayer_init(KeybindingsLayer* self) {
+bool  KeybindingsLayer_init(KeybindingsLayer* self) {
     if (!self->initWithColor({ 0, 0, 0, 105 })) return false;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -386,4 +385,4 @@ bool __fastcall KeybindingsLayer_init(KeybindingsLayer* self) {
     self->setTouchEnabled(true);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x152f40, KeybindingsLayer_init);

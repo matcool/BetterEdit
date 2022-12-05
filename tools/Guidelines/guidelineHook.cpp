@@ -9,9 +9,8 @@ class CreateGuidelinesLayer_CB : public CreateGuidelinesLayer {
 };
 
 
-GDMAKE_HOOK(0x4c190, "_ZN21CreateGuidelinesLayer4initEP19LevelSettingsObject")
-bool __fastcall CreateGuidelinesLayer_init(CreateGuidelinesLayer* self, edx_t edx, LevelSettingsObject* pObj) {
-    if (!GDMAKE_ORIG(self, edx, pObj))
+bool  CreateGuidelinesLayer_init(CreateGuidelinesLayer* self,  LevelSettingsObject* pObj) {
+    if (!matdash::orig<&CreateGuidelinesLayer_init>(self,  pObj))
         return false;
     
     // auto info = CCLabelBMFont::create(
@@ -36,4 +35,4 @@ bool __fastcall CreateGuidelinesLayer_init(CreateGuidelinesLayer* self, edx_t ed
     self->m_pButtonMenu->addChild(bpmBtn);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x4c190, CreateGuidelinesLayer_init);

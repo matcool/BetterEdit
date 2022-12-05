@@ -1,23 +1,20 @@
 #include "../BetterEdit.hpp"
 #include "../tools/CustomKeybinds/KeybindManager.hpp"
 
-GDMAKE_HOOK(0x25f890, "_ZN7UILayer7keyDownEN7cocos2d12enumKeyCodesE")
-void __fastcall UILayer_keyDown(UILayer* self, edx_t edx, enumKeyCodes key) {
+void  UILayer_keyDown(UILayer* self,  enumKeyCodes key) {
     KeybindManager::get()->executePlayCallbacks(
         Keybind(key), PlayLayer::get(), true
     );
-}
+} MAT_GDMAKE_HOOK(0x25f890, UILayer_keyDown);
 
-GDMAKE_HOOK(0x25fa10, "_ZN7UILayer5keyUpEN7cocos2d12enumKeyCodesE")
-void __fastcall UILayer_keyUp(UILayer* self, edx_t edx, enumKeyCodes key) {
+void  UILayer_keyUp(UILayer* self,  enumKeyCodes key) {
     KeybindManager::get()->executePlayCallbacks(
         Keybind(key), PlayLayer::get(), false
     );
-}
+} MAT_GDMAKE_HOOK(0x25fa10, UILayer_keyUp);
 
-GDMAKE_HOOK(0x25f3b0, "_ZN7UILayer4initEv")
-bool __fastcall UILayer_init(UILayer* self) {
-    if (!GDMAKE_ORIG(self))
+bool  UILayer_init(UILayer* self) {
+    if (!matdash::orig<&UILayer_init>(self))
         return false;
 
     struct get_bool_from_byte {
@@ -67,4 +64,4 @@ bool __fastcall UILayer_init(UILayer* self) {
     yLabel->limitLabelWidth(60.0f, yLabel->getScale(), .1f);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x25f3b0, UILayer_init);

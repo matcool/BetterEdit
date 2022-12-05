@@ -9,8 +9,7 @@ using namespace cocos2d;
 // thank you cos8o
 // adapted from https://github.com/cos8oih/editorFreezeFix
 
-GDMAKE_HOOK(0x87600, "_ZN8EditorUI10onPlaytestEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onPlaytest(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_onPlaytest(EditorUI* self,  CCObject* pSender) {
     if (
         BetterEdit::getPulseObjectsInEditor() &&
         !BetterEdit::getHasShownPulseVolumeWarning() &&
@@ -31,5 +30,5 @@ void __fastcall EditorUI_onPlaytest(EditorUI* self, edx_t edx, CCObject* pSender
 
     self->m_bTouchDown = false;
     if (!g_bHoldingDownTouch)
-        GDMAKE_ORIG_V(self, edx, pSender);
-}
+        matdash::orig<&EditorUI_onPlaytest>(self,  pSender);
+} MAT_GDMAKE_HOOK(0x87600, EditorUI_onPlaytest);

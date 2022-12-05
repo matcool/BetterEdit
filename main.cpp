@@ -17,6 +17,7 @@
 #include "tools/other/placeObjectsBefore.hpp"
 #include "tools/other/dashOrbLine.hpp"
 
+#include <matdash.hpp>
 #include <matdash/boilerplate.hpp>
 #include <matdash/minhook.hpp>
 
@@ -78,4 +79,8 @@ void mod_main(HMODULE) {
     BetterEdit::sharedState()->addTexture("BE_ContextSheet01");
 
     BetterEdit::log() << kDebugTypeInitializing << "Initializing GDMake hooks" << log_end();
+
+    for (auto hook : matstuff::get_hooks()) {
+        hook();
+    }
 }

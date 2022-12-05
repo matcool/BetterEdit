@@ -2,8 +2,7 @@
 #include "../LevelPercent/levelPercent.hpp"
 #include "../CustomKeybinds/KeybindManager.hpp"
 
-GDMAKE_HOOK(0x921d0, "_ZN8EditorUI11scrollWheelEff")
-void __fastcall EditorUI_scrollWheel(gd::EditorUI* self_, edx_t edx, float amt, float b) {
+void  EditorUI_scrollWheel(gd::EditorUI* self_,  float amt, float b) {
     // get the actual EditorUI since this function is a virtual that messes it up
     auto self = reinterpret_cast<gd::EditorUI*>(reinterpret_cast<uintptr_t>(self_) - 0xfc);
 
@@ -60,7 +59,7 @@ void __fastcall EditorUI_scrollWheel(gd::EditorUI* self_, edx_t edx, float amt, 
         else
             layer->setPositionY(layer->getPositionY() + amt * mult);
 
-        GDMAKE_ORIG(self_, edx, 0.f, 0.f); // hehe
+        matdash::orig<&EditorUI_scrollWheel>(self_,  0.f, 0.f); // hehe
     }
 
     auto nSwipeStart = 
@@ -73,4 +72,4 @@ void __fastcall EditorUI_scrollWheel(gd::EditorUI* self_, edx_t edx, float amt, 
         self->m_obSwipeStart = self->m_obSwipeStart + rel;
 
     updatePercentLabelPosition(self);
-}
+} MAT_GDMAKE_HOOK(0x921d0, EditorUI_scrollWheel);

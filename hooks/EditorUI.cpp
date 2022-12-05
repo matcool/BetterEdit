@@ -111,8 +111,7 @@ bool touchIntersectsInput(CCNode* input, CCTouch* touch) {
         return true;
 }
 
-GDMAKE_HOOK(0x907b0, "_ZN8EditorUI12ccTouchBeganEPN7cocos2d7CCTouchEPNS0_7CCEventE")
-bool __fastcall EditorUI_ccTouchBegan(EditorUI* self, edx_t edx, CCTouch* touch,CCEvent* event) {
+bool  EditorUI_ccTouchBegan(EditorUI* self,  CCTouch* touch,CCEvent* event) {
     auto self_ = reinterpret_cast<gd::EditorUI*>(reinterpret_cast<uintptr_t>(self) - 0xEC);
 
     g_bHoldingDownTouch = true;
@@ -170,11 +169,10 @@ bool __fastcall EditorUI_ccTouchBegan(EditorUI* self, edx_t edx, CCTouch* touch,
 
     g_lastSnap = snap;
 
-    return GDMAKE_ORIG(self, edx, touch, event);
-}
+    return matdash::orig<&EditorUI_ccTouchBegan>(self,  touch, event);
+} MAT_GDMAKE_HOOK(0x907b0, EditorUI_ccTouchBegan);
 
-GDMAKE_HOOK(0x90cd0, "_ZN8EditorUI12ccTouchMovedEPN7cocos2d7CCTouchEPNS0_7CCEventE")
-void __fastcall EditorUI_ccTouchMoved(EditorUI* self_, edx_t edx, CCTouch* touch, CCEvent* event) {
+void  EditorUI_ccTouchMoved(EditorUI* self_,  CCTouch* touch, CCEvent* event) {
     auto self = reinterpret_cast<EditorUI*>(reinterpret_cast<uintptr_t>(self_) - 0xEC);
 
     float prevScale = self->m_pEditorLayer->m_pObjectLayer->getScale();
@@ -189,7 +187,7 @@ void __fastcall EditorUI_ccTouchMoved(EditorUI* self_, edx_t edx, CCTouch* touch
         false, true
     );
 
-    GDMAKE_ORIG_V(self_, edx, touch, event);
+    matdash::orig<&EditorUI_ccTouchMoved>(self_,  touch, event);
 
     auto nSwipeStart = 
         self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
@@ -199,12 +197,11 @@ void __fastcall EditorUI_ccTouchMoved(EditorUI* self_, edx_t edx, CCTouch* touch
 
     if (BetterEdit::getEnableRelativeSwipe())
         self->m_obSwipeStart = self->m_obSwipeStart + rel;
-}
+} MAT_GDMAKE_HOOK(0x90cd0, EditorUI_ccTouchMoved);
 
-GDMAKE_HOOK(0x911a0, "_ZN8EditorUI12ccTouchEndedEPN7cocos2d7CCTouchEPNS0_7CCEventE")
-void __fastcall EditorUI_ccTouchEnded(
+void  EditorUI_ccTouchEnded(
     EditorUI* self,
-    edx_t edx,
+    
     CCTouch* touch,
     CCEvent* event
 ) {
@@ -246,23 +243,21 @@ void __fastcall EditorUI_ccTouchEnded(
 
     g_lastTouchTime = now;
 
-    GDMAKE_ORIG_V(self, edx, touch, event);
-}
+    matdash::orig<&EditorUI_ccTouchEnded>(self,  touch, event);
+} MAT_GDMAKE_HOOK(0x911a0, EditorUI_ccTouchEnded);
 
-GDMAKE_HOOK(0x78860, "_ZN8EditorUI15clickOnPositionEN7cocos2d7CCPointE")
-void __fastcall EditorUI_clickOnPosition(EditorUI* self, edx_t edx, CCPoint point) {
+void  EditorUI_clickOnPosition(EditorUI* self,  CCPoint point) {
     if (!BetterEdit::isEditorViewOnlyMode())
-        return GDMAKE_ORIG_V(self, edx, point);
-}
+        return matdash::orig<&EditorUI_clickOnPosition>(self,  point);
+} MAT_GDMAKE_HOOK(0x78860, EditorUI_clickOnPosition);
 
-GDMAKE_HOOK(0x76090, "_ZN8EditorUID2Ev")
-void __fastcall EditorUI_destructorHook(gd::EditorUI* self) {
+void  EditorUI_destructorHook(gd::EditorUI* self) {
     saveClipboard(self);
     resetSliderPercent(self);
     // getAutoSaveTimer(self)->resetTimer();
 
-    return GDMAKE_ORIG_V(self);
-}
+    return matdash::orig<&EditorUI_destructorHook>(self);
+} MAT_GDMAKE_HOOK(0x76090, EditorUI_destructorHook);
 
 // this exists entirely because dynamic_cast<gd::GameObject*> doesnt work
 gd::GameObject* castToGameObject(CCObject* obj) {
@@ -348,12 +343,11 @@ public:
     }
 };
 
-GDMAKE_HOOK(EditorUI::init, "_ZN8EditorUI4initEP16LevelEditorLayer")
-bool __fastcall EditorUI_init(EditorUI* self, edx_t edx, LevelEditorLayer* lel) {
+bool  EditorUI_init(EditorUI* self,  LevelEditorLayer* lel) {
     makeVisibilityPatches();
     setupRotateSaws();
 
-    if (!GDMAKE_ORIG(self, edx, lel))
+    if (!matdash::orig<&EditorUI_init>(self,  lel))
         return false;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -432,39 +426,35 @@ bool __fastcall EditorUI_init(EditorUI* self, edx_t edx, LevelEditorLayer* lel) 
     self->schedule(schedule_selector(EditorUIPulse::updateObjectsPulse));
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x76310, EditorUI_init);
 
-GDMAKE_HOOK(0x7a370, "_ZN8EditorUI17createCustomItemsEv")
-CCArray* __fastcall EditorUI_createCustomItems(EditorUI* self) {
+CCArray*  EditorUI_createCustomItems(EditorUI* self) {
     setIgnoreNewObjectsForSliderPercent(true);
 
-    auto ret = GDMAKE_ORIG_P(self);
+    auto ret = matdash::orig<&EditorUI_createCustomItems>(self);
 
     setIgnoreNewObjectsForSliderPercent(false);
 
     return ret;
-}
+} MAT_GDMAKE_HOOK(0x7a370, EditorUI_createCustomItems);
 
-GDMAKE_HOOK(0x7a280, "_ZN8EditorUI18onDeleteCustomItemEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onDeleteCustomItem(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_onDeleteCustomItem(EditorUI* self,  CCObject* pSender) {
     setIgnoreNewObjectsForSliderPercent(true);
 
-    GDMAKE_ORIG_V(self, edx, pSender);
+    matdash::orig<&EditorUI_onDeleteCustomItem>(self,  pSender);
 
     setIgnoreNewObjectsForSliderPercent(false);
-}
+} MAT_GDMAKE_HOOK(0x7a280, EditorUI_onDeleteCustomItem);
 
-GDMAKE_HOOK(0x79fd0, "_ZN8EditorUI15onNewCustomItemEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_onNewCustomItem(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_onNewCustomItem(EditorUI* self,  CCObject* pSender) {
     setIgnoreNewObjectsForSliderPercent(true);
 
-    GDMAKE_ORIG_V(self, edx, pSender);
+    matdash::orig<&EditorUI_onNewCustomItem>(self,  pSender);
 
     setIgnoreNewObjectsForSliderPercent(false);
-}
+} MAT_GDMAKE_HOOK(0x79fd0, EditorUI_onNewCustomItem);
 
-GDMAKE_HOOK(0x87180, "_ZN8EditorUI6showUIEb")
-void __fastcall EditorUI_showUI(gd::EditorUI* self, edx_t edx, bool show) {
+void  EditorUI_showUI(gd::EditorUI* self,  bool show) {
     if (BetterEdit::isEditorViewOnlyMode())
         show = false;
     
@@ -472,7 +462,7 @@ void __fastcall EditorUI_showUI(gd::EditorUI* self, edx_t edx, bool show) {
         show = false;
     }
 
-    GDMAKE_ORIG_V(self, edx, show);
+    matdash::orig<&EditorUI_showUI>(self,  show);
 
     g_uiIsVisible = show;
 
@@ -503,11 +493,10 @@ void __fastcall EditorUI_showUI(gd::EditorUI* self, edx_t edx, bool show) {
             updateToggleButtonSprite(toggleBtn);
     }
     // showPositionLabel(self, show);
-}
+} MAT_GDMAKE_HOOK(0x87180, EditorUI_showUI);
 
-GDMAKE_HOOK(0x878a0, "_ZN8EditorUI10updateZoomEf")
-void __fastcall EditorUI_updateZoom(gd::EditorUI* self) {
-    GDMAKE_ORIG_V(self);
+void  EditorUI_updateZoom(gd::EditorUI* self) {
+    matdash::orig<&EditorUI_updateZoom>(self);
 
     float zoom;
     __asm { movss zoom, xmm1 }
@@ -533,30 +522,27 @@ void __fastcall EditorUI_updateZoom(gd::EditorUI* self) {
     }
 
     updatePercentLabelPosition(self);
-}
+} MAT_GDMAKE_HOOK(0x878a0, EditorUI_updateZoom);
 
-GDMAKE_HOOK(0x91a30, "_ZN8EditorUI7keyDownEN7cocos2d12enumKeyCodesE")
-void __fastcall EditorUI_keyDown(EditorUI* self_, edx_t, enumKeyCodes key) {
+void  EditorUI_keyDown(EditorUI* self_, edx_t, enumKeyCodes key) {
     auto self = offset_cast<EditorUI*>(self_, -0xf8);
     
     KeybindManager::get()->executeEditorCallbacks(
         Keybind(key), self, true, BetterEdit::isEditorViewOnlyMode()
     );
-}
+} MAT_GDMAKE_HOOK(0x91a30, EditorUI_keyDown);
 
-GDMAKE_HOOK(0x92180, "_ZN8EditorUI5keyUpEN7cocos2d12enumKeyCodesE")
-void __fastcall EditorUI_keyUp(EditorUI* self_, edx_t, enumKeyCodes key) {
+void  EditorUI_keyUp(EditorUI* self_, edx_t, enumKeyCodes key) {
     auto self = offset_cast<EditorUI*>(self_, -0xf8);
 
     KeybindManager::get()->executeEditorCallbacks(
         Keybind(key), self, false, BetterEdit::isEditorViewOnlyMode()
     );
-}
+} MAT_GDMAKE_HOOK(0x92180, EditorUI_keyUp);
 
 // Credits to Alk1m123 (https://github.com/altalk23) for this scale fix
 // this lets you scale multiple objects without it fucking up the position
-GDMAKE_HOOK(0x8f150, "_ZN8EditorUI12scaleObjectsEPN7cocos2d7CCArrayEfNS0_7CCPointE")
-void __fastcall EditorUI_scaleObjects(gd::EditorUI* self, edx_t, CCArray* objs, CCPoint centerPos) {
+void  EditorUI_scaleObjects(gd::EditorUI* self, edx_t, CCArray* objs, CCPoint centerPos) {
     float scale;
     __asm movss scale, xmm2;
     CCObject* obj;
@@ -592,5 +578,5 @@ void __fastcall EditorUI_scaleObjects(gd::EditorUI* self, edx_t, CCArray* objs, 
         if (!lockPos)
             self->moveObject(gameObj, newPos);
     }
-}
+} MAT_GDMAKE_HOOK(0x8f150, EditorUI_scaleObjects);
 

@@ -317,15 +317,14 @@ bool shouldShowDashLines() {
     return g_bDashLines;
 }
 
-GDMAKE_HOOK(0x7ad20, "_ZN8EditorUI10toggleModeEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_toggleMode(EditorUI* self, edx_t edx, CCObject* pSender) {
+void  EditorUI_toggleMode(EditorUI* self,  CCObject* pSender) {
     if (!pSender) return;
 
     if (
         !self->m_pBuildModeBtn->getParent()->getChildByTag(4) ||
         BetterEdit::getDisableVisibilityTab()
     ) {
-        return GDMAKE_ORIG_V(self, edx, pSender);
+        return matdash::orig<&EditorUI_toggleMode>(self,  pSender);
     }
 
     auto tag = pSender->getTag();
@@ -349,4 +348,4 @@ void __fastcall EditorUI_toggleMode(EditorUI* self, edx_t edx, CCObject* pSender
         self->updateGridNodeSize();
         self->getChildByTag(VIEWBUTTONBAR_TAG)->setVisible(tag == 4);
     }
-}
+} MAT_GDMAKE_HOOK(0x7ad20, EditorUI_toggleMode);

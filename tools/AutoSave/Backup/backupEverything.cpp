@@ -47,9 +47,8 @@ struct bbbbb : public LevelBrowserLayer {
     }
 };
 
-GDMAKE_HOOK(0x15a040)
-bool __fastcall LevelBrowserLayer_init(LevelBrowserLayer* self, edx_t edx, GJSearchObject* search) {
-    if (!GDMAKE_ORIG(self, edx, search))
+bool LevelBrowserLayer_init(LevelBrowserLayer* self,  GJSearchObject* search) {
+    if (!matdash::orig<&LevelBrowserLayer_init>(self,  search))
         return false;
 
     if (search->m_nScreenID == kGJSearchTypeMyLevels) {
@@ -69,4 +68,4 @@ bool __fastcall LevelBrowserLayer_init(LevelBrowserLayer* self, edx_t edx, GJSea
     }
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x15a040, LevelBrowserLayer_init)

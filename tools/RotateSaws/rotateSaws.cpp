@@ -105,54 +105,48 @@ void pauseRotations(LevelEditorLayer* self) {
 }
 
 
-GDMAKE_HOOK(0x2441a0, "_ZN16SetupRotatePopup14keyBackClickedEv")
-void __fastcall SetupRotatePopup_keyBackClicked(CCLayer* self) {
+void  SetupRotatePopup_keyBackClicked(CCLayer* self) {
     if (shouldRotateSaw()) {
         stopRotations(LevelEditorLayer::get());
         beginRotations(LevelEditorLayer::get());
     }
     
-    GDMAKE_ORIG_V(self);
-}
+    matdash::orig<&SetupRotatePopup_keyBackClicked>(self);
+} MAT_GDMAKE_HOOK(0x2441a0, SetupRotatePopup_keyBackClicked);
 
-GDMAKE_HOOK(0x244150, "_ZN16SetupRotatePopup7onCloseEPN7cocos2d8CCObjectE")
-void __fastcall SetupRotatePopup_onClose(CCLayer* self, edx_t edx, CCObject* pSender) {
+void  SetupRotatePopup_onClose(CCLayer* self,  CCObject* pSender) {
     if (shouldRotateSaw()) {
         stopRotations(LevelEditorLayer::get());
         beginRotations(LevelEditorLayer::get());
     }
 
-    GDMAKE_ORIG_V(self, edx, pSender);
-}
+    matdash::orig<&SetupRotatePopup_onClose>(self,  pSender);
+} MAT_GDMAKE_HOOK(0x244150, SetupRotatePopup_onClose);
 
-GDMAKE_HOOK(0x1695a0, "_ZN16LevelEditorLayer10onPlaytestEv")
-void __fastcall LevelEditorLayer_onPlaytest(LevelEditorLayer* self) {
-    GDMAKE_ORIG_V(self);
+void  LevelEditorLayer_onPlaytest(LevelEditorLayer* self) {
+    matdash::orig<&LevelEditorLayer_onPlaytest>(self);
 
     if (BetterEdit::getRotateSawsInEditor() && !shouldRotateSaw())
         beginRotations(self);
-}
+} MAT_GDMAKE_HOOK(0x1695a0, LevelEditorLayer_onPlaytest);
 
-GDMAKE_HOOK(0x169d90, "_ZN16LevelEditorLayer16onResumePlaytestEv")
-void __fastcall LevelEditorLayer_onResumePlaytest(LevelEditorLayer* self) {
-    GDMAKE_ORIG_V(self);
+void  LevelEditorLayer_onResumePlaytest(LevelEditorLayer* self) {
+    matdash::orig<&LevelEditorLayer_onResumePlaytest>(self);
 
     if (BetterEdit::getRotateSawsInEditor() && !shouldRotateSaw())
         resumeRotations(self);
-}
+} MAT_GDMAKE_HOOK(0x169d90, LevelEditorLayer_onResumePlaytest);
 
-GDMAKE_HOOK(0x169cc0, "_ZN16LevelEditorLayer15onPausePlaytestEv")
-void __fastcall LevelEditorLayer_onPausePlaytest(LevelEditorLayer* self) {
-    GDMAKE_ORIG_V(self);
+void  LevelEditorLayer_onPausePlaytest(LevelEditorLayer* self) {
+    matdash::orig<&LevelEditorLayer_onPausePlaytest>(self);
 
     if (BetterEdit::getRotateSawsInEditor() && !shouldRotateSaw())
         pauseRotations(self);
-}
+} MAT_GDMAKE_HOOK(0x169cc0, LevelEditorLayer_onPausePlaytest);
 
-GDMAKE_HOOK(0x169f10, "_ZN16LevelEditorLayer14onStopPlaytestEv")
-void __fastcall LevelEditorLayer_onStopPlaytest(LevelEditorLayer* self) {
-    GDMAKE_ORIG_V(self);
+void  LevelEditorLayer_onStopPlaytest(LevelEditorLayer* self) {
+    matdash::orig<&LevelEditorLayer_onStopPlaytest>(self);
 
     if (BetterEdit::getRotateSawsInEditor() && !shouldRotateSaw())
         stopRotations(self);
-}
+} MAT_GDMAKE_HOOK(0x169f10, LevelEditorLayer_onStopPlaytest);

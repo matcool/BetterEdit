@@ -30,9 +30,8 @@ class BoomScrollLayer_CB : public BoomScrollLayer {
         }
 };
 
-GDMAKE_HOOK(0x11ea0, "_ZN15BoomScrollLayer10updateDotsEf")
-void __fastcall BoomScrollLayer_updateDots(BoomScrollLayer* self, edx_t edx, float width) {
-    GDMAKE_ORIG_V(self, edx, width);
+void  BoomScrollLayer_updateDots(BoomScrollLayer* self,  float width) {
+    matdash::orig<&BoomScrollLayer_updateDots>(self,  width);
 
     if (self->m_pDots && self->m_pDots->count()) {
         auto scale = as<CCSprite*>(self->m_pDots->objectAtIndex(0))->getScale();
@@ -43,12 +42,11 @@ void __fastcall BoomScrollLayer_updateDots(BoomScrollLayer* self, edx_t edx, flo
                 8.0f * scale
             );
     }
-}
+} MAT_GDMAKE_HOOK(0x11ea0, BoomScrollLayer_updateDots);
 
-GDMAKE_HOOK(0x11780, "_ZN15BoomScrollLayer4initEPN7cocos2d7CCArrayEibS2_P21DynamicScrollDelegate")
-bool __fastcall BoomScrollLayer_init(
+bool  BoomScrollLayer_init(
     BoomScrollLayer* self,
-    edx_t edx,
+    
     CCArray* pages,
     int unk,
     bool bunk,
@@ -58,7 +56,7 @@ bool __fastcall BoomScrollLayer_init(
     // dont move the dots around in updateDots
     patch(0x11fd2, { 0x90, 0x90, 0x90, 0x90 });
 
-    if (!GDMAKE_ORIG(self, edx, pages, unk, bunk, aunk, delegate))
+    if (!matdash::orig<&BoomScrollLayer_init>(self,  pages, unk, bunk, aunk, delegate))
         return false;
 
     auto menu = CCMenu::create();
@@ -84,4 +82,4 @@ bool __fastcall BoomScrollLayer_init(
     self->addChild(menu, 5);
 
     return true;
-}
+} MAT_GDMAKE_HOOK(0x11780, BoomScrollLayer_init);

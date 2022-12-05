@@ -1,8 +1,7 @@
 #include "LevelBackupManager.hpp"
 
-GDMAKE_HOOK(0x5be30, "_ZN9LevelCell18loadLocalLevelCellEv")
-void __fastcall LevelCell_loadLocalLevelCell(LevelCell* self) {
-    GDMAKE_ORIG_V(self);
+void LevelCell_loadLocalLevelCell(LevelCell* self) {
+    matdash::orig<&LevelCell_loadLocalLevelCell>(self);
 
     if (LevelBackupManager::get()->levelHasBackups(self->m_pLevel)) {
         auto label = getChild<CCLabelBMFont*>(self->m_pLayer, 0);
@@ -26,4 +25,4 @@ void __fastcall LevelCell_loadLocalLevelCell(LevelCell* self) {
 
         self->m_pLayer->addChild(backupIcon);
     }
-}
+} MAT_GDMAKE_HOOK(0x5be30, LevelCell_loadLocalLevelCell)

@@ -159,8 +159,7 @@ AutoSaveTimer* getAutoSaveTimer(EditorUI* ui) {
     return timer;
 }
 
-GDMAKE_HOOK(0x75010, "_ZN16EditorPauseLayer9saveLevelEv")
-void __fastcall EditorPauseLayer_saveLevel(EditorPauseLayer* self) {
+void  EditorPauseLayer_saveLevel(EditorPauseLayer* self) {
     if (shouldRotateSaw())
         stopRotations(self->m_pEditorLayer);
     
@@ -168,7 +167,7 @@ void __fastcall EditorPauseLayer_saveLevel(EditorPauseLayer* self) {
         self->m_pEditorLayer->m_pEditorUI->onStopPlaytest(nullptr);
     }
 
-    GDMAKE_ORIG_V(self);
+    matdash::orig<&EditorPauseLayer_saveLevel>(self);
     
     if (shouldRotateSaw())
         beginRotations(self->m_pEditorLayer);
@@ -176,5 +175,5 @@ void __fastcall EditorPauseLayer_saveLevel(EditorPauseLayer* self) {
     LevelBackupManager::get()->handleAutoBackupForLevel(
         self->m_pEditorLayer->m_pLevelSettings->m_pLevel
     );
-}
+} MAT_GDMAKE_HOOK(0x75010, EditorPauseLayer_saveLevel);
 

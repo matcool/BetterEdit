@@ -1,8 +1,7 @@
 #include "../BetterEdit.hpp"
 
-GDMAKE_HOOK(0x18c8e0, "_ZN12LoadingLayer10loadAssetsEv")
-void __fastcall LoadingLayer_loadAssets(LoadingLayer* self) {
-    GDMAKE_ORIG(self);
+void  LoadingLayer_loadAssets(LoadingLayer* self) {
+    matdash::orig<&LoadingLayer_loadAssets>(self);
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
@@ -16,5 +15,5 @@ void __fastcall LoadingLayer_loadAssets(LoadingLayer* self) {
     BetterEdit::sharedState()->loadTextures();
     
     label->removeFromParent();
-}
+} MAT_GDMAKE_HOOK(0x18c8e0, LoadingLayer_loadAssets);
 

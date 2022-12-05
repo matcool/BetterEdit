@@ -46,9 +46,8 @@ std::string objectTypeToString(GameObjectType type) {
     }
 }
 
-GDMAKE_HOOK(0x793b0, "_ZN8EditorUI21updateObjectInfoLabelEv")
-void __fastcall EditorUI_updateObjectInfoLabel(gd::EditorUI* self) {
-    GDMAKE_ORIG_V(self);
+void  EditorUI_updateObjectInfoLabel(gd::EditorUI* self) {
+    matdash::orig<&EditorUI_updateObjectInfoLabel>(self);
     
     auto winSize = CCDirector::sharedDirector()->getWinSize();
     auto ratio = winSize.width / winSize.height;
@@ -91,4 +90,4 @@ void __fastcall EditorUI_updateObjectInfoLabel(gd::EditorUI* self) {
 
         self->m_pObjectInfoLabel->setString(ss.str().c_str());
     }
-}
+} MAT_GDMAKE_HOOK(0x793b0, EditorUI_updateObjectInfoLabel);

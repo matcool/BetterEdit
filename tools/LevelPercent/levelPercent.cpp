@@ -161,10 +161,9 @@ void setIgnoreNewObjectsForSliderPercent(bool b) {
         g_bDontUpdateSlider--;
 }
 
-GDMAKE_HOOK(0x78cc0, "_ZN8EditorUI13sliderChangedEPN7cocos2d8CCObjectE")
-void __fastcall EditorUI_sliderChanged(EditorUI* self, edx_t edx, Slider* pSlider) {
+void  EditorUI_sliderChanged(EditorUI* self,  Slider* pSlider) {
     if (BetterEdit::getUseOldProgressBar()) {
-        GDMAKE_ORIG_V(self, edx, pSlider);
+        matdash::orig<&EditorUI_sliderChanged>(self,  pSlider);
         updatePercentLabelPosition(self);
         return;
     }
@@ -184,12 +183,11 @@ void __fastcall EditorUI_sliderChanged(EditorUI* self, edx_t edx, Slider* pSlide
     self->constrainGameLayerPosition();
 
     updatePercentLabelPosition(self);
-}
+} MAT_GDMAKE_HOOK(0x78cc0, EditorUI_sliderChanged);
 
-GDMAKE_HOOK(0x78e30, "_ZN8EditorUI13valueFromXPosEf")
-void __fastcall EditorUI_valueFromXPos(EditorUI* self) {
+void  EditorUI_valueFromXPos(EditorUI* self) {
     if (BetterEdit::getUseOldProgressBar())
-        return GDMAKE_ORIG_V(self);
+        return matdash::orig<&EditorUI_valueFromXPos>(self);
 
     float val = 0.0f;
     if (getLevelLength())
@@ -206,7 +204,7 @@ void __fastcall EditorUI_valueFromXPos(EditorUI* self) {
     __asm movss xmm0, val
 
     return;
-}
+} MAT_GDMAKE_HOOK(0x78e30, EditorUI_valueFromXPos);
 
 void handleObjectAddForSlider(LevelEditorLayer* self, GameObject* obj) {
     if (g_bDontUpdateSlider || !self) return;
@@ -219,8 +217,7 @@ void handleObjectAddForSlider(LevelEditorLayer* self, GameObject* obj) {
         self->m_pEditorUI->updateSlider();
 }
 
-GDMAKE_HOOK(0x8ddb0, "_ZN8EditorUI10moveObjectEP10GameObjectN7cocos2d7CCPointE")
-void __fastcall EditorUI_moveObject(EditorUI* self, edx_t edx, GameObject* obj, CCPoint pos) {
+void  EditorUI_moveObject(EditorUI* self,  GameObject* obj, CCPoint pos) {
     // because gd sometimes passes a good ol'
     // nullptr to moveObject when you're
     // free moving and then press undo
@@ -229,7 +226,7 @@ void __fastcall EditorUI_moveObject(EditorUI* self, edx_t edx, GameObject* obj, 
     if (obj == nullptr)
         return;
     
-    GDMAKE_ORIG_V(self, edx, obj, pos);
+    matdash::orig<&EditorUI_moveObject>(self,  obj, pos);
 
     if (g_bDontUpdateSlider || !self) return;
 
@@ -238,14 +235,13 @@ void __fastcall EditorUI_moveObject(EditorUI* self, edx_t edx, GameObject* obj, 
     updatePercentLabelPosition(self);
 
     self->updateSlider();
-}
+} MAT_GDMAKE_HOOK(0x8ddb0, EditorUI_moveObject);
 
-GDMAKE_HOOK(0x78f10, "_ZN8EditorUI12updateSliderEv")
-void __fastcall EditorUI_updateSlider(EditorUI* self) {
-    GDMAKE_ORIG_V(self);
+void  EditorUI_updateSlider(EditorUI* self) {
+    matdash::orig<&EditorUI_updateSlider>(self);
 
     updatePercentLabelPosition(self);
-}
+} MAT_GDMAKE_HOOK(0x78f10, EditorUI_updateSlider);
 
 void loadSliderPercent(EditorUI* self) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();

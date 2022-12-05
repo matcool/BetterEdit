@@ -27,8 +27,7 @@ void addMoveButton(
     self->m_pEditButtonBar->addButton(btn, false);
 }
 
-GDMAKE_HOOK(0x8c0d0, "_ZN8EditorUI14createMoveMenuEv")
-void __fastcall EditorUI_createMoveMenu(EditorUI* self) {
+void  EditorUI_createMoveMenu(EditorUI* self) {
     if (BetterEdit::getEnableCustomEditMenu()) {
         self->m_pEditButtonDict = CCDictionary::create();
         self->m_pEditButtonDict->retain();
@@ -37,7 +36,7 @@ void __fastcall EditorUI_createMoveMenu(EditorUI* self) {
         return;
     }
 
-    GDMAKE_ORIG_V(self);
+    matdash::orig<&EditorUI_createMoveMenu>(self);
 
     addMoveButton(self, "edit_upBtn2_001.png",      "1/2",  kEditCommandHalfUp,
         "betteredit.move_obj_half_up");
@@ -76,4 +75,4 @@ void __fastcall EditorUI_createMoveMenu(EditorUI* self) {
         "betteredit.move_obj_unit_right", .8f);
 
     self->m_pEditButtonBar->reloadItemsInNormalSize();
-}
+} MAT_GDMAKE_HOOK(0x8c0d0, EditorUI_createMoveMenu);
