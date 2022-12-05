@@ -79,7 +79,7 @@ struct DebugMsg {
     __macro__(KeybindRepeatStart, int, 700, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 10000)  \
     __macro__(ShowKeybindOnHover, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
     __macro__(CopyObjectsToClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
-    __macro__(EnableCustomEditMenu, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
+    __macro__(EnableCustomEditMenu, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
     __macro__(NoEasterEggs, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                  \
     __macro__(EnableExperimentalFeatures, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)    \
     __macro__(FixScaleSliderPosition, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
