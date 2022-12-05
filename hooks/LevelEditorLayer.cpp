@@ -13,7 +13,7 @@ bool __fastcall LevelEditorLayer_init(LevelEditorLayer* self, edx_t edx, GJGameL
     BetterEdit::setEditorInitialized(true);
 
     updatePercentLabelPosition(self->m_pEditorUI);
-    getAutoSaveTimer(self->m_pEditorUI)->resetTimer();
+    // getAutoSaveTimer(self->m_pEditorUI)->resetTimer();
 
     return true;
 }

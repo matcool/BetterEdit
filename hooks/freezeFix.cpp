@@ -1,5 +1,6 @@
 #include <GDMake.h>
 #include "../tools/SliderImprovement/passTouch.hpp"
+#include <BetterEdit.hpp>
 
 using namespace gdmake;
 using namespace gd;

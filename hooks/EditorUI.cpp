@@ -259,7 +259,7 @@ GDMAKE_HOOK(0x76090, "_ZN8EditorUID2Ev")
 void __fastcall EditorUI_destructorHook(gd::EditorUI* self) {
     saveClipboard(self);
     resetSliderPercent(self);
-    getAutoSaveTimer(self)->resetTimer();
+    // getAutoSaveTimer(self)->resetTimer();
 
     return GDMAKE_ORIG_V(self);
 }

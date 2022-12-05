@@ -17,20 +17,19 @@
 #include "tools/other/placeObjectsBefore.hpp"
 #include "tools/other/dashOrbLine.hpp"
 
+#include <matdash/boilerplate.hpp>
+#include <matdash/minhook.hpp>
+
+std::vector<void(*)()>& matstuff::get_hooks() {
+    static std::vector<void(*)()> vec;
+    return vec;
+}
+
 #define INIT_MANAGER(name) \
     BetterEdit::log() << kDebugTypeInitializing << "Initializing " #name << log_end();   \
-    if (!name::initGlobal())                   \
-        return "Unable to initialize " #name " !";   \
+    name::initGlobal()
 
-GDMAKE_DEBUG(song, args) {
-    LevelEditorLayer::get()->m_pLevelSettings->m_pLevel->m_nSongID = std::stoi(args[1]);
-}
-
-GDMAKE_DEBUG(fe, args) {
-    exit(0);
-}
-
-GDMAKE_MAIN_HM(hMod) {
+void mod_main(HMODULE) {
     BetterEdit::log() << kDebugTypeInitializing << "Loading BetterEdit" << log_end();
     BetterEdit::log() << kDebugTypeInitializing << "Applying patches" << log_end();
 
@@ -79,21 +78,4 @@ GDMAKE_MAIN_HM(hMod) {
     BetterEdit::sharedState()->addTexture("BE_ContextSheet01");
 
     BetterEdit::log() << kDebugTypeInitializing << "Initializing GDMake hooks" << log_end();
-
-    return "";
-}
-
-GDMAKE_UNLOAD {
-    BetterEdit::log() << kDebugTypeDeinitializing << "Unloading BetterEdit" << log_end();
-
-    BetterEdit::log() << kDebugTypeDeinitializing << "Unpatching Addresses" << log_end();
-
-    // unpatch all addresses
-    unpatch(0);
-    
-    BetterEdit::log() << kDebugTypeDeinitializing << "Unloading Tools" << log_end();
-    unloadEnterSearch();
-    unloadDashOrbLines();
-
-    BetterEdit::log() << kDebugTypeDeinitializing << "Uninitializing GDMake" << log_end();
 }

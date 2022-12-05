@@ -108,10 +108,10 @@ void __fastcall EditorPauseLayer_onResume(EditorPauseLayer* self, edx_t edx, CCO
 
     updateVisibilityTab(ui);
 
-    if (getAutoSaveTimer(ui)->cancellable())
-        getAutoSaveTimer(ui)->cancel();
+    // if (getAutoSaveTimer(ui)->cancellable())
+    //     getAutoSaveTimer(ui)->cancel();
         
-    getAutoSaveTimer(ui)->resume();
+    // getAutoSaveTimer(ui)->resume();
 
     updatePercentLabelPosition(ui);
     // showPositionLabel(LevelEditorLayer::get()->getEditorUI(), true);
@@ -124,7 +124,7 @@ void __fastcall EditorPauseLayer_onExitEditor(
     CCObject* pSender
 ) {
     stopRotations(self->m_pEditorLayer);
-    resetAutoSaveTimer(self->m_pEditorLayer->m_pEditorUI);
+    // resetAutoSaveTimer(self->m_pEditorLayer->m_pEditorUI);
 
     GDMAKE_ORIG_V(self, edx, pSender);
 
@@ -214,7 +214,7 @@ bool __fastcall EditorPauseLayer_init(
         objCountLabel->setString(str.c_str());
     }
 
-    getAutoSaveTimer(LevelEditorLayer::get()->getEditorUI())->pause();
+    // getAutoSaveTimer(LevelEditorLayer::get()->getEditorUI())->pause();
 
     return true;
 }

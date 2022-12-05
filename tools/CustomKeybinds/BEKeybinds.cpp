@@ -329,15 +329,15 @@ void loadBEKeybinds() {
         }, "editor.ui", false
     }, {});
 
-    kbm->addEditorKeybind({ "Cancel Autosave", "betteredit.cancel_autosave",
-        [](EditorUI* ui) -> bool {
-            if (getAutoSaveTimer(ui)->cancellable()) {
-                getAutoSaveTimer(ui)->cancel();
-                return true;
-            }
-            return false;
-        }, "editor.global", false
-    }, {{ KEY_Escape, 0 }});
+    // kbm->addEditorKeybind({ "Cancel Autosave", "betteredit.cancel_autosave",
+    //     [](EditorUI* ui) -> bool {
+    //         if (getAutoSaveTimer(ui)->cancellable()) {
+    //             getAutoSaveTimer(ui)->cancel();
+    //             return true;
+    //         }
+    //         return false;
+    //     }, "editor.global", false
+    // }, {{ KEY_Escape, 0 }});
 
     kbm->addEditorKeybind({ "Scroll Zoom Modifier", "betteredit.zoom_modifier",
         true, "editor.global"
@@ -658,10 +658,10 @@ void loadBEKeybinds() {
         }, "editor.modify", false
     }, {{ KEY_G, Keybind::kmControl }});
 
-    kbm->addEditorKeybind({ "Take Screenshot", "betteredit.screenshot",
-        [](EditorUI* ui) -> bool {
-            takeScreenshot(ui);
-            return true;
-        }, "editor.global", false
-    }, {{ KEY_L, 0 }});
+    // kbm->addEditorKeybind({ "Take Screenshot", "betteredit.screenshot",
+    //     [](EditorUI* ui) -> bool {
+    //         takeScreenshot(ui);
+    //         return true;
+    //     }, "editor.global", false
+    // }, {{ KEY_L, 0 }});
 }

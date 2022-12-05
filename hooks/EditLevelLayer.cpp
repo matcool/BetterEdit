@@ -26,8 +26,8 @@ bool __fastcall EditLevelLayer_init(EditLevelLayer* self, edx_t edx, GJGameLevel
     self->m_pButtonMenu->addChild(garageRope);
 
     setupCreatePresetButton(self, level);
-    loadStartPosButton(self, level);
-    setupBackupButton(self, level);
+    // loadStartPosButton(self, level);
+    // setupBackupButton(self, level);
 
     return true;
 }

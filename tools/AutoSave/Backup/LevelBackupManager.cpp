@@ -51,7 +51,7 @@ void LevelBackupManager::dataLoaded(DS_Dictionary* dict) {
                     arr->m_nBackupEvery = arr->s_defaultBackupEvery;
 
                 for (auto bkey : dict->getAllKeys()) {
-                    if (bkey.starts_with('k')) {
+                    if (bkey.size() && bkey[0] == 'k') {
                         STEP_SUBDICT_NC(dict, bkey.c_str(),
                             arr->m_pBackups->insertObject(new LevelBackup(dict), 0u);
                         );

@@ -151,8 +151,8 @@ void BetterEdit::encodeDataTo(DS_Dictionary* data) {
             );
     );
 
-    BetterEdit::log() << kDebugTypeSaving << "Saving Backups" << log_end();
-    LevelBackupManager::get()->save();
+    // BetterEdit::log() << kDebugTypeSaving << "Saving Backups" << log_end();
+    // LevelBackupManager::get()->save();
 
     BetterEdit::log() << kDebugTypeSaving << "Saving Keybinds" << log_end();
     KeybindManager::get()->save();
