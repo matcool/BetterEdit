@@ -85,16 +85,18 @@ void  EditorUI_onGoToBaseLayer(gd::EditorUI* self,  cocos2d::CCObject* pSender) 
 } MAT_GDMAKE_HOOK(0x88790, EditorUI_onGoToBaseLayer);
 
 void showLayerControls(EditorUI* self, bool show) {
-    self->m_pCurrentLayerLabel->setVisible(false);
+    // self->m_pCurrentLayerLabel->setVisible(false);
 
-    CATCH_NULL(self->getChildByTag(LAYERINPUT_TAG))->setVisible(show);
-    CATCH_NULL(self->getChildByTag(LAYERINPUTBG_TAG))->setVisible(show);
+    // CATCH_NULL(self->getChildByTag(LAYERINPUT_TAG))->setVisible(show);
+    // CATCH_NULL(self->getChildByTag(LAYERINPUTBG_TAG))->setVisible(show);
     CATCH_NULL(self->m_pEditGroupBtn->getParent()->getChildByTag(NEXTFREELAYER_TAG))->setVisible(show);
-    CATCH_NULL(self->m_pEditGroupBtn->getParent()->getChildByTag(LOCKLAYER_TAG))->setVisible(show);
-    CATCH_NULL(self->m_pEditGroupBtn->getParent()->getChildByTag(VIEWLAYERS_TAG))->setVisible(show);
+    // CATCH_NULL(self->m_pEditGroupBtn->getParent()->getChildByTag(LOCKLAYER_TAG))->setVisible(show);
+    // CATCH_NULL(self->m_pEditGroupBtn->getParent()->getChildByTag(VIEWLAYERS_TAG))->setVisible(show);
 }
 
 void updateEditorLayerInputText(EditorUI* self) {
+    return;
+
     auto i = self->getChildByTag(LAYERINPUT_TAG);
 
     self->m_pCurrentLayerLabel->setVisible(false);
@@ -144,35 +146,35 @@ void loadEditorLayerInput(EditorUI* self) {
 
     auto ed = EUITextDelegate::create(self);
 
-    self->m_pCurrentLayerLabel->setVisible(false);
+    // self->m_pCurrentLayerLabel->setVisible(false);
     self->m_pCurrentLayerLabel->setPositionX(
         self->m_pCurrentLayerLabel->getPositionX() - 14.0f
     );
 
-    auto spr = cocos2d::extension::CCScale9Sprite::create(
-        "square02b_001.png", { 0.0f, 0.0f, 80.0f, 80.0f }
-    );
+    // auto spr = cocos2d::extension::CCScale9Sprite::create(
+    //     "square02b_001.png", { 0.0f, 0.0f, 80.0f, 80.0f }
+    // );
 
-    spr->setScale(.3f);
-    spr->setColor({ 0, 0, 0 });
-    spr->setOpacity(100);
-    spr->setContentSize({ 115.0f, 75.0f });
-    spr->setTag(LAYERINPUTBG_TAG);
-    spr->setPosition(self->m_pCurrentLayerLabel->getPosition());
+    // spr->setScale(.3f);
+    // spr->setColor({ 0, 0, 0 });
+    // spr->setOpacity(100);
+    // spr->setContentSize({ 115.0f, 75.0f });
+    // spr->setTag(LAYERINPUTBG_TAG);
+    // spr->setPosition(self->m_pCurrentLayerLabel->getPosition());
 
-    auto eLayerInput = gd::CCTextInputNode::create("All", ed, "bigFont.fnt", 40.0f, 30.0f);
+    // auto eLayerInput = gd::CCTextInputNode::create("All", ed, "bigFont.fnt", 40.0f, 30.0f);
 
-    eLayerInput->setPosition(self->m_pCurrentLayerLabel->getPosition());
-    eLayerInput->setLabelPlaceholderColor({ 120, 120, 120 });
-    eLayerInput->setAllowedChars("0123456789");
-    eLayerInput->setAnchorPoint({ 0, 0 });
-    eLayerInput->setScale(.7f);
-    eLayerInput->setDelegate(ed);
-    eLayerInput->setTag(LAYERINPUT_TAG);
-    eLayerInput->setString(self->m_pCurrentLayerLabel->getString());
+    // eLayerInput->setPosition(self->m_pCurrentLayerLabel->getPosition());
+    // eLayerInput->setLabelPlaceholderColor({ 120, 120, 120 });
+    // eLayerInput->setAllowedChars("0123456789");
+    // eLayerInput->setAnchorPoint({ 0, 0 });
+    // eLayerInput->setScale(.7f);
+    // eLayerInput->setDelegate(ed);
+    // eLayerInput->setTag(LAYERINPUT_TAG);
+    // eLayerInput->setString(self->m_pCurrentLayerLabel->getString());
 
-    self->addChild(spr);
-    self->addChild(eLayerInput);
+    // self->addChild(spr);
+    // self->addChild(eLayerInput);
 
     self->addChild(ed);
 
@@ -205,35 +207,37 @@ void loadEditorLayerInput(EditorUI* self) {
             .done()
     );
 
-    menu->addChild(
-        CCNodeConstructor<CCMenuItemSpriteExtra*>()
-            .fromNode(CCMenuItemSpriteExtra::create(
-                CCNodeConstructor()
-                    .fromFrameName("GJ_lock_open_001.png")
-                    .scale(.7f)
-                    .done(),
-                self,
-                (SEL_MenuHandler)&EditorUI_CB::onLockLayer
-            ))
-            .move(-106.0f, goToAllBtn->getPositionY())
-            .tag(LOCKLAYER_TAG)
-            .done()
-    );
+    // lock layer button
+    // menu->addChild(
+    //     CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    //         .fromNode(CCMenuItemSpriteExtra::create(
+    //             CCNodeConstructor()
+    //                 .fromFrameName("GJ_lock_open_001.png")
+    //                 .scale(.7f)
+    //                 .done(),
+    //             self,
+    //             (SEL_MenuHandler)&EditorUI_CB::onLockLayer
+    //         ))
+    //         .move(-106.0f, goToAllBtn->getPositionY())
+    //         .tag(LOCKLAYER_TAG)
+    //         .done()
+    // );
 
-    menu->addChild(
-        CCNodeConstructor<CCMenuItemSpriteExtra*>()
-            .fromNode(CCMenuItemSpriteExtra::create(
-                CCNodeConstructor()
-                    .fromFrameName("GJ_plus2Btn_001.png")
-                    .scale(.7f)
-                    .done(),
-                self,
-                (SEL_MenuHandler)&EditorUI_CB::onShowLayerPopup
-            ))
-            .move(-130.0f, goToAllBtn->getPositionY())
-            .tag(VIEWLAYERS_TAG)
-            .done()
-    );
+    // stupid layer menu button
+    // menu->addChild(
+    //     CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    //         .fromNode(CCMenuItemSpriteExtra::create(
+    //             CCNodeConstructor()
+    //                 .fromFrameName("GJ_plus2Btn_001.png")
+    //                 .scale(.7f)
+    //                 .done(),
+    //             self,
+    //             (SEL_MenuHandler)&EditorUI_CB::onShowLayerPopup
+    //         ))
+    //         .move(-130.0f, goToAllBtn->getPositionY())
+    //         .tag(VIEWLAYERS_TAG)
+    //         .done()
+    // );
 
     updateEditorLayerInputText(self);
 }

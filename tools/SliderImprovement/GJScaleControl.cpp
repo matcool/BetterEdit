@@ -1,8 +1,8 @@
 #include "passTouch.hpp"
 #include "ScaleTextDelegate.hpp"
 
-bool g_bLockPosEnabled;
-bool g_bUnlockScaleEnabled;
+bool g_bLockPosEnabled = false;
+bool g_bUnlockScaleEnabled = true;
 
 bool LockButton::init(
     CCSprite* sprite,
@@ -245,8 +245,8 @@ bool  GJScaleControl_init(GJScaleControl* self) {
     if (!matdash::orig<&GJScaleControl_init>(self))
         return false;
 
-    BetterEdit::saveGlobalBool("scale-lock-pos",  &g_bLockPosEnabled);
-    BetterEdit::saveGlobalBool("scale-dont-snap", &g_bUnlockScaleEnabled);
+    // BetterEdit::saveGlobalBool("scale-lock-pos",  &g_bLockPosEnabled);
+    // BetterEdit::saveGlobalBool("scale-dont-snap", &g_bUnlockScaleEnabled);
 
     auto ed = ScaleTextDelegate::create(self);
 

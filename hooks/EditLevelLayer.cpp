@@ -26,7 +26,7 @@ bool  EditLevelLayer_init(EditLevelLayer* self,  GJGameLevel* level) {
 
     setupCreatePresetButton(self, level);
     // loadStartPosButton(self, level);
-    // setupBackupButton(self, level);
+    setupBackupButton(self, level);
 
     return true;
 } MAT_GDMAKE_HOOK(0x6f5d0, EditLevelLayer_init);
