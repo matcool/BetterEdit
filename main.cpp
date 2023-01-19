@@ -32,7 +32,7 @@ std::vector<void(*)()>& matstuff::get_hooks() {
     name::initGlobal()
 
 void mod_main(HMODULE) {
-    matdash::create_console();
+    // matdash::create_console();
     BetterEdit::log() << kDebugTypeInitializing << "Loading BetterEdit" << log_end();
     BetterEdit::log() << kDebugTypeInitializing << "Applying patches" << log_end();
 
