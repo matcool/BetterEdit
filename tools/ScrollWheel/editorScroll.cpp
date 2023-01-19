@@ -2,7 +2,7 @@
 #include "../LevelPercent/levelPercent.hpp"
 #include "../CustomKeybinds/KeybindManager.hpp"
 
-void  EditorUI_scrollWheel(gd::EditorUI* self_,  float amt, float b) {
+matdash::cc::thiscall<void>  EditorUI_scrollWheel(gd::EditorUI* self_,  float amt, float b) {
     // get the actual EditorUI since this function is a virtual that messes it up
     auto self = reinterpret_cast<gd::EditorUI*>(reinterpret_cast<uintptr_t>(self_) - 0xfc);
 
@@ -72,4 +72,5 @@ void  EditorUI_scrollWheel(gd::EditorUI* self_,  float amt, float b) {
         self->m_obSwipeStart = self->m_obSwipeStart + rel;
 
     updatePercentLabelPosition(self);
+    return {};
 } MAT_GDMAKE_HOOK(0x921d0, EditorUI_scrollWheel);
