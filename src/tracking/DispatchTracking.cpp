@@ -338,19 +338,19 @@ class $modify(EditorUI) {
     }
 
     void scaleObjects(CCArray* objs, float scale, CCPoint center) {
-        detectEdits(&EditorUI::scaleObjects, objs, scale, center);
+        detectEdits([&](auto... args) { EditorUI::scaleObjects(args...); }, objs, scale, center);
     }
 
     void rotateObjects(CCArray* objs, float angle, CCPoint center) {
-        detectEdits(&EditorUI::rotateObjects, objs, angle, center);
+        detectEdits([&](auto... args) { EditorUI::rotateObjects(args...); }, objs, angle, center);
     }
 
     void flipObjectsX(CCArray* objs) {
-        detectEdits(&EditorUI::flipObjectsX, objs);
+        detectEdits([&](auto... args) { EditorUI::flipObjectsX(args...); }, objs);
     }
 
     void flipObjectsY(CCArray* objs) {
-        detectEdits(&EditorUI::flipObjectsY, objs);
+        detectEdits([&](auto... args) { EditorUI::flipObjectsY(args...); }, objs);
     }
 
     void alignObjects(CCArray* objs, bool y) {
