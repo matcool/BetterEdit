@@ -35,7 +35,6 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-set(GEODE_LINK_NIGHTLY On)
 add_subdirectory($ENV{GEODE_SDK} $ENV{GEODE_SDK}/build)
 
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pro")
