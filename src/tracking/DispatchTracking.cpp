@@ -127,11 +127,15 @@ class $modify(LevelEditorLayer) {
     }
 
     void pasteAtributeState(GameObject* target, CCArray* targets) {
-        detectEdits(&LevelEditorLayer::pasteAtributeState, target, targets);
+        detectEdits([&](auto... args) {
+            LevelEditorLayer::pasteAtributeState(args...);
+        }, target, targets);
     }
 
     void pasteColorState(GameObject* target, CCArray* targets) {
-        detectEdits(&LevelEditorLayer::pasteColorState, target, targets);
+        detectEdits([&](auto... args) {
+            LevelEditorLayer::pasteColorState(args...);
+        }, target, targets);
     }
 };
 
