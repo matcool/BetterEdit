@@ -1,6 +1,6 @@
 #pragma once
 
-#include <gd.h>
+#include <cocos2d.h>
 #include <string>
 #include <filesystem>
 #include <fstream>
@@ -159,24 +159,24 @@ namespace gdmake {
     CCARRAY_FOREACH_B_BASE(__array__, __obj__, cocos2d::CCObject*, ix)
 
 
-#define GDMAKE_HOOK(...)
-#define GDMAKE_ORIG(...) 10
-#define GDMAKE_ORIG_V(...)
-#define GDMAKE_ORIG_P(...) nullptr
+// #define GDMAKE_HOOK(...)
+// #define GDMAKE_ORIG(...) 10
+// #define GDMAKE_ORIG_V(...)
+// #define GDMAKE_ORIG_P(...) nullptr
 
-#include <matdash.hpp>
-#include <matdash/minhook.hpp>
-#include <vector>
+// #include <matdash.hpp>
+// #include <matdash/minhook.hpp>
+// #include <vector>
 
-namespace matstuff {
-    std::vector<void(*)()>& get_hooks();
-}
-#define MAT_GDMAKE_HOOK(addr, func) \
-    static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
-        matdash::add_hook<&func>(gd::base + addr); \
-    }), 69);
-#define MAT_GDMAKE_HOOK_C(symbolname, func) \
-    static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
-        const auto addr = GetProcAddress(GetModuleHandleA("libcocos2d.dll"), symbolname); \
-        matdash::add_hook<&func>(reinterpret_cast<void*>(addr)); \
-    }), 69);
+// namespace matstuff {
+//     std::vector<void(*)()>& get_hooks();
+// }
+// #define MAT_GDMAKE_HOOK(addr, func) \
+//     static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
+//         matdash::add_hook<&func>(gd::base + addr); \
+//     }), 69);
+// #define MAT_GDMAKE_HOOK_C(symbolname, func) \
+//     static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
+//         const auto addr = GetProcAddress(GetModuleHandleA("libcocos2d.dll"), symbolname); \
+//         matdash::add_hook<&func>(reinterpret_cast<void*>(addr)); \
+//     }), 69);

@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.14)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_OSX_ARCHITECTURES "x86_64")
 
-project(betteredit-suckless)
+project(betteredit-v4)
 
-add_library(betteredit-suckless SHARED
+add_library(${PROJECT_NAME} SHARED
     main.cpp
     BetterEdit.cpp
 
@@ -29,6 +30,15 @@ add_library(betteredit-suckless SHARED
     utils/InfoButton.cpp
     utils/moveGameLayer.cpp
 )
+
+if (NOT DEFINED ENV{GEODE_SDK})
+    message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
+else()
+    message(STATUS "Found Geode: $ENV{GEODE_SDK}")
+endif()
+
+add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
+
 
 file(GLOB_RECURSE TOOLS_SOURCE_FILES
     tools/AutoColorTriggers/*.cpp
@@ -64,39 +74,26 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
     tools/VisibilityTab/*.cpp
 )
 
-target_sources(betteredit-suckless PRIVATE ${TOOLS_SOURCE_FILES})
+# target_sources(${PROJECT_NAME} PRIVATE ${TOOLS_SOURCE_FILES})
 
-include(cmake/CPM.cmake)
+# CPMAddPackage("gh:matcool/mat-dash#cdc9f70")
+# CPMAddPackage("gh:HJfod/cocos-headers#cbf79fc")
+# CPMAddPackage("gh:HJfod/gd.h#90f2110")
+# CPMAddPackage("gh:TsudaKageyu/minhook#4a45552")
+# CPMAddPackage("gh:hjfod/gd-nodes#38ac99d")
 
-CPMAddPackage("gh:matcool/mat-dash#cdc9f70")
-CPMAddPackage("gh:HJfod/cocos-headers#cbf79fc")
-CPMAddPackage("gh:HJfod/gd.h#90f2110")
-CPMAddPackage("gh:TsudaKageyu/minhook#4a45552")
-CPMAddPackage("gh:hjfod/gd-nodes#38ac99d")
+# target_compile_definitions(${PROJECT_NAME} PRIVATE CC_DLL=)
 
-target_compile_definitions(betteredit-suckless PRIVATE CC_DLL=)
+# target_include_directories(${PROJECT_NAME} PRIVATE
+#     nuts
+#     ${CMAKE_CURRENT_SOURCE_DIR}
+#     include
+# )
 
-target_include_directories(betteredit-suckless PRIVATE
-    nuts
-    ${gd.h_SOURCE_DIR}/include ${gd.h_SOURCE_DIR}
-    ${minhook_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    include
-)
-
-add_library(nodes INTERFACE)
-
-target_sources(nodes INTERFACE
-    ${gd-nodes_SOURCE_DIR}/BGCheckbox.cpp
-    ${gd-nodes_SOURCE_DIR}/BrownAlertDelegate.cpp
-    ${gd-nodes_SOURCE_DIR}/HorizontalSelectMenu.cpp
-    ${gd-nodes_SOURCE_DIR}/InputNode.cpp
-    ${gd-nodes_SOURCE_DIR}/InputPrompt.cpp
-    ${gd-nodes_SOURCE_DIR}/MonoSpaceLabel.cpp
-    ${gd-nodes_SOURCE_DIR}/PickMenu.cpp
-)
-
-target_include_directories(nodes INTERFACE ${gd-nodes_SOURCE_DIR})
+# add_subdirectory(nodes)
 
 
-target_link_libraries(betteredit-suckless mat-dash cocos2d minhook nodes)
+# target_link_libraries(${PROJECT_NAME} nodes)
+
+
+setup_geode_mod(${PROJECT_NAME})
