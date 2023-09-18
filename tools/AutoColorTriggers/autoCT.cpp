@@ -16,7 +16,7 @@ class EditorPauseLayer_CB : public EditorPauseLayer {
 
 void loadColorTriggerButton(EditorPauseLayer* self) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
-    auto menu = as<CCMenu*>(self->m_pButton0->getParent());
+    auto menu = as<CCMenu*>(self->m_guidelinesOffButton->getParent());
 
     auto btn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor()

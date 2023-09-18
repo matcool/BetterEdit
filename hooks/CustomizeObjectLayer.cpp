@@ -7,7 +7,7 @@ static constexpr const int COLORBTN_LABEL_TAG = 999;
 static constexpr const int COLORBTN_SELECTION_TAG = 1001;
 static constexpr const int colorCountOnPage = 24;
 
-class CustomizeObjectLayer_CB : public CustomizeObjectLayer {
+class CB : public CustomizeObjectLayer {
     public:
         void onCustomNextFree(CCObject* pSender) {
             auto p = InputPrompt::create("Next Free Offset", "ID", [this, pSender](const char* txt) -> void {
@@ -44,7 +44,11 @@ class CustomizeObjectLayer_CB : public CustomizeObjectLayer {
         }
 };
 
-std::string getShortColorBtnText(int channel) {
+
+
+class $modify(CustomizeObjectLayer) {
+
+    std::string getShortColorBtnText(int channel) {
     switch (channel) {
         case 0: return "D";
         case 1000: return "BG";
@@ -64,12 +68,12 @@ std::string getShortColorBtnText(int channel) {
     }
 }
 
-void updateCustomChannelSprite(CustomizeObjectLayer* self, ColorChannelSprite* btn) {
-    std::string txt = GJSpecialColorSelect::textForColorIdx(self->m_nCustomColorChannel);
+void updateCustomChannelSprite( ColorChannelSprite* btn) {
+    std::string txt = GJSpecialColorSelect::textForColorIdx(this->m_customColorChannel);
     
     if (txt == "NA")
         try {
-            txt = std::to_string(self->m_nCustomColorChannel);
+            txt = std::to_string(this->m_customColorChannel);
         } catch(...) {
             txt = std::to_string(colorCountOnPage);
         }
@@ -81,31 +85,31 @@ void updateCustomChannelSprite(CustomizeObjectLayer* self, ColorChannelSprite* b
     if (label) label->setString(txt.c_str());
 }
 
-void updateButtons(CustomizeObjectLayer* self) {
+void updateButtons() {
     if (BetterEdit::getDisableNewColorSelection())
         return;
 
     // wacky hack to make the input not call the delegate
-    auto oldDelegate = self->m_pCustomColorInput->m_delegate;
-    self->m_pCustomColorInput->setDelegate(nullptr);
-    self->m_pCustomColorInput->setString(std::to_string(self->m_nCustomColorChannel).c_str());
-    self->m_pCustomColorInput->setDelegate(oldDelegate);
+    auto oldDelegate = this->m_customColorInput->m_delegate;
+    this->m_customColorInput->setDelegate(nullptr);
+    this->m_customColorInput->setString(std::to_string(this->m_customColorChannel).c_str());
+    this->m_customColorInput->setDelegate(oldDelegate);
 
-    CCARRAY_FOREACH_B_TYPE(self->m_pColorButtons, btn, ColorChannelSprite) {
+    CCARRAY_FOREACH_B_TYPE(this->m_colorButtons, btn, ColorChannelSprite) {
         int channel;
 
         if (!btn->getChildByTag(COLORBTN_LABEL_TAG))
             continue;
 
         if (btn->getParent()->getTag() == 1008)
-            channel = self->m_nCustomColorChannel;
+            channel = this->m_customColorChannel;
         else
             channel = btn->getParent()->getTag();
         
-        self->m_bCustomColorSelected = btn->getParent()->getTag() == 1008 &&
-            self->getActiveMode(true) == channel;
+        this->m_customColorSelected = btn->getParent()->getTag() == 1008 &&
+            this->getActiveMode(true) == channel;
 
-        auto col = LevelEditorLayer::get()->m_pLevelSettings->m_pEffectManager->getColorAction(channel);
+        auto col = LevelEditorLayer::get()->m_levelSettings->m_effectManager->getColorAction(channel);
 
         btn->updateValues(col);
 
@@ -126,7 +130,7 @@ void updateButtons(CustomizeObjectLayer* self) {
         );
 
         if (sSprite)
-            sSprite->setVisible(self->getActiveMode(true) == channel);
+            sSprite->setVisible(this->getActiveMode(true) == channel);
 
         auto label = reinterpret_cast<CCLabelBMFont*>(
             btn->getChildByTag(COLORBTN_LABEL_TAG)
@@ -136,19 +140,19 @@ void updateButtons(CustomizeObjectLayer* self) {
             label->setVisible(!col->m_copyID);
 
             if (btn->getParent()->getTag() == 1008)
-                updateCustomChannelSprite(self, btn);
+                updateCustomChannelSprite(this, btn);
         }
     }
 
-    self->m_pArrowDown->setVisible(self->m_bCustomColorSelected);
-    self->m_pArrowUp->setVisible(self->m_bCustomColorSelected);
-    self->m_pCustomColorInput->setVisible(self->m_bCustomColorSelected);
-    self->m_pCustomColorInput->detachWithIME();
-    self->m_pCustomColorInputBG->setVisible(self->m_bCustomColorSelected);
+    this->m_arrowDown->setVisible(this->m_customColorSelected);
+    this->m_arrowUp->setVisible(this->m_customColorSelected);
+    this->m_customColorInput->setVisible(this->m_customColorSelected);
+    this->m_customColorInput->detachWithIME();
+    this->m_customColorInputBG->setVisible(this->m_customColorSelected);
 }
 
 ColorChannelSprite* getChannelSprite(int channel) {
-    auto col = LevelEditorLayer::get()->m_pLevelSettings->m_pEffectManager->getColorAction(channel);
+    auto col = LevelEditorLayer::get()->m_levelSettings->m_effectManager->getColorAction(channel);
 
     auto channelSprite = ColorChannelSprite::create();
 
@@ -183,11 +187,11 @@ ColorChannelSprite* getChannelSprite(int channel) {
     return channelSprite;
 }
 
-void updateCustomChannelSprite(CustomizeObjectLayer* self) {
+void updateCustomChannelSprite(CustomizeObjectLayer* this) {
     if (BetterEdit::getDisableNewColorSelection())
         return;
 
-    CCARRAY_FOREACH_B_TYPE(self->m_pColorButtons, btn, ColorChannelSprite) {
+    CCARRAY_FOREACH_B_TYPE(this->m_colorButtons, btn, ColorChannelSprite) {
         auto label = as<CCLabelBMFont*>(
             btn->getChildByTag(COLORBTN_LABEL_TAG)
         );
@@ -195,7 +199,7 @@ void updateCustomChannelSprite(CustomizeObjectLayer* self) {
         if (!label) continue;
 
         if (btn->getParent()->getTag() == 1008)
-            updateCustomChannelSprite(self, btn);
+            updateCustomChannelSprite(this, btn);
     }
 }
 
@@ -232,220 +236,222 @@ CCSprite* createBGSprite() {
     return bgTexture->getSprite();
 }
 
-void  CustomizeObjectLayer_onSelectMode(
-    CustomizeObjectLayer* self,
-    
-    CCObject* pSender
-) {
-    matdash::orig<&CustomizeObjectLayer_onSelectMode>(self,  pSender);
+    void  onSelectMode(
+        
+        
+        CCObject* pSender
+    ) {
+        CustomizeObjectLayer::onSelectMode(  pSender);
 
-    updateButtons(self);
-} MAT_GDMAKE_HOOK(0x56db0, CustomizeObjectLayer_onSelectMode);
+        updateButtons(this);
+    } MAT_GDMAKE_HOOK(0x56db0, onSelectMode);
 
-bool  CustomizeObjectLayer_init(
-    CustomizeObjectLayer* self,
-    
-    EffectGameObject* obj,
-    CCArray* objs
-) {
-    if (BetterEdit::getDisableNewColorSelection())
-        unpatch(0x5737e);
-    else
-        patch(0x5737e, { 0xb9, colorCountOnPage });
+    bool  init(
+        
+        
+        EffectGameObject* obj,
+        CCArray* objs
+    ) {
+        if (BetterEdit::getDisableNewColorSelection())
+            unpatch(0x5737e);
+        else
+            patch(0x5737e, { 0xb9, colorCountOnPage });
 
-    if (!matdash::orig<&CustomizeObjectLayer_init>(self,  obj, objs))
-        return false;
+        if (!CustomizeObjectLayer::init(  obj, objs))
+            return false;
 
-    auto winSize = CCDirector::sharedDirector()->getWinSize();
-    
-    if (
-        !BetterEdit::getDisableNewColorSelection() &&
-        self->m_nCustomColorChannel < colorCountOnPage
-    )
-        self->m_nCustomColorChannel = colorCountOnPage;
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        
+        if (
+            !BetterEdit::getDisableNewColorSelection() &&
+            this->m_customColorChannel < colorCountOnPage
+        )
+            this->m_customColorChannel = colorCountOnPage;
 
-    auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(self->m_buttonMenu, 26);
+        auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(this->m_buttonMenu, 26);
 
-    nextFreeBtn->setPositionX(nextFreeBtn->getPositionX() - 2.0f);
+        nextFreeBtn->setPositionX(nextFreeBtn->getPositionX() - 2.0f);
 
-    auto customNextFreeBtn = CCMenuItemSpriteExtra::create(
-        ButtonSprite::create(
-            g_nextFreeColorInput.size() ? g_nextFreeColorInput.c_str() : "0", 20, true, "goldFont.fnt", 
-            g_nextFreeColorInput.size() ? "GJ_button_02.png" : "GJ_button_04.png", 25, .6f
-        ),
-        self,
-        (SEL_MenuHandler)&CustomizeObjectLayer_CB::onCustomNextFree
-    );
-    customNextFreeBtn->setTag(NEXTFREE_TAG);
-    customNextFreeBtn->setPosition(
-        nextFreeBtn->getPositionX() + 58.0f,
-        nextFreeBtn->getPositionY()
-    );
-    self->m_pColorNodes->addObject(customNextFreeBtn);
-    self->m_buttonMenu->addChild(customNextFreeBtn);
+        auto customNextFreeBtn = CCMenuItemSpriteExtra::create(
+            ButtonSprite::create(
+                g_nextFreeColorInput.size() ? g_nextFreeColorInput.c_str() : "0", 20, true, "goldFont.fnt", 
+                g_nextFreeColorInput.size() ? "GJ_button_02.png" : "GJ_button_04.png", 25, .6f
+            ),
+            this,
+            (SEL_MenuHandler)&CB::onCustomNextFree
+        );
+        customNextFreeBtn->setTag(NEXTFREE_TAG);
+        customNextFreeBtn->setPosition(
+            nextFreeBtn->getPositionX() + 58.0f,
+            nextFreeBtn->getPositionY()
+        );
+        this->m_colorNodes->addObject(customNextFreeBtn);
+        this->m_buttonMenu->addChild(customNextFreeBtn);
 
-    if (BetterEdit::getDisableNewColorSelection())
+        if (BetterEdit::getDisableNewColorSelection())
+            return true;
+        
+        this->m_titleLabel->setVisible(false);
+
+        getChild<CCLabelBMFont*>(this->m_buttonMenu, 1)->setPosition(
+            210, 0
+        );
+
+        CCARRAY_FOREACH_B_TYPE(this->m_colorButtons, btn, ButtonSprite)
+            btn->getParent()->removeFromParent();
+        this->m_colorButtons->removeAllObjects();
+
+        auto bgSprite = createBGSprite();
+
+        bgSprite->setOpacity(100);
+        bgSprite->setPosition(winSize / 2);
+
+        this->m_colorNodes->addObject(bgSprite);
+        this->m_mainLayer->addChild(bgSprite);
+
+        int i = 0;
+        for (auto channel : std::initializer_list<int> {
+            0, 1000, 1001, 1009,
+            1005, 1003, 1004, 1002,
+            1006, 1007, 1010, 1011,
+        }) {
+            auto channelSprite = getChannelSprite(channel);
+
+            auto btn = CCMenuItemSpriteExtra::create(
+                channelSprite, this, (SEL_MenuHandler)&CustomizeObjectLayer::onSelectColor
+            );
+
+            this->m_colorButtons->addObject(channelSprite);
+            this->m_colorNodes->addObject(btn);
+            this->m_buttonMenu->addChild(btn);
+
+            auto width = 100.0f;
+            auto yoff = 35.0f;
+            constexpr const int row_c = 4;
+
+            btn->setPosition(
+                static_cast<int>(floor(i / row_c)) * yoff - 150.0f,
+                (1.0f - ((i % row_c) / 3.0f)) * width + 45.0f
+            );
+            btn->setTag(channel);
+
+            i++;
+        }
+
+        for (int i = 0; i < colorCountOnPage; i++) {
+            auto channel = i + 1;
+            if (i == colorCountOnPage - 1)
+                channel = 1008;
+
+            auto channelSprite = getChannelSprite(channel);
+
+            auto btn = CCMenuItemSpriteExtra::create(
+                channelSprite, this, (SEL_MenuHandler)&CustomizeObjectLayer::onSelectColor
+            );
+
+            this->m_colorButtons->addObject(channelSprite);
+            this->m_colorNodes->addObject(btn);
+            this->m_buttonMenu->addChild(btn);
+
+            auto width = 180.0f;
+            auto yoff = 33.5f;
+            constexpr const int row_c = 6;
+
+            btn->setPosition(
+                ((i % row_c) / static_cast<float>(row_c - 1.0f)) * width - 30.0f,
+                static_cast<int>(floor(i / row_c)) * -yoff + 145.0f
+            );
+            btn->setTag(channel);
+        }
+
+        // for (int i = 0; i < 5; i++) {
+        //     auto label = CCLabelBMFont::create(std::to_string(i + 1).c_str(), "bigFont.fnt");
+
+        //     label->setScale(.6f);
+
+        //     auto btn = CCMenuItemSpriteExtra::create(
+        //         label, this, nullptr
+        //     );
+
+        //     auto width = 150.0f;
+        //     btn->setPosition(
+        //         (i / 4.0f) * width + 250.0f,
+        //         225.0f
+        //     );
+
+        //     this->m_colorNodes->addObject(btn);
+        //     this->addChild(btn);
+        // }
+
+        auto line = CCSprite::createWithSpriteFrameName("edit_vLine_001.png");
+
+        line->setPosition({ winSize.width / 2 - 55.0f, winSize.height / 2 });
+        line->setScaleY(1.65f);
+        line->setOpacity(100);
+
+        this->m_colorNodes->addObject(line);
+        this->m_mainLayer->addChild(line);
+
+        updateButtons(this);
+
+        auto showInput = this->getActiveMode(true) == this->m_customColorChannel;
+        this->m_arrowDown->setVisible(showInput);
+        this->m_arrowUp->setVisible(showInput);
+        this->m_customColorInput->setVisible(showInput);
+        this->m_customColorInput->detachWithIME();
+        this->m_customColorInputBG->setVisible(showInput);
+
         return true;
-    
-    self->m_pTitleLabel->setVisible(false);
+    } MAT_GDMAKE_HOOK(0x53e00, init);
 
-    getChild<CCLabelBMFont*>(self->m_buttonMenu, 1)->setPosition(
-        210, 0
-    );
+    void  textChanged(
+        CustomizeObjectLayer* this_,  CCTextInputNode* input
+    ) {
+        matdash::orig<&textChanged>(this_,  input);
 
-    CCARRAY_FOREACH_B_TYPE(self->m_pColorButtons, btn, ButtonSprite)
-        btn->getParent()->removeFromParent();
-    self->m_pColorButtons->removeAllObjects();
+        auto this = as<CustomizeObjectLayer*>(as<uintptr_t>(this_) - 0x1cc);
 
-    auto bgSprite = createBGSprite();
+        if (input->getString() && strlen(input->getString()))
+            try {
+                this->m_customColorChannel = std::stoi(input->getString());
+            } catch(...) {}
+        
+        if (this->m_customColorChannel < 1)
+            this->m_customColorChannel = 1;
 
-    bgSprite->setOpacity(100);
-    bgSprite->setPosition(winSize / 2);
+        updateCustomChannelSprite(this);
+    } MAT_GDMAKE_HOOK(0x574d0, textChanged);
 
-    self->m_pColorNodes->addObject(bgSprite);
-    self->m_mainLayer->addChild(bgSprite);
+    void  onUpdateCustomColor(
+        
+        
+        CCObject* pSender
+    ) {
+        CustomizeObjectLayer::onUpdateCustomColor(  pSender);
 
-    int i = 0;
-    for (auto channel : std::initializer_list<int> {
-        0, 1000, 1001, 1009,
-        1005, 1003, 1004, 1002,
-        1006, 1007, 1010, 1011,
-    }) {
-        auto channelSprite = getChannelSprite(channel);
+        updateButtons(this);
+    } MAT_GDMAKE_HOOK(0x57350, onUpdateCustomColor);
 
-        auto btn = CCMenuItemSpriteExtra::create(
-            channelSprite, self, (SEL_MenuHandler)&CustomizeObjectLayer::onSelectColor
-        );
+    void  colorSelectClosed(
+          CCNode* node
+    ) {
+        updateButtons(as<CustomizeObjectLayer*>(as<uintptr_t>(this) - 0x1d4));
 
-        self->m_pColorButtons->addObject(channelSprite);
-        self->m_pColorNodes->addObject(btn);
-        self->m_buttonMenu->addChild(btn);
+        CustomizeObjectLayer::colorSelectClosed(  node);
+    } MAT_GDMAKE_HOOK(0x564a0, colorSelectClosed);
 
-        auto width = 100.0f;
-        auto yoff = 35.0f;
-        constexpr const int row_c = 4;
+    void  highlightSelected(
+        
+        
+        ButtonSprite* bspr
+    ) {
+        if (BetterEdit::getDisableNewColorSelection())
+            return CustomizeObjectLayer::highlightSelected(  bspr);
 
-        btn->setPosition(
-            static_cast<int>(floor(i / row_c)) * yoff - 150.0f,
-            (1.0f - ((i % row_c) / 3.0f)) * width + 45.0f
-        );
-        btn->setTag(channel);
+        if (this->m_customColorChannel < colorCountOnPage)
+            this->m_customColorChannel = colorCountOnPage;
 
-        i++;
-    }
+        updateButtons(this);
+    } MAT_GDMAKE_HOOK(0x579d0, highlightSelected);
+};
 
-    for (int i = 0; i < colorCountOnPage; i++) {
-        auto channel = i + 1;
-        if (i == colorCountOnPage - 1)
-            channel = 1008;
-
-        auto channelSprite = getChannelSprite(channel);
-
-        auto btn = CCMenuItemSpriteExtra::create(
-            channelSprite, self, (SEL_MenuHandler)&CustomizeObjectLayer::onSelectColor
-        );
-
-        self->m_pColorButtons->addObject(channelSprite);
-        self->m_pColorNodes->addObject(btn);
-        self->m_buttonMenu->addChild(btn);
-
-        auto width = 180.0f;
-        auto yoff = 33.5f;
-        constexpr const int row_c = 6;
-
-        btn->setPosition(
-            ((i % row_c) / static_cast<float>(row_c - 1.0f)) * width - 30.0f,
-            static_cast<int>(floor(i / row_c)) * -yoff + 145.0f
-        );
-        btn->setTag(channel);
-    }
-
-    // for (int i = 0; i < 5; i++) {
-    //     auto label = CCLabelBMFont::create(std::to_string(i + 1).c_str(), "bigFont.fnt");
-
-    //     label->setScale(.6f);
-
-    //     auto btn = CCMenuItemSpriteExtra::create(
-    //         label, self, nullptr
-    //     );
-
-    //     auto width = 150.0f;
-    //     btn->setPosition(
-    //         (i / 4.0f) * width + 250.0f,
-    //         225.0f
-    //     );
-
-    //     self->m_pColorNodes->addObject(btn);
-    //     self->addChild(btn);
-    // }
-
-    auto line = CCSprite::createWithSpriteFrameName("edit_vLine_001.png");
-
-    line->setPosition({ winSize.width / 2 - 55.0f, winSize.height / 2 });
-    line->setScaleY(1.65f);
-    line->setOpacity(100);
-
-    self->m_pColorNodes->addObject(line);
-    self->m_mainLayer->addChild(line);
-
-    updateButtons(self);
-
-    auto showInput = self->getActiveMode(true) == self->m_nCustomColorChannel;
-    self->m_pArrowDown->setVisible(showInput);
-    self->m_pArrowUp->setVisible(showInput);
-    self->m_pCustomColorInput->setVisible(showInput);
-    self->m_pCustomColorInput->detachWithIME();
-    self->m_pCustomColorInputBG->setVisible(showInput);
-
-    return true;
-} MAT_GDMAKE_HOOK(0x53e00, CustomizeObjectLayer_init);
-
-void  CustomizeObjectLayer_textChanged(
-    CustomizeObjectLayer* self_,  CCTextInputNode* input
-) {
-    matdash::orig<&CustomizeObjectLayer_textChanged>(self_,  input);
-
-    auto self = as<CustomizeObjectLayer*>(as<uintptr_t>(self_) - 0x1cc);
-
-    if (input->getString() && strlen(input->getString()))
-        try {
-            self->m_nCustomColorChannel = std::stoi(input->getString());
-        } catch(...) {}
-    
-    if (self->m_nCustomColorChannel < 1)
-        self->m_nCustomColorChannel = 1;
-
-    updateCustomChannelSprite(self);
-} MAT_GDMAKE_HOOK(0x574d0, CustomizeObjectLayer_textChanged);
-
-void  CustomizeObjectLayer_onUpdateCustomColor(
-    CustomizeObjectLayer* self,
-    
-    CCObject* pSender
-) {
-    matdash::orig<&CustomizeObjectLayer_onUpdateCustomColor>(self,  pSender);
-
-    updateButtons(self);
-} MAT_GDMAKE_HOOK(0x57350, CustomizeObjectLayer_onUpdateCustomColor);
-
-void  CustomizeObjectLayer_colorSelectClosed(
-    CustomizeObjectLayer* self,  CCNode* node
-) {
-    updateButtons(as<CustomizeObjectLayer*>(as<uintptr_t>(self) - 0x1d4));
-
-    matdash::orig<&CustomizeObjectLayer_colorSelectClosed>(self,  node);
-} MAT_GDMAKE_HOOK(0x564a0, CustomizeObjectLayer_colorSelectClosed);
-
-void  CustomizeObjectLayer_highlightSelected(
-    CustomizeObjectLayer* self,
-    
-    ButtonSprite* bspr
-) {
-    if (BetterEdit::getDisableNewColorSelection())
-        return matdash::orig<&CustomizeObjectLayer_highlightSelected>(self,  bspr);
-
-    if (self->m_nCustomColorChannel < colorCountOnPage)
-        self->m_nCustomColorChannel = colorCountOnPage;
-
-    updateButtons(self);
-} MAT_GDMAKE_HOOK(0x579d0, CustomizeObjectLayer_highlightSelected);

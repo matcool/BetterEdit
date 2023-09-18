@@ -5,15 +5,17 @@
 
 using namespace gdmake;
 
-bool  EditLevelLayer_init(EditLevelLayer* self,  GJGameLevel* level) {
-    if (!matdash::orig<&EditLevelLayer_init>(self,  level))
+class $modify(EditLevelLayer) {
+
+bool  init(GJGameLevel* level) {
+    if (!EditLevelLayer::init(  level))
         return false;
 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
     
     auto garageRope = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("garageRope_001.png"),
-        self,
+        this,
         (SEL_MenuHandler)&LevelInfoLayer::onGarage
     );
     garageRope->setSizeMult(1.2f);
@@ -22,11 +24,13 @@ bool  EditLevelLayer_init(EditLevelLayer* self,  GJGameLevel* level) {
     garageRope->setOffset({ .2f, .2f });
     garageRope->setDestination({ 0.0f, -8.0f });
 
-    self->m_buttonMenu->addChild(garageRope);
+    this->m_buttonMenu->addChild(garageRope);
 
-    setupCreatePresetButton(self, level);
-    // loadStartPosButton(self, level);
-    setupBackupButton(self, level);
+    setupCreatePresetButton(this, level);
+    // loadStartPosButton(this, level);
+    setupBackupButton(this, level);
 
     return true;
 } MAT_GDMAKE_HOOK(0x6f5d0, EditLevelLayer_init);
+
+};

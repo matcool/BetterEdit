@@ -110,7 +110,7 @@ BetterEdit* g_betterEdit;
 
 
 bool BetterEdit::init() {
-    this->m_sFileName = "BetterEdit.dat";
+    this->m_fileName = "BetterEdit.dat";
 
     if (!LayerManager::initGlobal())
         return false;

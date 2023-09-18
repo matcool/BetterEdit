@@ -3,7 +3,7 @@
 LevelBackupManager* g_manager;
 
 bool LevelBackupManager::init() {
-    this->m_sFileName = "BEBackupManager.dat";
+    this->m_fileName = "BEBackupManager.dat";
 
     this->m_pLevels = CCDictionary::create();
     this->m_pLevels->retain();

@@ -328,8 +328,8 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                 if (obj->getDetailColor())
                     if (!(color2.in(obj->getDetailColor()->colorID))) return false;
                 
-                if (detail == Low && obj->m_bHighDetail) return false;
-                if (detail == High && !obj->m_bHighDetail) return false;
+                if (detail == Low && obj->m_highDetail) return false;
+                if (detail == High && !obj->m_highDetail) return false;
 
                 if (layers.hasSet() && !layers.isSet(fromZLayer(obj->m_nZLayer, obj->m_nDefaultZLayer))) return false;
 

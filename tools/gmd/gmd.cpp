@@ -41,7 +41,7 @@ std::string gmd::convert_vs(byte_array const& data) {
 
 GmdFile::GmdFile(GJGameLevel* lvl) {
     this->m_pLevel = lvl;
-    this->m_sFileName = lvl->m_sLevelName;
+    this->m_fileName = lvl->m_sLevelName;
 }
 
 GmdFile::GmdFile(std::string const& pathStr) {
@@ -51,7 +51,7 @@ GmdFile::GmdFile(std::string const& pathStr) {
     } else {
         this->m_sPath = path.parent_path();
     }
-    this->m_sFileName = path.stem().string();
+    this->m_fileName = path.stem().string();
     this->m_sFullPath = pathStr;
 
     switch (hash(path.extension().string().c_str())) {
@@ -62,7 +62,7 @@ GmdFile::GmdFile(std::string const& pathStr) {
 }
 
 void GmdFile::setFileName(std::string const& name) {
-    this->m_sFileName = name;
+    this->m_fileName = name;
 }
 
 void GmdFile::setExportFlags(int flags) {
@@ -290,7 +290,7 @@ Result<> GmdFile::saveFile() {
     auto str = this->createString();
 
     fs::path path = this->m_sPath;
-    path /= this->m_sFileName;
+    path /= this->m_fileName;
     path.replace_extension(GmdTypeToString(this->m_eFormat));
     this->m_sFullPath = path.string();
 

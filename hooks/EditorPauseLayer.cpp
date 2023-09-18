@@ -19,7 +19,7 @@ void enableRotations(bool b) { g_bRotateSaws = b; }
 void setupRotateSaws() { BetterEdit::saveGlobalBool("rotate-saws", &g_bRotateSaws); }
 
 CCMenuItemSpriteExtra* createNewPlayBtn(
-    EditorPauseLayer* self, const char* sprName, SEL_MenuHandler cb, float scale = 1.f
+     const char* sprName, SEL_MenuHandler cb, float scale = 1.f
 ) {
     auto spr = CCScale9Sprite::create(
         "GJ_button_01.png", { 0, 0, 40, 40 }
@@ -35,15 +35,15 @@ CCMenuItemSpriteExtra* createNewPlayBtn(
     return btn;
 }
 
-void EditorPauseLayer_CB::onBESettings(cocos2d::CCObject* pSender) {
+void CB::onBESettings(cocos2d::CCObject* pSender) {
     BESettingsLayer::create(this)->show();
 }
 
-void EditorPauseLayer_CB::onShowKeybinds(CCObject* pSender) {
+void CB::onShowKeybinds(CCObject* pSender) {
     g_bShowKeybinds = !as<CCMenuItemToggler*>(pSender)->isToggled();
 }
 
-void EditorPauseLayer_CB::onRotateSaws(CCObject* pSender) {
+void CB::onRotateSaws(CCObject* pSender) {
     g_bRotateSaws = !as<CCMenuItemToggler*>(pSender)->isToggled();
 
     if (g_bRotateSaws)
@@ -55,21 +55,23 @@ void EditorPauseLayer_CB::onRotateSaws(CCObject* pSender) {
 int countLDMObjects(LevelEditorLayer* lel) {
     int count = 0;
     CCARRAY_FOREACH_B_TYPE(lel->getAllObjects(), obj, GameObject) {
-        if (obj->m_bHighDetail)
+        if (obj->m_highDetail)
             count++;
     }
     return count;
 }
 
-void  EditorPauseLayer_keyDown(EditorPauseLayer* self,  enumKeyCodes key) {
+class $modify(EditorPauseLayer) {
+
+void  keyDown(  enumKeyCodes key) {
     if (key == KEY_Escape)
         as<EditorPauseLayer*>(as<uintptr_t>(self) - 0xf8)->onResume(nullptr);
     else
-        matdash::orig<&EditorPauseLayer_keyDown>(self,  key);
-} MAT_GDMAKE_HOOK(0x758d0, EditorPauseLayer_keyDown);
+        EditorPauseLayer::keyDown(  key);
+} MAT_GDMAKE_HOOK(0x758d0, keyDown);
 
-void  EditorPauseLayer_onResume(EditorPauseLayer* self,  CCObject* pSender) {
-    matdash::orig<&EditorPauseLayer_onResume>(self,  pSender);
+void  onResume(  CCObject* pSender) {
+    EditorPauseLayer::onResume(  pSender);
 
     for (auto const& addr : std::initializer_list<int> {
         0x73169,
@@ -102,7 +104,7 @@ void  EditorPauseLayer_onResume(EditorPauseLayer* self,  CCObject* pSender) {
         unpatch(0x921a6);
     }
 
-    auto ui = LevelEditorLayer::get()->getEditorUI();
+    auto ui = EditorUI::get();
 
     updateVisibilityTab(ui);
 
@@ -113,33 +115,33 @@ void  EditorPauseLayer_onResume(EditorPauseLayer* self,  CCObject* pSender) {
 
     updatePercentLabelPosition(ui);
     // showPositionLabel(LevelEditorLayer::get()->getEditorUI(), true);
-} MAT_GDMAKE_HOOK(0x74fe0, EditorPauseLayer_onResume);
+} MAT_GDMAKE_HOOK(0x74fe0, onResume);
 
-void  EditorPauseLayer_onExitEditor(
-    EditorPauseLayer* self,
+void  onExitEditor(
+    
     
     CCObject* pSender
 ) {
-    stopRotations(self->m_editorLayer);
-    // resetAutoSaveTimer(self->m_editorLayer->m_pEditorUI);
+    stopRotations(this->m_editorLayer);
+    // resetAutoSaveTimer(this->m_editorLayer->m_pEditorUI);
 
-    matdash::orig<&EditorPauseLayer_onExitEditor>(self,  pSender);
+    EditorPauseLayer::onExitEditor(  pSender);
 
-    self->removeFromParentAndCleanup(true);
-} MAT_GDMAKE_HOOK(0x75660, EditorPauseLayer_onExitEditor);
+    this->removeFromParentAndCleanup(true);
+} MAT_GDMAKE_HOOK(0x75660, onExitEditor);
 
-bool  EditorPauseLayer_init(
-    EditorPauseLayer* self,
+bool  init(
+    
     
     LevelEditorLayer* el
 ) {
-    if (!matdash::orig<&EditorPauseLayer_init>(self,  el))
+    if (!EditorPauseLayer::init(  el))
         return false;
 
-    auto menu = as<CCMenu*>(self->m_pButton0->getParent());
+    auto menu = as<CCMenu*>(this->m_guidelinesOffButton->getParent());
     auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
 
-    auto mainMenu = as<CCMenu*>(self->getChildren()->objectAtIndex(0));
+    auto mainMenu = as<CCMenu*>(this->getChildren()->objectAtIndex(0));
 
     if (BetterEdit::isEditorViewOnlyMode()) {
         CCARRAY_FOREACH_B_BASE(mainMenu->getChildren(), btn, CCMenuItemSpriteExtra*, ix) {
@@ -162,7 +164,7 @@ bool  EditorPauseLayer_init(
             .color(ccc3(255, 0, 0))
             .done(),
         self,
-        (SEL_MenuHandler)&EditorPauseLayer_CB::onBESettings
+        (SEL_MenuHandler)&CB::onBESettings
     );
     btn->setPosition(winSize.width / 2 - 70, gdSettingsBtn->getPositionY());
     menu->addChild(btn);
@@ -174,8 +176,8 @@ bool  EditorPauseLayer_init(
     loadPasteButton(self);
 
     GameToolbox::createToggleButton(
-        (SEL_MenuHandler)&EditorPauseLayer_CB::onRotateSaws,
-        g_bRotateSaws, as<CCMenu*>(self->m_pButton0->getParent()),
+        (SEL_MenuHandler)&CB::onRotateSaws,
+        g_bRotateSaws, as<CCMenu*>(this->m_guidelinesOffButton->getParent()),
         self, self, .55f, .42f, 85.0f, "", false, 0, nullptr,
         "Preview Saws",
         {
@@ -186,8 +188,8 @@ bool  EditorPauseLayer_init(
     );
 
     GameToolbox::createToggleButton(
-        (SEL_MenuHandler)&EditorPauseLayer_CB::onShowKeybinds,
-        g_bShowKeybinds, as<CCMenu*>(self->m_pButton0->getParent()),
+        (SEL_MenuHandler)&CB::onShowKeybinds,
+        g_bShowKeybinds, as<CCMenu*>(this->m_guidelinesOffButton->getParent()),
         self, self, .55f, .42f, 85.0f, "", false, 0, nullptr,
         "Show Keybinds",
         {
@@ -201,9 +203,9 @@ bool  EditorPauseLayer_init(
 
     if (objCountLabel) {
         std::string str = objCountLabel->getString();
-        int c = countLDMObjects(self->m_editorLayer);
+        int c = countLDMObjects(this->m_editorLayer);
         float p = static_cast<float>(c) /
-            self->m_editorLayer->getAllObjects()->count() *
+            this->m_editorLayer->getAllObjects()->count() *
             100.f;
         p = roundf(p);
         str += " | " + std::to_string(c) + " LDM (" +
@@ -214,4 +216,6 @@ bool  EditorPauseLayer_init(
     // getAutoSaveTimer(LevelEditorLayer::get()->getEditorUI())->pause();
 
     return true;
-} MAT_GDMAKE_HOOK(0x730e0, EditorPauseLayer_init);
+} MAT_GDMAKE_HOOK(0x730e0, init);
+
+};

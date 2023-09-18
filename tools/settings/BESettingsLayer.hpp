@@ -6,17 +6,17 @@
 #include "../../BetterEdit.hpp"
 #include <array>
 
-class MoreOptionsLayer : public FLAlertLayer,
-    TextInputDelegate,
-    GooglePlayDelegate
-{
-    protected:
-        bool init() {
-            return reinterpret_cast<bool(__fastcall*)(MoreOptionsLayer*)>(
-                base + 0x1de8f0
-            )(this);
-        };
-};
+// class MoreOptionsLayer : public FLAlertLayer,
+//     TextInputDelegate,
+//     GooglePlayDelegate
+// {
+//     protected:
+//         bool init() {
+//             return reinterpret_cast<bool(__fastcall*)(MoreOptionsLayer*)>(
+//                 base + 0x1de8f0
+//             )(this);
+//         };
+// };
 
 bool shouldGetFoolAchievement();
 void showedFoolAchievement();

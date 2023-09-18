@@ -173,7 +173,7 @@ void  EditorPauseLayer_saveLevel(EditorPauseLayer* self) {
         beginRotations(self->m_editorLayer);
 
     LevelBackupManager::get()->handleAutoBackupForLevel(
-        self->m_editorLayer->m_pLevelSettings->m_pLevel
+        self->m_editorLayer->m_levelSettings->m_pLevel
     );
 } MAT_GDMAKE_HOOK(0x75010, EditorPauseLayer_saveLevel);
 

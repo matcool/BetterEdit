@@ -91,7 +91,7 @@ namespace gmd {
             GJGameLevel* m_pLevel = nullptr;
             std::filesystem::path m_sPath;
             std::string m_sFullPath;
-            std::string m_sFileName;
+            std::string m_fileName;
             int m_nFlags = kfExportFlag_None;
             GmdType m_eFormat = kGmdTypeGmd;
             std::string m_sSongPath;

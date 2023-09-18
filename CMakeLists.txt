@@ -89,10 +89,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# add_subdirectory(nodes)
+add_subdirectory(nodes)
 
-
-# target_link_libraries(${PROJECT_NAME} nodes)
-
+target_link_libraries(${PROJECT_NAME} nodes)
 
 setup_geode_mod(${PROJECT_NAME})

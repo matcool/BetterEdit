@@ -82,12 +82,12 @@ class SetGroupIDLayer_CB : public SetGroupIDLayer {
 };
 
 void figureOutMixed(SetGroupIDLayer* self) {
-    g_bZOrderMixed =        self->m_nZOrderValue == -1000;
-    g_bEditorLayerMixed =   self->m_nEditorLayerValue == -1;
+    g_bZOrderMixed =        self->m_zOrderValue == -1000;
+    g_bEditorLayerMixed =   self->m_editorLayerValue == -1;
     g_bEditorLayer2Mixed =  self->m_nEditorLayer2Value == -1;
 
-    if (g_bZOrderMixed)         self->m_nZOrderValue = 0;
-    if (g_bEditorLayerMixed)    self->m_nEditorLayerValue = 0;
+    if (g_bZOrderMixed)         self->m_zOrderValue = 0;
+    if (g_bEditorLayerMixed)    self->m_editorLayerValue = 0;
     if (g_bEditorLayer2Mixed)   self->m_nEditorLayer2Value = 0;
 
     g_mStartValues.clear();
@@ -137,16 +137,16 @@ void updateInput(bool many, bool mixed, CCLabelBMFont* label, int val) {
 }
 
 void  SetGroupIDLayer_onEditorLayer(SetGroupIDLayer* self,  CCObject* pSender) {
-    self->m_nEditorLayerValue += pSender->getTag() ? 1 : -1;
+    self->m_editorLayerValue += pSender->getTag() ? 1 : -1;
     
     if (!g_bEditorLayerMixed)
-        clampELayer(self->m_nEditorLayerValue);
+        clampELayer(self->m_editorLayerValue);
     
     updateInput(
         self->m_pObj,
         g_bEditorLayerMixed,
         self->m_editorLayerText,
-        self->m_nEditorLayerValue
+        self->m_editorLayerValue
     );
 
     CATCH_NULL(as<CCTextInputNode*>(self->getChildByTag(69)))->setString(
@@ -156,15 +156,15 @@ void  SetGroupIDLayer_onEditorLayer(SetGroupIDLayer* self,  CCObject* pSender) {
 
 void  SetGroupIDLayer_updateEditorLayerID(SetGroupIDLayer* self) {
     if (self->m_pObj) {
-        self->m_pObj->m_nEditorLayer = self->m_nEditorLayerValue;
+        self->m_pObj->m_nEditorLayer = self->m_editorLayerValue;
         clampELayer(self->m_pObj->m_nEditorLayer);
     }
     CCARRAY_FOREACH_B_TYPE(self->m_pObjs, obj, GameObject) {
         if (g_bEditorLayerMixed) {
             obj->m_nEditorLayer = g_mStartValues[obj].originalELayer +
-                self->m_nEditorLayerValue;
+                self->m_editorLayerValue;
         } else {
-            obj->m_nEditorLayer = self->m_nEditorLayerValue;
+            obj->m_nEditorLayer = self->m_editorLayerValue;
         }
         clampELayer(obj->m_nEditorLayer);
     }
@@ -206,16 +206,16 @@ void  SetGroupIDLayer_updateEditorLayerID2(SetGroupIDLayer* self) {
 
 void  SetGroupIDLayer_onZOrder(SetGroupIDLayer* self,  CCObject* pSender) {
     auto add = pSender->getTag() ? 1 : -1;
-    self->m_nZOrderValue += add;
+    self->m_zOrderValue += add;
     
-    // if (self->m_nZOrderValue == 0)
-    //     self->m_nZOrderValue = add;
+    // if (self->m_zOrderValue == 0)
+    //     self->m_zOrderValue = add;
     
     updateInput(
         self->m_pObj,
         g_bZOrderMixed,
         self->m_pZOrderText,
-        self->m_nZOrderValue
+        self->m_zOrderValue
     );
 
     CATCH_NULL(as<CCTextInputNode*>(self->getChildByTag(71)))->setString(
@@ -225,16 +225,16 @@ void  SetGroupIDLayer_onZOrder(SetGroupIDLayer* self,  CCObject* pSender) {
 
 void  SetGroupIDLayer_updateZOrder(SetGroupIDLayer* self) {
     if (self->m_pObj) {
-        self->m_pObj->m_nGameZOrder = self->m_nZOrderValue;
+        self->m_pObj->m_nGameZOrder = self->m_zOrderValue;
         self->m_pObj->m_bUnknownLayerRelated = true;
         clampZOrder(self->m_pObj->m_nGameZOrder);
     }
 
     CCARRAY_FOREACH_B_TYPE(self->m_pObjs, obj, GameObject) {
         if (g_bZOrderMixed) {
-            obj->m_nGameZOrder = g_mStartValues[obj].originalZOrder + self->m_nZOrderValue;
+            obj->m_nGameZOrder = g_mStartValues[obj].originalZOrder + self->m_zOrderValue;
         } else {
-            obj->m_nGameZOrder = self->m_nZOrderValue;
+            obj->m_nGameZOrder = self->m_zOrderValue;
         }
         clampZOrder(obj->m_nGameZOrder);
         obj->m_bUnknownLayerRelated = true;
@@ -265,7 +265,7 @@ void  SetGroupIDLayer_textChanged(SetGroupIDLayer* self,  CCTextInputNode* input
         case 5:
             if (!isInt) return;
             if (!mixed) g_bEditorLayerMixed = false;
-            self->m_nEditorLayerValue = val;
+            self->m_editorLayerValue = val;
             self->updateEditorLayerID();
             break;
 
@@ -279,7 +279,7 @@ void  SetGroupIDLayer_textChanged(SetGroupIDLayer* self,  CCTextInputNode* input
         case 7:
             if (!isInt) return;
             if (!mixed) g_bZOrderMixed = false;
-            self->m_nZOrderValue = val;
+            self->m_zOrderValue = val;
             self->updateZOrder();
             break;
         

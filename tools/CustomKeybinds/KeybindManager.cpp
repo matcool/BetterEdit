@@ -249,7 +249,7 @@ bool KeybindManager::init() {
     if (!CCNode::init())
         return false;
     
-    this->m_sFileName = "BEKeybindManager.dat";
+    this->m_fileName = "BEKeybindManager.dat";
 
     this->setup();
     this->loadDefaultKeybinds();

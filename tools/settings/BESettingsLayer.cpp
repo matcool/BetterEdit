@@ -39,7 +39,7 @@ void BESettingsLayer::setup() {
     this->m_bNoElasticity = true;
 
     as<CCMenu*>(m_pPauseLayer->getChildren()->objectAtIndex(0))->setEnabled(false);
-    as<CCMenu*>(m_pPauseLayer->m_pButton0->getParent())->setEnabled(false);
+    as<CCMenu*>(m_pPauseLayer->m_guidelinesOffButton->getParent())->setEnabled(false);
 
     this->m_pPrevPageBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
@@ -585,7 +585,7 @@ void BESettingsLayer::onClose(CCObject* pSender) {
     GameManager::sharedState()->getEditorLayer()->getEditorUI()->updateGridNodeSize();
 
     as<CCMenu*>(m_pPauseLayer->getChildren()->objectAtIndex(0))->setEnabled(true);
-    as<CCMenu*>(m_pPauseLayer->m_pButton0->getParent())->setEnabled(true);
+    as<CCMenu*>(m_pPauseLayer->m_guidelinesOffButton->getParent())->setEnabled(true);
 
     BrownAlertDelegate::onClose(pSender);
 }
