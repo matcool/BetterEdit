@@ -34,16 +34,16 @@ bool BackupViewLayer::init(GJGameLevel* level) {
 	this->addChild(bottomLeft);
 	this->addChild(topRight);
 
-    this->m_pButtonMenu = CCMenu::create();
-    this->addChild(this->m_pButtonMenu);
+    this->m_buttonMenu = CCMenu::create();
+    this->addChild(this->m_buttonMenu);
 
-    auto backBtn = gd::CCMenuItemSpriteExtra::create(
+    auto backBtn = CCMenuItemSpriteExtra::create(
 		CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
 		this,
 		menu_selector(BackupViewLayer::onExit)
 	);
 	backBtn->setPosition(-winSize.width / 2 + 25.0f, winSize.height / 2 - 25.0f);
-	this->m_pButtonMenu->addChild(backBtn);
+	this->m_buttonMenu->addChild(backBtn);
 
     auto addBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_plusBtn_001.png"),
@@ -51,7 +51,7 @@ bool BackupViewLayer::init(GJGameLevel* level) {
         menu_selector(BackupViewLayer::onNew)
     );
     addBtn->setPosition(winSize.width / 2 - 40.0f, - winSize.height / 2 + 40.0f);
-    this->m_pButtonMenu->addChild(addBtn);
+    this->m_buttonMenu->addChild(addBtn);
 
     auto timeBtn = CCMenuItemSpriteExtra::create(
         createBESprite("BE_timeBtn_001.png"),
@@ -59,7 +59,7 @@ bool BackupViewLayer::init(GJGameLevel* level) {
         menu_selector(BackupViewLayer::onSchedule)
     );
     timeBtn->setPosition(winSize.width / 2 - 40.0f, - winSize.height / 2 + 95.0f);
-    this->m_pButtonMenu->addChild(timeBtn);
+    this->m_buttonMenu->addChild(timeBtn);
 
     m_sTitle = "Backups for " + this->m_pLevel->m_sLevelName;
 
@@ -84,7 +84,7 @@ bool BackupViewLayer::init(GJGameLevel* level) {
         1.0f,
         - winSize.width / 2 + 30.f,
         - winSize.height / 2 + 30.f,
-        this->m_pButtonMenu
+        this->m_buttonMenu
     );
 
     this->reloadList();

@@ -3,14 +3,14 @@
 
 using namespace gdmake;
 
-void  EditorUI_onPasteState(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+void  EditorUI_onPasteState(EditorUI* self,  cocos2d::CCObject* pSender) {
     if (BetterEdit::sharedState()->getPasteStateEnabled())
         PasteLayer::create()->show();
     else
         matdash::orig<&EditorUI_onPasteState>(self,  pSender);
 } MAT_GDMAKE_HOOK(0x884c0, EditorUI_onPasteState);
 
-void  GameObject_duplicateAttributes(gd::GameObject* dest,  gd::GameObject *src) {
+void  GameObject_duplicateAttributes(GameObject* dest,  GameObject *src) {
     if (!PasteLayer::wantsToPasteState())
         return matdash::orig<&GameObject_duplicateAttributes>(dest,  src);
 
@@ -49,7 +49,7 @@ void  GameObject_duplicateAttributes(gd::GameObject* dest,  gd::GameObject *src)
     LevelEditorLayer::get()->getEditorUI()->updateObjectInfoLabel();
 } MAT_GDMAKE_HOOK(0xef6b0, GameObject_duplicateAttributes);
 
-void  LevelEditorLayer_copyObjectState(gd::LevelEditorLayer* self,  gd::GameObject* obj) {
+void  LevelEditorLayer_copyObjectState(LevelEditorLayer* self,  GameObject* obj) {
     matdash::orig<&LevelEditorLayer_copyObjectState>(self,  obj);
 
     if (obj != nullptr) {

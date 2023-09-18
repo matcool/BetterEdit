@@ -26,7 +26,7 @@ void GroupCell::onShowRestOfTheTriggers(CCObject* pSender) {
 }
 
 void GroupCell::loadFromGroup(int group) {
-    this->m_pLayer->setVisible(true);
+    this->m_mainLayer->setVisible(true);
     this->m_pBGLayer->setOpacity(255);
 
     this->m_nGroup = group;
@@ -35,7 +35,7 @@ void GroupCell::loadFromGroup(int group) {
 
     auto menu = CCMenu::create();
     menu->setPosition(0, 0);
-    this->m_pLayer->addChild(menu);
+    this->m_mainLayer->addChild(menu);
 
     auto num = CCLabelBMFont::create(std::to_string(group).c_str(), "goldFont.fnt");
     num->setPosition(
@@ -44,7 +44,7 @@ void GroupCell::loadFromGroup(int group) {
     );
     num->setScale(.5f);
     num->setAnchorPoint({ .0f, .5f });
-    this->m_pLayer->addChild(num);
+    this->m_mainLayer->addChild(num);
 
     auto info = this->m_pPopup->getGroup(group);
 
@@ -62,7 +62,7 @@ void GroupCell::loadFromGroup(int group) {
     );
     count->setScale(.375f);
     count->setAnchorPoint({ .0f, .5f });
-    this->m_pLayer->addChild(count);
+    this->m_mainLayer->addChild(count);
 
     auto posx = 155.f;
     int showCount = 3;

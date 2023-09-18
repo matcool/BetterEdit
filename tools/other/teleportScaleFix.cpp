@@ -2,8 +2,8 @@
 
 // i have no idea where to place this function
 void __fastcall TeleportPortalobject_setRScale(TeleportPortalObject* self, void*, float scale) {
-    // stupid c++ wont let me call gd::GameObject::setRScale directly
-    reinterpret_cast<void(__thiscall*)(GameObject*, float)>(gd::base + 0xe5280)(self, scale);
+    // stupid c++ wont let me call GameObject::setRScale directly
+    reinterpret_cast<void(__thiscall*)(GameObject*, float)>(base + 0xe5280)(self, scale);
     
     if (self->m_pOrangePortal) {
         self->m_pOrangePortal->m_fScale = self->m_fScale;

@@ -10,7 +10,7 @@ void BackupCell::loadFromBackup(LevelBackup* backup) {
     m_pTitle->setPosition(20.0f, 40.0f);
     m_pTitle->setScale(.65f);
 
-    this->m_pLayer->addChild(m_pTitle);
+    this->m_mainLayer->addChild(m_pTitle);
 
     this->updateTitle(this->m_pBackup->name.c_str());
 
@@ -27,7 +27,7 @@ void BackupCell::loadFromBackup(LevelBackup* backup) {
     label->setPosition(20.0f, 15.0f);
     label->setScale(.5f);
 
-    this->m_pLayer->addChild(label);
+    this->m_mainLayer->addChild(label);
 
     
     auto menu = CCMenu::create();
@@ -47,10 +47,10 @@ void BackupCell::loadFromBackup(LevelBackup* backup) {
 
     menu->setPosition(this->m_fWidth / 2, this->m_fHeight / 2);
 
-    this->m_pLayer->addChild(menu);
+    this->m_mainLayer->addChild(menu);
 
 
-    this->m_pLayer->setVisible(true);
+    this->m_mainLayer->setVisible(true);
     this->m_pBGLayer->setOpacity(255);
 }
 

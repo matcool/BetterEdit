@@ -72,14 +72,14 @@ void LayerEditPopup::setup() {
 
     this->m_bNoElasticity = true;
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Name:", "bigFont.fnt")
             .move(0, 52.0f)
             .scale(.5f)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(120.0f, "Name", inputf_Default, 20))
             .moveR(winSize, 0.0f, 25.0f)
@@ -90,21 +90,21 @@ void LayerEditPopup::setup() {
             })
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Opacity:", "bigFont.fnt")
             .move(-15.0f, -10.0f)
             .scale(.5f)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<Slider*>()
             .fromNode(Slider::create(this, (SEL_MenuHandler)&LayerEditPopup::sliderChanged, .7f))
             .move(0, -30.0f)
             .save(&this->m_pOpacitySlider)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(60.0f, "", "bigFont.fnt", inputf_Numeral, 3))
             .moveR(winSize, 40.0f, -10.0f)
@@ -116,7 +116,7 @@ void LayerEditPopup::setup() {
             })
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
@@ -130,7 +130,7 @@ void LayerEditPopup::setup() {
             .save(&this->m_pResetOpacityBtn)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
@@ -147,7 +147,7 @@ void LayerEditPopup::setup() {
             .save(&this->m_pLockBtn)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
@@ -164,7 +164,7 @@ void LayerEditPopup::setup() {
             .save(&this->m_pShowBtn)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()

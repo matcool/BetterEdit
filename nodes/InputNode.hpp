@@ -6,7 +6,7 @@
 class InputNode : public cocos2d::CCNode {
     protected:
         cocos2d::extension::CCScale9Sprite* m_pBG;
-        gd::CCTextInputNode* m_pInput;
+        CCTextInputNode* m_pInput;
 
         bool init(float, float, const char*, const char*, const std::string &, int);
         bool init(float, const char*, const char*, const std::string &, int);
@@ -47,7 +47,7 @@ class InputNode : public cocos2d::CCNode {
         static InputNode* createMulti(float, float, const char*, const char*, const std::string &, int);
         static InputNode* createMulti(float, float, const char*, const char*, int);
 
-        gd::CCTextInputNode* getInputNode();
+        CCTextInputNode* getInputNode();
         cocos2d::extension::CCScale9Sprite* getBG();
 
         void setEnabled(bool);

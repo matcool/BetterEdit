@@ -8,18 +8,19 @@ static constexpr const int NEXTFREELAYER_TAG = 7001;
 static constexpr const int LOCKLAYER_TAG = 7002;
 static constexpr const int VIEWLAYERS_TAG = 7003;
 
-class EUITextDelegate : public cocos2d::CCNode, public gd::TextInputDelegate {
+class EUITextDelegate : public cocos2d::CCNode, public TextInputDelegate {
     public:
-        gd::EditorUI* m_pEditorUI;
+        EditorUI* m_pEditorUI;
 
-        virtual void textChanged(gd::CCTextInputNode* input) override {
-            if (input->getString() && strlen(input->getString()))
-                this->m_pEditorUI->m_pEditorLayer->setCurrentLayer(strToInt(input->getString()));
-            else
-                this->m_pEditorUI->m_pEditorLayer->setCurrentLayer(-1);
+        virtual void textChanged(CCTextInputNode* input) override {
+            // FIXME:
+            // if (input->getString() && strlen(input->getString()))
+            //     this->m_pEditorUI->m_editorLayer->setCurrentLayer(strToInt(input->getString()));
+            // else
+            //     this->m_pEditorUI->m_editorLayer->setCurrentLayer(-1);
         }
 
-        static EUITextDelegate* create(gd::EditorUI* ui) {
+        static EUITextDelegate* create(EditorUI* ui) {
             auto ret = new EUITextDelegate();
 
             if (ret && ret->init()) {

@@ -46,7 +46,7 @@ std::string objectTypeToString(GameObjectType type) {
     }
 }
 
-void  EditorUI_updateObjectInfoLabel(gd::EditorUI* self) {
+void  EditorUI_updateObjectInfoLabel(EditorUI* self) {
     matdash::orig<&EditorUI_updateObjectInfoLabel>(self);
     
     auto winSize = CCDirector::sharedDirector()->getWinSize();
@@ -60,9 +60,9 @@ void  EditorUI_updateObjectInfoLabel(gd::EditorUI* self) {
     if (BetterEdit::getDisableExtraObjectInfo())
         return;
 
-    if (self->m_pSelectedObject) {
-        auto baseColor = self->m_pSelectedObject->getBaseColor();
-        auto detailColor = self->m_pSelectedObject->getDetailColor();
+    if (self->m_selectedObject) {
+        auto baseColor = self->m_selectedObject->getBaseColor();
+        auto detailColor = self->m_selectedObject->getDetailColor();
         
         std::stringstream ss;
         ss << self->m_pObjectInfoLabel->getString();
@@ -79,14 +79,14 @@ void  EditorUI_updateObjectInfoLabel(gd::EditorUI* self) {
                 << detailColor->saturation << (detailColor->saturationChecked ? " (a)" : "") << ","
                 << detailColor->brightness << (detailColor->brightnessChecked ? " (a)" : "") << "\n";
         
-        ss << "Rot: " << self->m_pSelectedObject->getRotation() << "\n";
-        ss << "Scale: " << self->m_pSelectedObject->getScale() << "\n";
-        ss << "Pos: " << self->m_pSelectedObject->getPositionX() << "," << self->m_pSelectedObject->getPositionY() << "\n";
-        ss << "ObjID: " << self->m_pSelectedObject->m_nObjectID << "\n";
+        ss << "Rot: " << self->m_selectedObject->getRotation() << "\n";
+        ss << "Scale: " << self->m_selectedObject->getScale() << "\n";
+        ss << "Pos: " << self->m_selectedObject->getPositionX() << "," << self->m_selectedObject->getPositionY() << "\n";
+        ss << "ObjID: " << self->m_selectedObject->m_nObjectID << "\n";
 
-        ss << "Addr: 0x" << std::hex << reinterpret_cast<uintptr_t>(self->m_pSelectedObject) << std::dec << "\n";
+        ss << "Addr: 0x" << std::hex << reinterpret_cast<uintptr_t>(self->m_selectedObject) << std::dec << "\n";
 
-        ss << "Type: " << objectTypeToString(self->m_pSelectedObject->m_nObjectType) << "\n";
+        ss << "Type: " << objectTypeToString(self->m_selectedObject->m_nObjectType) << "\n";
 
         self->m_pObjectInfoLabel->setString(ss.str().c_str());
     }

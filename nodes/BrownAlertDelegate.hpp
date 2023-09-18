@@ -3,7 +3,7 @@
 #include <GDMake.h>
 #include <GUI/CCControlExtension/CCScale9Sprite.h>
 
-class BrownAlertDelegate : public gd::FLAlertLayer {
+class BrownAlertDelegate : public FLAlertLayer {
     protected:
         // layer size is stored here
         cocos2d::CCSize m_pLrSize;

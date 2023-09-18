@@ -64,7 +64,7 @@ class SetGroupIDLayer_CB : public SetGroupIDLayer {
                     patchBytes(0x164c59, { 0xbe, 0x01, 0x00, 0x00, 0x00 });
                 }
 
-                auto btn = as<CCMenuItemSpriteExtra*>(this->m_pButtonMenu->getChildByTag(NEXTFREE_TAG));
+                auto btn = as<CCMenuItemSpriteExtra*>(this->m_buttonMenu->getChildByTag(NEXTFREE_TAG));
 
                 if (btn) {
                     auto spr = as<ButtonSprite*>(btn->getNormalImage());
@@ -145,12 +145,12 @@ void  SetGroupIDLayer_onEditorLayer(SetGroupIDLayer* self,  CCObject* pSender) {
     updateInput(
         self->m_pObj,
         g_bEditorLayerMixed,
-        self->m_pEditorLayerText,
+        self->m_editorLayerText,
         self->m_nEditorLayerValue
     );
 
     CATCH_NULL(as<CCTextInputNode*>(self->getChildByTag(69)))->setString(
-        self->m_pEditorLayerText->getString()
+        self->m_editorLayerText->getString()
     );
 } MAT_GDMAKE_HOOK(0x22d690, SetGroupIDLayer_onEditorLayer);
 
@@ -179,12 +179,12 @@ void  SetGroupIDLayer_onEditorLayer2(SetGroupIDLayer* self,  CCObject* pSender) 
     updateInput(
         self->m_pObj,
         g_bEditorLayer2Mixed,
-        self->m_pEditorLayer2Text,
+        self->m_editorLayer2Text,
         self->m_nEditorLayer2Value
     );
 
     CATCH_NULL(as<CCTextInputNode*>(self->getChildByTag(70)))->setString(
-        self->m_pEditorLayer2Text->getString()
+        self->m_editorLayer2Text->getString()
     );
 } MAT_GDMAKE_HOOK(0x22d710, SetGroupIDLayer_onEditorLayer2);
 
@@ -335,7 +335,7 @@ bool  SetGroupIDLayer_init(
 
     figureOutMixed(self);
 
-    auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(self->m_pButtonMenu, 2);
+    auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(self->m_buttonMenu, 2);
     nextFreeBtn->setPositionX(nextFreeBtn->getPositionX() - 20.0f);
 
     auto customNextFreeBtn = CCMenuItemSpriteExtra::create(
@@ -351,12 +351,12 @@ bool  SetGroupIDLayer_init(
         nextFreeBtn->getPositionX() + 58.0f,
         nextFreeBtn->getPositionY()
     );
-    self->m_pButtonMenu->addChild(customNextFreeBtn);
+    self->m_buttonMenu->addChild(customNextFreeBtn);
 
     auto inp = AddTextDelegate::create(self);
 
-    turnLabelIntoInput(self, self->m_pEditorLayerText, inp, 5, self->m_pEditorLayerText->getString());
-    turnLabelIntoInput(self, self->m_pEditorLayer2Text, inp, 6, self->m_pEditorLayer2Text->getString());
+    turnLabelIntoInput(self, self->m_editorLayerText, inp, 5, self->m_editorLayerText->getString());
+    turnLabelIntoInput(self, self->m_editorLayer2Text, inp, 6, self->m_editorLayer2Text->getString());
     turnLabelIntoInput(self, self->m_pZOrderText, inp, 7, self->m_pZOrderText->getString(), "MIXEDmixed-+0123456789");
 
     self->addChild(inp);

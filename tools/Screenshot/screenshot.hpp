@@ -47,7 +47,7 @@ class ScreenShotOverlay :
         CCLabelBMFont* m_pExtendedInfoLabel;
         CCLabelBMFont* m_pInfoLabel;
         CCLabelBMFont* m_pOptionsLabel;
-        CCLayer* m_pLayer;
+        CCLayer* m_mainLayer;
         float m_fQuality = 1.f;
 
         bool mouseDownSuper(MouseButton, CCPoint const&) override;

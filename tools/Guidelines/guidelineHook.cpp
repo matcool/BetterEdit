@@ -21,7 +21,7 @@ bool  CreateGuidelinesLayer_init(CreateGuidelinesLayer* self,  LevelSettingsObje
     // info->setScale(.3f);
     // info->setColor(cc3x(0xf00));
     // info->setPosition(120.0f, -20.0f);
-    // self->m_pButtonMenu->addChild(info);
+    // self->m_buttonMenu->addChild(info);
 
     auto bpmBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor<ButtonSprite*>()
@@ -32,7 +32,7 @@ bool  CreateGuidelinesLayer_init(CreateGuidelinesLayer* self,  LevelSettingsObje
         (SEL_MenuHandler)&CreateGuidelinesLayer_CB::onEnterBPM
     );
     bpmBtn->setPosition(120.0f, -50.0f);
-    self->m_pButtonMenu->addChild(bpmBtn);
+    self->m_buttonMenu->addChild(bpmBtn);
 
     return true;
 } MAT_GDMAKE_HOOK(0x4c190, CreateGuidelinesLayer_init);

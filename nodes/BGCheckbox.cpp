@@ -22,7 +22,7 @@ bool BGCheckbox::init(const char* _text) {
     pToggleOnSpr->setScale(.8f);
     pToggleOffSpr->setScale(.8f);
 
-    this->m_pToggler = gd::CCMenuItemToggler::create(
+    this->m_pToggler = CCMenuItemToggler::create(
         pToggleOffSpr,
         pToggleOnSpr,
         this,

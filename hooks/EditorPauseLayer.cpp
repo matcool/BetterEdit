@@ -120,8 +120,8 @@ void  EditorPauseLayer_onExitEditor(
     
     CCObject* pSender
 ) {
-    stopRotations(self->m_pEditorLayer);
-    // resetAutoSaveTimer(self->m_pEditorLayer->m_pEditorUI);
+    stopRotations(self->m_editorLayer);
+    // resetAutoSaveTimer(self->m_editorLayer->m_pEditorUI);
 
     matdash::orig<&EditorPauseLayer_onExitEditor>(self,  pSender);
 
@@ -201,9 +201,9 @@ bool  EditorPauseLayer_init(
 
     if (objCountLabel) {
         std::string str = objCountLabel->getString();
-        int c = countLDMObjects(self->m_pEditorLayer);
+        int c = countLDMObjects(self->m_editorLayer);
         float p = static_cast<float>(c) /
-            self->m_pEditorLayer->getAllObjects()->count() *
+            self->m_editorLayer->getAllObjects()->count() *
             100.f;
         p = roundf(p);
         str += " | " + std::to_string(c) + " LDM (" +

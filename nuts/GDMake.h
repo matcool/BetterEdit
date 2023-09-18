@@ -79,13 +79,14 @@ namespace gdmake {
         uintptr_t const address,
         std::vector<uint8_t> const& bytes
     ) {
-        return WriteProcessMemory(
-            GetCurrentProcess(),
-            reinterpret_cast<LPVOID>(gd::base + address),
-            bytes.data(),
-            bytes.size(),
-            nullptr
-        );
+        return false;
+        // return WriteProcessMemory(
+        //     GetCurrentProcess(),
+        //     reinterpret_cast<LPVOID>(base + address),
+        //     bytes.data(),
+        //     bytes.size(),
+        //     nullptr
+        // );
     }
     // returns overwritten bytes
     // nothing is returned on error
@@ -94,42 +95,42 @@ namespace gdmake {
         std::vector<uint8_t> const& bytes,
         bool hardOverwrite = false
     ) {
-        auto hProcess = GetCurrentProcess();
-        auto nTarget = reinterpret_cast<LPVOID>(gd::base + address);
+        // auto hProcess = GetCurrentProcess();
+        // auto nTarget = reinterpret_cast<LPVOID>(base + address);
         std::vector<uint8_t> ret(bytes.size());
-        if (!ReadProcessMemory(
-            hProcess,
-            nTarget,
-            ret.data(),
-            ret.size(),
-            nullptr
-        )) return {};
+        // if (!ReadProcessMemory(
+        //     hProcess,
+        //     nTarget,
+        //     ret.data(),
+        //     ret.size(),
+        //     nullptr
+        // )) return {};
          
-        DWORD oldprotect;
-        if (hardOverwrite)
-            VirtualProtectEx(
-                hProcess,
-                nTarget,
-                bytes.size(),
-                PAGE_EXECUTE_READWRITE,
-                &oldprotect
-            );
-        if (!WriteProcessMemory(
-            hProcess,
-            nTarget,
-            bytes.data(),
-            bytes.size(),
-            nullptr
-        )) return {};
+        // DWORD oldprotect;
+        // if (hardOverwrite)
+        //     VirtualProtectEx(
+        //         hProcess,
+        //         nTarget,
+        //         bytes.size(),
+        //         PAGE_EXECUTE_READWRITE,
+        //         &oldprotect
+        //     );
+        // if (!WriteProcessMemory(
+        //     hProcess,
+        //     nTarget,
+        //     bytes.data(),
+        //     bytes.size(),
+        //     nullptr
+        // )) return {};
     
-        if (hardOverwrite)
-            VirtualProtectEx(
-                hProcess,
-                nTarget,
-                bytes.size(),
-                oldprotect,
-                &oldprotect
-            );
+        // if (hardOverwrite)
+        //     VirtualProtectEx(
+        //         hProcess,
+        //         nTarget,
+        //         bytes.size(),
+        //         oldprotect,
+        //         &oldprotect
+        //     );
         return ret;
     }
     inline bool patchBytesAbs(
@@ -173,7 +174,7 @@ namespace gdmake {
 // }
 // #define MAT_GDMAKE_HOOK(addr, func) \
 //     static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \
-//         matdash::add_hook<&func>(gd::base + addr); \
+//         matdash::add_hook<&func>(base + addr); \
 //     }), 69);
 // #define MAT_GDMAKE_HOOK_C(symbolname, func) \
 //     static auto __STR_CAT__(_foo_wow_, __LINE__) = (matstuff::get_hooks().push_back([] { \

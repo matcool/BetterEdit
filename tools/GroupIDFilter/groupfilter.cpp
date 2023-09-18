@@ -13,7 +13,7 @@ class EditorUI_CB : public EditorUI {
         }
 };
 
-void setupGroupFilterButton(gd::EditorUI* self) {
+void setupGroupFilterButton(EditorUI* self) {
     // center the menu to satisfy OCD
     self->m_pDeleteMenu->setPositionY(43);
 

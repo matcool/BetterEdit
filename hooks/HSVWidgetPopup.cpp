@@ -127,7 +127,7 @@ ccColor3B getColorChannelBaseColor(int channelID, int stackLimit = 0) {
 }
 
 void updateHSVPreviewColor(HSVWidgetPopup* self) {
-    auto prev = as<CCSprite*>(self->m_pLayer->getChildByTag(HSVSQUARE2_TAG));
+    auto prev = as<CCSprite*>(self->m_mainLayer->getChildByTag(HSVSQUARE2_TAG));
 
     if (prev) {
         auto col = getColorChannelBaseColor(
@@ -135,7 +135,7 @@ void updateHSVPreviewColor(HSVWidgetPopup* self) {
         );
 
         ccColor3B col3b;
-        GameToolbox::transformColor(col, col3b, self->m_pConfigureWidget->m_obValue);
+        GameToolbox::transformColor(col, col3b, self->m_configureWidget->m_obValue);
 
         prev->setColor(col3b);
     }
@@ -214,7 +214,7 @@ bool  HSVWidgetPopup_init(HSVWidgetPopup* self,  HSVWidgetPopupDelegate* delegat
     square1->setTag(HSVSQUARE1_TAG);
     square1->setUserData(as<void*>(g_hsvColorChannel));
 
-    self->m_pLayer->addChild(square1);
+    self->m_mainLayer->addChild(square1);
 
     auto square2 = CCSprite::createWithSpriteFrameName("whiteSquare60_001.png");
 
@@ -223,8 +223,8 @@ bool  HSVWidgetPopup_init(HSVWidgetPopup* self,  HSVWidgetPopupDelegate* delegat
     square2->setTag(HSVSQUARE2_TAG);
     square2->setUserData(as<void*>(g_hsvColorChannel));
 
-    self->m_pLayer->addChild(square2);
-    self->m_pConfigureWidget->setUserData(self);
+    self->m_mainLayer->addChild(square2);
+    self->m_configureWidget->setUserData(self);
 
     updateHSVPreviewColor(self);
 

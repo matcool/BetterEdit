@@ -14,28 +14,28 @@ EnterBPMLayer* EnterBPMLayer::setTarget(CreateGuidelinesLayer* t) {
 void EnterBPMLayer::setup() {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(120.0f, "BPM", "0123456789."_s))
             .move(winSize.width / 2, winSize.height / 2 + 40.0f)
             .save(&m_pBPMInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(120.0f, "Offset", "0123456789."_s))
             .move(winSize.width / 2, winSize.height / 2)
             .save(&m_pOffsetInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(120.0f, "Pattern", "gyoxGYOX "_s))
             .move(winSize.width / 2, winSize.height / 2 - 40.0f)
             .save(&m_pPatternInput)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()

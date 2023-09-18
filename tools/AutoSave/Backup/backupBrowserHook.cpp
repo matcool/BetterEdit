@@ -4,7 +4,7 @@ void LevelCell_loadLocalLevelCell(LevelCell* self) {
     matdash::orig<&LevelCell_loadLocalLevelCell>(self);
 
     if (LevelBackupManager::get()->levelHasBackups(self->m_pLevel)) {
-        auto label = getChild<CCLabelBMFont*>(self->m_pLayer, 0);
+        auto label = getChild<CCLabelBMFont*>(self->m_mainLayer, 0);
 
         auto backupIcon = CCSprite::createWithSpriteFrameName("GJ_colorBtn_001.png");
 
@@ -23,6 +23,6 @@ void LevelCell_loadLocalLevelCell(LevelCell* self) {
             label->getPositionY()
         });
 
-        self->m_pLayer->addChild(backupIcon);
+        self->m_mainLayer->addChild(backupIcon);
     }
 } MAT_GDMAKE_HOOK(0x5be30, LevelCell_loadLocalLevelCell)

@@ -186,7 +186,7 @@ void KeymapLayer::loadLayout(Layout l) {
         for (auto const& k : m) {
             if (k.sub.size()) {
                 for (auto const& s : k.sub) {
-                    this->m_pButtonMenu->addChild(
+                    this->m_buttonMenu->addChild(
                         this->getKeyButton(s.text.c_str(), s.key, s.width, {
                             static_cast<float>(xpos + s.width / 2),
                             static_cast<float>(ypos)
@@ -197,7 +197,7 @@ void KeymapLayer::loadLayout(Layout l) {
                 }
             } else {
                 if (k.target) {
-                    this->m_pButtonMenu->addChild(
+                    this->m_buttonMenu->addChild(
                         this->getKeyToggle(k.text.c_str(), k.width, k.target,
                             menu_selector(KeymapLayer::onToggle), {
                             static_cast<float>(xpos + k.width / 2),
@@ -205,7 +205,7 @@ void KeymapLayer::loadLayout(Layout l) {
                         })
                     );
                 } else if (k.key != KEY_None) {
-                    this->m_pButtonMenu->addChild(
+                    this->m_buttonMenu->addChild(
                         this->getKeyButton(k.text.c_str(), k.key, k.width, {
                             static_cast<float>(xpos + k.width / 2),
                             static_cast<float>(ypos)
@@ -249,9 +249,9 @@ void KeymapLayer::setup() {
         winSize.width / 2 + m_pLrSize.width / 2 - 50.0f,
         winSize.height / 2 - m_pLrSize.height / 2 + 30.0f
     });
-    this->m_pLayer->addChild(this->m_pSelectedLayoutLabel);
+    this->m_mainLayer->addChild(this->m_pSelectedLayoutLabel);
     
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             CCNodeConstructor()
                 .fromFrameName("GJ_arrow_01_001.png")
@@ -266,7 +266,7 @@ void KeymapLayer::setup() {
         .done()
     );
     
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             CCNodeConstructor()
                 .fromFrameName("GJ_arrow_01_001.png")
@@ -288,14 +288,14 @@ void KeymapLayer::setup() {
     bg->setScale(.5f);
     bg->setOpacity(75);
     bg->setColor({ 0, 0, 0 });
-    this->m_pLayer->addChild(bg);
+    this->m_mainLayer->addChild(bg);
 
     this->m_pCallbackLabel = TextArea::create(
         "bigFont.fnt", false, "", .4f, 300.0f, 30.0f, { .9f, 0.0f }
     );
     this->m_pCallbackLabel->setPosition({ winSize.width / 2, winSize.height / 2 - 100.0f });
     this->m_pCallbackLabel->setZOrder(4);
-    this->m_pLayer->addChild(this->m_pCallbackLabel);
+    this->m_mainLayer->addChild(this->m_pCallbackLabel);
 
     this->m_pSelectedKeybindLabel = BGLabel::create("", "goldFont.fnt");
     this->m_pSelectedKeybindLabel->setScale(.65f);
@@ -304,7 +304,7 @@ void KeymapLayer::setup() {
         winSize.width / 2, winSize.height / 2 - 47.5f
     );
     this->m_pSelectedKeybindLabel->setVisible(false);
-    this->m_pLayer->addChild(this->m_pSelectedKeybindLabel);
+    this->m_mainLayer->addChild(this->m_pSelectedKeybindLabel);
 
     auto rebindBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor<ButtonSprite*>()
@@ -316,7 +316,7 @@ void KeymapLayer::setup() {
     );
     rebindBtn->setPosition(35.0f, -70.0f);
     rebindBtn->setVisible(false);
-    this->m_pButtonMenu->addChild(rebindBtn);
+    this->m_buttonMenu->addChild(rebindBtn);
     this->m_pBindBtns.push_back(rebindBtn);
 
     auto unbindBtn = CCMenuItemSpriteExtra::create(
@@ -329,7 +329,7 @@ void KeymapLayer::setup() {
     );
     unbindBtn->setPosition(-35.0f, -70.0f);
     unbindBtn->setVisible(false);
-    this->m_pButtonMenu->addChild(unbindBtn);
+    this->m_buttonMenu->addChild(unbindBtn);
     this->m_pBindBtns.push_back(unbindBtn);
     
     this->m_pSelected = nullptr;
@@ -347,7 +347,7 @@ void KeymapLayer::setup() {
         1.0f,
         this->m_pLrSize.width / 2 - 30.0f,
         this->m_pLrSize.height / 2 - 30.0f,
-        this->m_pButtonMenu
+        this->m_buttonMenu
     );
 }
 

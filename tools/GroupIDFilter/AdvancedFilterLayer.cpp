@@ -13,8 +13,8 @@ AdvancedFilterLayer::ObjFilter* g_pFilter;
 static constexpr const int DETAIL_CB_TAG = 4;
 
 CCMenuItemToggler* createButtonToggle(const char* text, CCNode* target, SEL_MenuHandler onClick) {
-    auto onSpr  = gd::ButtonSprite::create(text, 0, 0, "bigFont.fnt", "GJ_button_04.png", 0, .8f);
-    auto offSpr = gd::ButtonSprite::create(text, 0, 0, "bigFont.fnt", "GJ_button_02.png", 0, .8f);
+    auto onSpr  = ButtonSprite::create(text, 0, 0, "bigFont.fnt", "GJ_button_04.png", 0, .8f);
+    auto offSpr = ButtonSprite::create(text, 0, 0, "bigFont.fnt", "GJ_button_02.png", 0, .8f);
 
     onSpr->setScale(.6f);
     offSpr->setScale(.6f);
@@ -34,7 +34,7 @@ void AdvancedFilterLayer::setup() {
     if (!g_pFilter) g_pFilter = new AdvancedFilterLayer::ObjFilter;
 
     {   // Group ID
-        this->m_pLayer->addChild(
+        this->m_mainLayer->addChild(
             CCNodeConstructor<InputNode*>()
                 .fromNode(InputNode::create(200.0f, "Groups (1,2,3,...)", "chatFont.fnt", "0123456789,|!-+? ", 100))
                 .move(winSize.width / 2 - 45.0f, winSize.height / 2 + this->m_pLrSize.height / 2 - 60.0f)
@@ -43,7 +43,7 @@ void AdvancedFilterLayer::setup() {
                 .done()
         );
 
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemToggler*>()
                 .fromNode(CCMenuItemToggler::createWithStandardSprites(
                     this, (SEL_MenuHandler)&AdvancedFilterLayer::onStrict, .7f
@@ -56,7 +56,7 @@ void AdvancedFilterLayer::setup() {
                 })
                 .done()
         );
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCLabelBMFont*>()
                 .fromText("Strict", "bigFont.fnt")
                 .move(120.0f, this->m_pLrSize.height / 2 - 60.0f)
@@ -66,7 +66,7 @@ void AdvancedFilterLayer::setup() {
     }
 
     {   // Colors
-        this->m_pLayer->addChild(
+        this->m_mainLayer->addChild(
             CCNodeConstructor<InputNode*>()
                 .fromNode(InputNode::create(80.0f, "Color 1", "chatFont.fnt", rangeFilterC, 20))
                 .move(winSize.width / 2 - 50.0f, winSize.height / 2 + this->m_pLrSize.height / 2 - 100.0f)
@@ -74,7 +74,7 @@ void AdvancedFilterLayer::setup() {
                 .udata(&g_pFilter->color1)
                 .done()
         );
-        this->m_pLayer->addChild(
+        this->m_mainLayer->addChild(
             CCNodeConstructor<InputNode*>()
                 .fromNode(InputNode::create(80.0f, "Color 2", "chatFont.fnt", rangeFilterC, 20))
                 .move(winSize.width / 2 + 50.0f, winSize.height / 2 + this->m_pLrSize.height / 2 - 100.0f)
@@ -85,7 +85,7 @@ void AdvancedFilterLayer::setup() {
     }
 
     {   // Scale, Z Order
-        this->m_pLayer->addChild(
+        this->m_mainLayer->addChild(
             CCNodeConstructor<InputNode*>()
                 .fromNode(InputNode::create(80.0f, "Scale", "chatFont.fnt", rangeFilterF, 20))
                 .move(winSize.width / 2 - 50.0f, winSize.height / 2 + this->m_pLrSize.height / 2 - 140.0f)
@@ -93,7 +93,7 @@ void AdvancedFilterLayer::setup() {
                 .udata(&g_pFilter->scale)
                 .done()
         );
-        this->m_pLayer->addChild(
+        this->m_mainLayer->addChild(
             CCNodeConstructor<InputNode*>()
                 .fromNode(InputNode::create(80.0f, "Z Order", "chatFont.fnt", rangeFilterN, 20))
                 .move(winSize.width / 2 + 50.0f, winSize.height / 2 + this->m_pLrSize.height / 2 - 140.0f)
@@ -104,7 +104,7 @@ void AdvancedFilterLayer::setup() {
     }
 
     {   // High Detail, Low Detail
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemToggler*>()
                 .fromNode(CCMenuItemToggler::createWithStandardSprites(
                     this, (SEL_MenuHandler)&AdvancedFilterLayer::onDetails, .7f
@@ -118,7 +118,7 @@ void AdvancedFilterLayer::setup() {
                 .udata(AdvancedFilterLayer::ObjFilter::Low)
                 .done()
         );
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCLabelBMFont*>()
                 .fromText("Low Detail", "bigFont.fnt")
                 .move(-65.0f, this->m_pLrSize.height / 2 - 176.0f)
@@ -126,7 +126,7 @@ void AdvancedFilterLayer::setup() {
                 .done()
         );
 
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemToggler*>()
                 .fromNode(CCMenuItemToggler::createWithStandardSprites(
                     this, (SEL_MenuHandler)&AdvancedFilterLayer::onDetails, .7f
@@ -140,7 +140,7 @@ void AdvancedFilterLayer::setup() {
                 .udata(AdvancedFilterLayer::ObjFilter::High)
                 .done()
         );
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCLabelBMFont*>()
                 .fromText("High Detail", "bigFont.fnt")
                 .move(90.0f, this->m_pLrSize.height / 2 - 176.0f)
@@ -160,7 +160,7 @@ void AdvancedFilterLayer::setup() {
             { "T2", ObjFilter::T2 },
             { "T3", ObjFilter::T3 },
         })
-            this->m_pButtonMenu->addChild(
+            this->m_buttonMenu->addChild(
                 CCNodeConstructor<CCMenuItemToggler*>()
                     .fromNode(createButtonToggle(text, this, (SEL_MenuHandler)&AdvancedFilterLayer::onLayer))
                     .move(-120.0f + 40.0f * ix++, this->m_pLrSize.height / 2 - 210.0f)
@@ -177,7 +177,7 @@ void AdvancedFilterLayer::setup() {
         input->setString(as<Parseable*>(input->getUserData())->parseString.c_str());
 
     {   // OK & reset
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemSpriteExtra*>()
                 .fromNode(CCMenuItemSpriteExtra::create(
                     CCNodeConstructor()
@@ -191,7 +191,7 @@ void AdvancedFilterLayer::setup() {
                 .done()
         );
 
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemSpriteExtra*>()
                 .fromNode(CCMenuItemSpriteExtra::create(
                     CCNodeConstructor()
@@ -205,7 +205,7 @@ void AdvancedFilterLayer::setup() {
                 .done()
         );
 
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemSpriteExtra*>()
                 .fromNode(CCMenuItemSpriteExtra::create(
                     CCNodeConstructor()
@@ -219,7 +219,7 @@ void AdvancedFilterLayer::setup() {
                 .done()
         );
 
-        this->m_pButtonMenu->addChild(
+        this->m_buttonMenu->addChild(
             CCNodeConstructor<CCMenuItemSpriteExtra*>()
                 .fromNode(CCMenuItemSpriteExtra::create(
                     CCNodeConstructor<ButtonSprite*>()
@@ -247,7 +247,7 @@ void AdvancedFilterLayer::onDetails(CCObject* pSender) {
     auto pSenderT = as<CCMenuItemToggler*>(pSender);
     auto toggled = !pSenderT->isToggled();
 
-    CCARRAY_FOREACH_B_TYPE(this->m_pButtonMenu->getChildren(), c, CCMenuItemToggler)
+    CCARRAY_FOREACH_B_TYPE(this->m_buttonMenu->getChildren(), c, CCMenuItemToggler)
         if (c->getTag() == DETAIL_CB_TAG)
             c->toggle(false);
 

@@ -94,7 +94,7 @@ bool touchIntersectsInput(CCNode* input, CCTouch* touch) {
     if (!input)
         return false;
 
-    auto inp = reinterpret_cast<gd::CCTextInputNode*>(input);
+    auto inp = reinterpret_cast<CCTextInputNode*>(input);
     auto isize = inp->getScaledContentSize();
 
     auto rect = cocos2d::CCRect {
@@ -105,14 +105,14 @@ bool touchIntersectsInput(CCNode* input, CCTouch* touch) {
     };
 
     if (!rect.containsPoint(input->getParent()->convertTouchToNodeSpace(touch))) {
-        reinterpret_cast<gd::CCTextInputNode*>(input)->getTextField()->detachWithIME();
+        reinterpret_cast<CCTextInputNode*>(input)->getTextField()->detachWithIME();
         return false;
     } else
         return true;
 }
 
 bool  EditorUI_ccTouchBegan(EditorUI* self,  CCTouch* touch,CCEvent* event) {
-    auto self_ = reinterpret_cast<gd::EditorUI*>(reinterpret_cast<uintptr_t>(self) - 0xEC);
+    auto self_ = reinterpret_cast<EditorUI*>(reinterpret_cast<uintptr_t>(self) - 0xEC);
 
     g_bHoldingDownTouch = true;
     
@@ -147,7 +147,7 @@ bool  EditorUI_ccTouchBegan(EditorUI* self,  CCTouch* touch,CCEvent* event) {
 
     bool move = KeybindManager::get()->isModifierPressed("gd.edit.move_modifier");
     self_->m_bSpaceKeyPressed = move;
-    if (self_->m_pEditorLayer->m_ePlaybackMode != kPlaybackModePlaying)
+    if (self_->m_editorLayer->m_ePlaybackMode != kPlaybackModePlaying)
         self_->m_bMoveModifier = move;
     
     // patch(0x90984, { 0x90, 0x90, 0x90, 0x90,  0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
@@ -175,9 +175,9 @@ bool  EditorUI_ccTouchBegan(EditorUI* self,  CCTouch* touch,CCEvent* event) {
 void  EditorUI_ccTouchMoved(EditorUI* self_,  CCTouch* touch, CCEvent* event) {
     auto self = reinterpret_cast<EditorUI*>(reinterpret_cast<uintptr_t>(self_) - 0xEC);
 
-    float prevScale = self->m_pEditorLayer->m_pObjectLayer->getScale();
+    float prevScale = self->m_editorLayer->m_pObjectLayer->getScale();
     auto swipeStart =
-        self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
+        self->m_editorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
         
     bool swipe = KeybindManager::get()->isModifierPressed("gd.edit.swipe_modifier");
 
@@ -190,10 +190,10 @@ void  EditorUI_ccTouchMoved(EditorUI* self_,  CCTouch* touch, CCEvent* event) {
     matdash::orig<&EditorUI_ccTouchMoved>(self_,  touch, event);
 
     auto nSwipeStart = 
-        self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
+        self->m_editorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
     
     auto rel = swipeStart - nSwipeStart;
-    rel = rel * (self->m_pEditorLayer->m_pObjectLayer->getScale() / prevScale);
+    rel = rel * (self->m_editorLayer->m_pObjectLayer->getScale() / prevScale);
 
     if (BetterEdit::getEnableRelativeSwipe())
         self->m_obSwipeStart = self->m_obSwipeStart + rel;
@@ -212,7 +212,7 @@ void  EditorUI_ccTouchEnded(
     auto self_ = as<EditorUI*>(as<uintptr_t>(self) - 0xEC);
     if (
         !BetterEdit::getDisableDoubleClick() &&
-        self_->m_pEditorLayer->m_ePlaybackMode != kPlaybackModePlaying &&
+        self_->m_editorLayer->m_ePlaybackMode != kPlaybackModePlaying &&
         std::chrono::duration_cast<std::chrono::milliseconds>(
             now - g_lastTouchTime
         ).count() < KeybindManager::get()->getDoubleClickInterval()
@@ -251,7 +251,7 @@ void  EditorUI_clickOnPosition(EditorUI* self,  CCPoint point) {
         return matdash::orig<&EditorUI_clickOnPosition>(self,  point);
 } MAT_GDMAKE_HOOK(0x78860, EditorUI_clickOnPosition);
 
-void  EditorUI_destructorHook(gd::EditorUI* self) {
+void  EditorUI_destructorHook(EditorUI* self) {
     saveClipboard(self);
     resetSliderPercent(self);
     // getAutoSaveTimer(self)->resetTimer();
@@ -259,19 +259,19 @@ void  EditorUI_destructorHook(gd::EditorUI* self) {
     return matdash::orig<&EditorUI_destructorHook>(self);
 } MAT_GDMAKE_HOOK(0x76090, EditorUI_destructorHook);
 
-// this exists entirely because dynamic_cast<gd::GameObject*> doesnt work
-gd::GameObject* castToGameObject(CCObject* obj) {
+// this exists entirely because dynamic_cast<GameObject*> doesnt work
+GameObject* castToGameObject(CCObject* obj) {
     if (obj != nullptr) {
-        const auto vtable = *reinterpret_cast<uintptr_t*>(obj) - gd::base;
+        const auto vtable = *reinterpret_cast<uintptr_t*>(obj) - base;
         // GameObject and RingObject respectively
         if (vtable == 0x29A514 || vtable == 0x2E390C) {
-            return reinterpret_cast<gd::GameObject*>(obj);
+            return reinterpret_cast<GameObject*>(obj);
         }
     }
     return nullptr;
 }
 
-class EditorUIPulse : public gd::EditorUI {
+class EditorUIPulse : public EditorUI {
 public:
     void updateObjectsPulse(float dt) {
         bool snap = KeybindManager::get()->isModifierPressed("gd.edit.snap_modifier");
@@ -286,7 +286,7 @@ public:
         auto volume = FMODAudioEngine::sharedEngine()->m_fBackgroundMusicVolume;
         if (
             (*reinterpret_cast<bool*>(reinterpret_cast<uintptr_t>(this) + 0x130)
-            || m_pEditorLayer->m_ePlaybackMode == kPlaybackModePlaying) &&
+            || m_editorLayer->m_ePlaybackMode == kPlaybackModePlaying) &&
             volume &&
             BetterEdit::getPulseObjectsInEditor()
         ) {
@@ -301,37 +301,37 @@ public:
                 if (obj != nullptr && obj->m_unk32C)
                     obj->setRScale(pulse);
             };
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeAddBottom->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeAddBottom->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeBottom2->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeBottom2->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeBottom3->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeBottom3->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeBottom4->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeBottom4->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeBottom->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeBottom->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeAddBottom2->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeAddBottom2->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeAddBottom3->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeAddBottom3->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeAddBottom4->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeAddBottom4->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNode->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNode->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeAddTop2->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeAddTop2->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeAddTop3->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeAddTop3->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeTop2->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeTop2->getChildren(), obj_)
                 f(obj_);
-            CCARRAY_FOREACH_B(m_pEditorLayer->m_pBatchNodeTop3->getChildren(), obj_)
+            CCARRAY_FOREACH_B(m_editorLayer->m_pBatchNodeTop3->getChildren(), obj_)
                 f(obj_);
 
         } else if (!g_hasResetObjectsScale) {
             g_hasResetObjectsScale = true;
 
-            const auto arr = m_pEditorLayer->getAllObjects();
+            const auto arr = m_editorLayer->getAllObjects();
             CCObject* obj_;
 
             CCARRAY_FOREACH(arr, obj_) {
@@ -454,7 +454,7 @@ void  EditorUI_onNewCustomItem(EditorUI* self,  CCObject* pSender) {
     setIgnoreNewObjectsForSliderPercent(false);
 } MAT_GDMAKE_HOOK(0x79fd0, EditorUI_onNewCustomItem);
 
-void  EditorUI_showUI(gd::EditorUI* self,  bool show) {
+void  EditorUI_showUI(EditorUI* self,  bool show) {
     if (BetterEdit::isEditorViewOnlyMode())
         show = false;
     
@@ -480,7 +480,7 @@ void  EditorUI_showUI(gd::EditorUI* self,  bool show) {
         self->m_pSwipeBtn->getParent()->getChildByTag(TOGGLEUI_TAG)
     );
 
-    self->m_pTabsMenu->setVisible(self->m_nSelectedMode == 2 && show);
+    self->m_tabsMenu->setVisible(self->m_nSelectedMode == 2 && show);
     CATCH_NULL(self->m_pCopyBtn->getParent()->getChildByTag(7777))->setVisible(show);
     showGridButtons(self, show);
     showLayerControls(self, show);
@@ -495,7 +495,7 @@ void  EditorUI_showUI(gd::EditorUI* self,  bool show) {
     // showPositionLabel(self, show);
 } MAT_GDMAKE_HOOK(0x87180, EditorUI_showUI);
 
-void  EditorUI_updateZoom(gd::EditorUI* self) {
+void  EditorUI_updateZoom(EditorUI* self) {
     matdash::orig<&EditorUI_updateZoom>(self);
 
     float zoom;
@@ -508,7 +508,7 @@ void  EditorUI_updateZoom(gd::EditorUI* self) {
             zLabel->setString(
                 ("Zoom: "_s +
                 BetterEdit::formatToString(
-                    self->m_pEditorLayer->getObjectLayer()->getScale(), 2u
+                    self->m_editorLayer->getObjectLayer()->getScale(), 2u
                 ) +"x"_s
             ).c_str());
             zLabel->setOpacity(255);
@@ -542,7 +542,7 @@ void  EditorUI_keyUp(EditorUI* self_, enumKeyCodes key) {
 
 // Credits to Alk1m123 (https://github.com/altalk23) for this scale fix
 // this lets you scale multiple objects without it fucking up the position
-void  EditorUI_scaleObjects(gd::EditorUI* self, CCArray* objs, CCPoint centerPos) {
+void  EditorUI_scaleObjects(EditorUI* self, CCArray* objs, CCPoint centerPos) {
     float scale;
     __asm movss scale, xmm2;
     CCObject* obj;
@@ -562,7 +562,7 @@ void  EditorUI_scaleObjects(gd::EditorUI* self, CCArray* objs, CCPoint centerPos
             lockPos = fancyWidget->m_bLockPosEnabled;
     }
     CCARRAY_FOREACH(objs, obj) {
-        auto gameObj = reinterpret_cast<gd::GameObject*>(obj);
+        auto gameObj = reinterpret_cast<GameObject*>(obj);
         auto pos = gameObj->getPosition();
         float newScale = gameObj->m_fMultiScaleMultiplier * scale;
         float newMultiplier = newScale / gameObj->m_fScale;

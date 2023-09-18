@@ -6,10 +6,10 @@ class EditorPauseLayer_CB : public EditorPauseLayer {
         void onPasteFromString(CCObject*) {
             auto p = InputPrompt::create("Paste Object String", "String", [this](const char* val) -> void {
                 if (val && strlen(val)) {
-                    // auto objs = this->m_pEditorLayer->m_pEditorUI->getSelectedObjects();
-                    this->m_pEditorLayer->m_pEditorUI->pasteObjects(val);
-                    this->m_pEditorLayer->m_pEditorUI->deselectAll();
-                    // this->m_pEditorLayer->m_pEditorUI->selectObjects(objs, true);
+                    // auto objs = this->m_editorLayer->m_pEditorUI->getSelectedObjects();
+                    this->m_editorLayer->m_pEditorUI->pasteObjects(val);
+                    this->m_editorLayer->m_pEditorUI->deselectAll();
+                    // this->m_editorLayer->m_pEditorUI->selectObjects(objs, true);
                 }
             }, "Paste");
             

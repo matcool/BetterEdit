@@ -2,4 +2,4 @@
 
 #include <GDMake.h>
 
-void setupGroupFilterButton(gd::EditorUI*);
+void setupGroupFilterButton(EditorUI*);

@@ -85,9 +85,9 @@ void ScreenShotPopup::setup() {
         1.0f, .01f
     );
     this->m_pShot->setFlipY(true);
-    this->m_pLayer->addChild(this->m_pShot);
+    this->m_mainLayer->addChild(this->m_pShot);
     
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -102,7 +102,7 @@ void ScreenShotPopup::setup() {
             .move(-30.0f, - this->m_pLrSize.height / 2 + 25.0f)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -217,8 +217,8 @@ bool ScreenShotOverlay::init() {
     this->setSuperMouseHitOffset(winSize / 2);
     SuperMouseManager::get()->captureMouse(this);
 
-    this->m_pLayer = CCLayer::create();
-    this->addChild(this->m_pLayer);
+    this->m_mainLayer = CCLayer::create();
+    this->addChild(this->m_mainLayer);
 
     this->m_pInfoLabel = CCLabelBMFont::create("", "bigFont.fnt", 500.0f, kCCTextAlignmentCenter);
     this->m_pInfoLabel->setPosition(
@@ -226,7 +226,7 @@ bool ScreenShotOverlay::init() {
         this->getContentSize().height - 40.0f
     );
     this->m_pInfoLabel->setScale(.35f);
-    this->m_pLayer->addChild(this->m_pInfoLabel);
+    this->m_mainLayer->addChild(this->m_pInfoLabel);
 
     this->m_pExtendedInfoLabel = CCLabelBMFont::create("", "bigFont.fnt", 500.0f, kCCTextAlignmentCenter);
     this->m_pExtendedInfoLabel->setPosition(
@@ -234,13 +234,13 @@ bool ScreenShotOverlay::init() {
         60.0f
     );
     this->m_pExtendedInfoLabel->setScale(.25f);
-    this->m_pLayer->addChild(this->m_pExtendedInfoLabel);
+    this->m_mainLayer->addChild(this->m_pExtendedInfoLabel);
 
     this->m_pOptionsLabel = CCLabelBMFont::create("", "bigFont.fnt", 500.0f, kCCTextAlignmentRight);
     this->m_pOptionsLabel->setAnchorPoint({ 1.f, .5f });
     this->m_pOptionsLabel->setPosition(winSize.width - 20.0f, 40.0f);
     this->m_pOptionsLabel->setScale(.35f);
-    this->m_pLayer->addChild(this->m_pOptionsLabel);
+    this->m_mainLayer->addChild(this->m_pOptionsLabel);
 
     auto qualityInfo = CCLabelBMFont::create(
         "Increase Quality: H\n"
@@ -250,13 +250,13 @@ bool ScreenShotOverlay::init() {
     qualityInfo->setAnchorPoint({ .0f, .5f });
     qualityInfo->setPosition(20.0f, 40.0f);
     qualityInfo->setScale(.35f);
-    this->m_pLayer->addChild(qualityInfo);
+    this->m_mainLayer->addChild(qualityInfo);
 
     this->m_pQualityLabel = CCLabelBMFont::create("Quality: x", "bigFont.fnt");
     this->m_pQualityLabel->setAnchorPoint({ .0f, .5f });
     this->m_pQualityLabel->setPosition(20.0f, 20.0f);
     this->m_pQualityLabel->setScale(.35f);
-    this->m_pLayer->addChild(this->m_pQualityLabel);
+    this->m_mainLayer->addChild(this->m_pQualityLabel);
 
     this->updateLabels();
 
@@ -320,7 +320,7 @@ bool ScreenShotOverlay::mouseDownSuper(MouseButton btn, CCPoint const& pos) {
         if (!this->m_bExtendedMode) {
             this->m_bSelecting = true;
             this->m_obStartPos = pos;
-            this->m_pLayer->setVisible(false);
+            this->m_mainLayer->setVisible(false);
         }
     }
     this->updateLabels();
@@ -414,7 +414,7 @@ bool ScreenShotOverlay::keyDownSuper(enumKeyCodes key) {
 void ScreenShotOverlay::screenshot() {
     this->setVisible(false);
     if (!this->m_bIncludeGrid)
-        this->m_pUI->m_pEditorLayer->m_pDrawGridLayer->setVisible(false);
+        this->m_pUI->m_editorLayer->m_pDrawGridLayer->setVisible(false);
     
     auto area = CCRect {
         fabsf(min(this->m_obStartPos.x, this->m_obEndPos.x)),
@@ -425,9 +425,9 @@ void ScreenShotOverlay::screenshot() {
 
     // no ridiculously small screenshots allowed
     if (area.size.width * area.size.height < 250.0f) {
-        this->m_pLayer->setVisible(true);
+        this->m_mainLayer->setVisible(true);
         this->m_bSelecting = false;
-        this->m_pUI->m_pEditorLayer->m_pDrawGridLayer->setVisible(true);
+        this->m_pUI->m_editorLayer->m_pDrawGridLayer->setVisible(true);
         return this->setVisible(true);
     }
 
@@ -474,7 +474,7 @@ void ScreenShotOverlay::screenshot() {
 
     ScreenFlash::show({ 255, 255, 255, 255 }, 1.0f);
 
-    this->m_pUI->m_pEditorLayer->m_pDrawGridLayer->setVisible(true);
+    this->m_pUI->m_editorLayer->m_pDrawGridLayer->setVisible(true);
 
     this->removeFromParent();
 }
@@ -580,6 +580,6 @@ ScreenShotOverlay* ScreenShotOverlay::create() {
 void takeScreenshot(EditorUI* ui) {
     auto overlay = ScreenShotOverlay::create();
     overlay->setEditorUI(ui);
-    ui->m_pEditorLayer->addChild(overlay);
+    ui->m_editorLayer->addChild(overlay);
     ui->setVisible(false);
 }

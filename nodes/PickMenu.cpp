@@ -9,8 +9,8 @@ void PickMenu::setup() {
 
     size_t ix = 0;
     for (auto const& [key, value] : this->m_mPicks) {
-        auto but = gd::CCMenuItemSpriteExtra::create(
-            gd::ButtonSprite::create(
+        auto but = CCMenuItemSpriteExtra::create(
+            ButtonSprite::create(
                 key.c_str(),
                 static_cast<int>(this->m_pLrSize.width - 40.0f), true,
                 "goldFont.fnt", "GJ_button_01.png",
@@ -27,7 +27,7 @@ void PickMenu::setup() {
     menu->alignItemsVerticallyWithPadding(5.0f);
     menu->setPosition(.0f, .0f);
 
-    this->m_pButtonMenu->addChild(menu);
+    this->m_buttonMenu->addChild(menu);
     
     this->registerWithTouchDispatcher();
     cocos2d::CCDirector::sharedDirector()->getTouchDispatcher()->incrementForcePrio(2);
@@ -37,7 +37,7 @@ void PickMenu::setup() {
 }
 
 void PickMenu::onSelect(cocos2d::CCObject* pSender) {
-    auto index = as<size_t>(as<gd::CCMenuItemSpriteExtra*>(pSender)->getUserData());
+    auto index = as<size_t>(as<CCMenuItemSpriteExtra*>(pSender)->getUserData());
 
     auto cb = this->m_mPicks.at(index).second;
 

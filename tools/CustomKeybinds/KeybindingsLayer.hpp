@@ -19,7 +19,7 @@ class KeybindingsLayerDelegate :
     public FLAlertLayerProtocol
 {
     public:
-        KeybindingsLayer_CB* m_pLayer;
+        KeybindingsLayer_CB* m_mainLayer;
         static std::map<std::string, bool> m_mFoldedCategories;
 
         void textChanged(CCTextInputNode* input) override;

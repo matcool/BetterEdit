@@ -10,7 +10,7 @@ class InputPrompt : public BrownAlertDelegate {
     protected:
         InputNode* m_pInput;
         InputResult m_pResultFunc;
-        gd::CCMenuItemSpriteExtra* m_pTrashBtn;
+        CCMenuItemSpriteExtra* m_pTrashBtn;
         bool m_bApplyOnEsc = false;
 
         inline void setup() override {};

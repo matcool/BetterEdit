@@ -92,7 +92,7 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                 } catch (std::out_of_range &) {
                     this->reset();
 
-                    return gd::FLAlertLayer::create(
+                    return FLAlertLayer::create(
                         nullptr,
                         "Error Parsing",
                         "OK", nullptr,
@@ -101,7 +101,7 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                 } catch (...) {
                     this->reset();
 
-                    return gd::FLAlertLayer::create(
+                    return FLAlertLayer::create(
                         nullptr,
                         "Error Parsing",
                         "OK", nullptr,
@@ -219,7 +219,7 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                     } catch (std::out_of_range &) {
                         this->clear();
 
-                        return gd::FLAlertLayer::create(
+                        return FLAlertLayer::create(
                             nullptr,
                             "Error Parsing",
                             "OK", nullptr,
@@ -228,7 +228,7 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                     } catch (...) {
                         this->clear();
 
-                        return gd::FLAlertLayer::create(
+                        return FLAlertLayer::create(
                             nullptr,
                             "Error Parsing",
                             "OK", nullptr,
@@ -316,7 +316,7 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                 layers.clear();
             }
 
-            bool match(gd::GameObject* obj) {
+            bool match(GameObject* obj) {
                 auto gids = obj->getGroupIDs();
                 if (!groups->match(std::vector<int> ( gids.begin(), gids.end() )))
                     return false;
@@ -339,8 +339,8 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
 
     protected:
         std::vector<InputNode*> m_vInputs;
-        std::vector<gd::CCMenuItemToggler*> m_vToggles;
-        gd::CCMenuItemSpriteExtra* m_pSenderBtn;
+        std::vector<CCMenuItemToggler*> m_vToggles;
+        CCMenuItemSpriteExtra* m_pSenderBtn;
 
         void setup() override;
 
@@ -361,5 +361,5 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
 
         static bool testSelectObject(GameObject*);
 
-        static AdvancedFilterLayer* create(gd::CCMenuItemSpriteExtra* pSender = nullptr);
+        static AdvancedFilterLayer* create(CCMenuItemSpriteExtra* pSender = nullptr);
 };

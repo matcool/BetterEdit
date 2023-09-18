@@ -1,3 +1,3 @@
 #include <GDMake.h>
 
-void loadColorTriggerButton(gd::EditorPauseLayer*);
+void loadColorTriggerButton(EditorPauseLayer*);

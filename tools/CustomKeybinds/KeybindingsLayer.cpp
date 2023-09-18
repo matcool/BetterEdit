@@ -26,14 +26,14 @@ void KeybindingsLayerDelegate::textChanged(CCTextInputNode* input) {
     else
         searchQuery = "";
     
-    this->m_pLayer->reloadList();
+    this->m_mainLayer->reloadList();
 }
 
 void KeybindingsLayerDelegate::FLAlert_Clicked(FLAlertLayer*, bool btn2) {
     if (btn2) {
         KeybindManager::get()->resetAllToDefaults();
 
-        this->m_pLayer->reloadList();
+        this->m_mainLayer->reloadList();
     }
 }
 
@@ -42,7 +42,7 @@ KeybindingsLayerDelegate* KeybindingsLayerDelegate::create(KeybindingsLayer_CB* 
 
     if (ret && ret->init()) {
         ret->setTag(KBLDELEGATE_TAG);
-        ret->m_pLayer = layer;
+        ret->m_mainLayer = layer;
         ret->autorelease();
         return ret;
     }
@@ -64,7 +64,7 @@ bool matchSearchQuery(KeybindType type, KeybindCallback* bind) {
 }
 
 void KeybindingsLayer_CB::reloadList() {
-    auto oldList = as<KeybindListView*>(this->m_pLayer->getChildByTag(KBLLIST_TAG));
+    auto oldList = as<KeybindListView*>(this->m_mainLayer->getChildByTag(KBLLIST_TAG));
     auto y = 0.0f;
 
     if (oldList) {
@@ -118,9 +118,9 @@ void KeybindingsLayer_CB::reloadList() {
     if (y > list->m_pTableView->getMaxY())
         y = list->m_pTableView->getMaxY();
     list->m_pTableView->m_pContentLayer->setPositionY(y);
-    this->m_pLayer->addChild(list);
+    this->m_mainLayer->addChild(list);
         
-    CATCH_NULL(as<Scrollbar*>(this->m_pLayer->getChildByTag(KBLSCROLLBAR_TAG)))
+    CATCH_NULL(as<Scrollbar*>(this->m_mainLayer->getChildByTag(KBLSCROLLBAR_TAG)))
         ->setList(list);
 }
 
@@ -147,7 +147,7 @@ void KeybindingsLayer_CB::onKeymap(CCObject*) {
 }
 
 void KeybindingsLayer_CB::detachInput() {
-    auto input = as<InputNode*>(this->m_pLayer->getChildByTag(KBLINPUT_TAG));
+    auto input = as<InputNode*>(this->m_mainLayer->getChildByTag(KBLINPUT_TAG));
 
     if (input) {
         input->getInputNode()->m_pTextField->detachWithIME();
@@ -158,9 +158,9 @@ void KeybindingsLayer_CB::detachInput() {
 void KeybindingsLayer_CB::onFinishSelect(CCObject*) {
     g_bSelectMode = false;
 
-    auto btn = this->m_pButtonMenu->getChildByTag(KBLCANCELSELECT_TAG);
+    auto btn = this->m_buttonMenu->getChildByTag(KBLCANCELSELECT_TAG);
     if (btn) btn->setVisible(false);
-    auto lbl = as<BGLabel*>(this->m_pLayer->getChildByTag(KBLSELECTLABEL_TAG));
+    auto lbl = as<BGLabel*>(this->m_mainLayer->getChildByTag(KBLSELECTLABEL_TAG));
     if (lbl) lbl->setVisible(false);
 
     this->reloadList();
@@ -175,10 +175,10 @@ void KeybindingsLayer_CB::setSelectMode(bool b, Keybind const& kb) {
     g_bSelectMode = b;
     g_obSelectKeybind = kb;
 
-    auto btn = this->m_pButtonMenu->getChildByTag(KBLCANCELSELECT_TAG);
+    auto btn = this->m_buttonMenu->getChildByTag(KBLCANCELSELECT_TAG);
     if (btn) btn->setVisible(b);
 
-    auto lbl = as<BGLabel*>(this->m_pLayer->getChildByTag(KBLSELECTLABEL_TAG));
+    auto lbl = as<BGLabel*>(this->m_mainLayer->getChildByTag(KBLSELECTLABEL_TAG));
     if (lbl) {
         lbl->setVisible(b);
         lbl->setString(g_obSelectKeybind.toString().c_str());
@@ -194,8 +194,8 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
 
     self->m_bNoElasticity = true;
 
-    self->m_pLayer = CCLayer::create();
-    self->addChild(self->m_pLayer);
+    self->m_mainLayer = CCLayer::create();
+    self->addChild(self->m_mainLayer);
 
     auto delegate = KeybindingsLayerDelegate::create(as<KeybindingsLayer_CB*>(self));
     self->addChild(delegate);
@@ -203,12 +203,12 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
     auto bg = CCScale9Sprite::create("GJ_square01.png", { 0.0f, 0.0f, 80.0f, 80.0f });
     bg->setContentSize({ 420.0f, 280.0f });
     bg->setPosition(winSize / 2);
-    self->m_pLayer->addChild(bg);
+    self->m_mainLayer->addChild(bg);
 
     auto title = CCLabelBMFont::create("Key Bindings", "bigFont.fnt");
     title->setPosition(winSize.width / 2, winSize.height / 2 + 140.0f - 24.0f);
     title->setScale(.8f);
-    self->m_pLayer->addChild(title);
+    self->m_mainLayer->addChild(title);
     
     auto input = InputNode::create(425.0f, "Search Keybinds");
     input->setPosition(title->getPosition() + CCPoint { 0.0f, -35.0f });
@@ -220,7 +220,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
     ) c->setAnchorPoint({ .0f, .5f });
     input->setScale(.8f);
     input->getInputNode()->setDelegate(delegate);
-    self->m_pLayer->addChild(input);
+    self->m_mainLayer->addChild(input);
 
     self->m_pPages = CCDictionary::create();
     self->m_pPages->retain();
@@ -228,13 +228,13 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
     self->m_pUnused = CCDictionary::create();
     self->m_pUnused->retain();
 
-    self->m_pButtonMenu = cocos2d::CCMenu::create();
-    self->m_pLayer->addChild(self->m_pButtonMenu);
+    self->m_buttonMenu = cocos2d::CCMenu::create();
+    self->m_mainLayer->addChild(self->m_buttonMenu);
 
     auto bar = Scrollbar::create(nullptr);
     bar->setPosition(winSize.width / 2 + 190.0f, winSize.height / 2 - 30.0f);
     bar->setTag(KBLSCROLLBAR_TAG);
-    self->m_pLayer->addChild(bar, 800);
+    self->m_mainLayer->addChild(bar, 800);
 
     as<KeybindingsLayer_CB*>(self)->reloadList();
 
@@ -250,7 +250,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         // topGradient->setFlipY(true);
         // topGradient->setScaleX(11.5f);
         // topGradient->setColor(cc3x(0x953));
-        // self->m_pLayer->addChild(topGradient);
+        // self->m_mainLayer->addChild(topGradient);
 
         // auto bottomGradient = CCSprite::createWithSpriteFrameName("d_gradient_c_01_001.png");
         // bottomGradient->setPosition({
@@ -259,7 +259,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         // });
         // bottomGradient->setScaleX(11.5f);
         // bottomGradient->setColor(cc3x(0x953));
-        // self->m_pLayer->addChild(bottomGradient);
+        // self->m_mainLayer->addChild(bottomGradient);
 
         auto topItem = CCSprite::createWithSpriteFrameName("GJ_commentTop_001.png");
         topItem->setPosition({
@@ -267,7 +267,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
             winSize.height / 2 + 55.0f
         });
         topItem->setZOrder(500);
-        self->m_pLayer->addChild(topItem);
+        self->m_mainLayer->addChild(topItem);
 
         auto bottomItem = CCSprite::createWithSpriteFrameName("GJ_commentTop_001.png");
         bottomItem->setPosition({
@@ -276,7 +276,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         });
         bottomItem->setZOrder(500);
         bottomItem->setFlipY(true);
-        self->m_pLayer->addChild(bottomItem);
+        self->m_mainLayer->addChild(bottomItem);
 
         auto sideItem = CCSprite::createWithSpriteFrameName("GJ_commentSide_001.png");
         sideItem->setPosition({
@@ -285,7 +285,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         });
         sideItem->setZOrder(500);
         sideItem->setScaleY(5.0f);
-        self->m_pLayer->addChild(sideItem);
+        self->m_mainLayer->addChild(sideItem);
 
         auto sideItemRight = CCSprite::createWithSpriteFrameName("GJ_commentSide_001.png");
         sideItemRight->setPosition({
@@ -295,14 +295,14 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         sideItemRight->setZOrder(500);
         sideItemRight->setScaleY(5.0f);
         sideItemRight->setFlipX(true);
-        self->m_pLayer->addChild(sideItemRight);
+        self->m_mainLayer->addChild(sideItemRight);
     }
 
     auto selectLabel = BGLabel::create("", "goldFont.fnt");
     selectLabel->setVisible(false);
     selectLabel->setTag(KBLSELECTLABEL_TAG);
     selectLabel->setPosition(winSize.width / 2, winSize.height / 2 + 120.0f);
-    self->m_pLayer->addChild(selectLabel);
+    self->m_mainLayer->addChild(selectLabel);
 
     auto resetBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor<ButtonSprite*>()
@@ -315,7 +315,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         menu_selector(KeybindingsLayer_CB::onResetAll)
     );
     resetBtn->setPosition(210.0f - 40.0f, 140.0f - 25.0f);
-    self->m_pButtonMenu->addChild(resetBtn);
+    self->m_buttonMenu->addChild(resetBtn);
 
     auto mapBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor<ButtonSprite*>()
@@ -328,7 +328,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         menu_selector(KeybindingsLayer_CB::onKeymap)
     );
     mapBtn->setPosition(210.0f, - 140.0f);
-    self->m_pButtonMenu->addChild(mapBtn);
+    self->m_buttonMenu->addChild(mapBtn);
 
     auto selectBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor<ButtonSprite*>()
@@ -343,7 +343,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
     selectBtn->setPosition(0.0f, - 140.0f);
     selectBtn->setVisible(false);
     selectBtn->setTag(KBLCANCELSELECT_TAG);
-    self->m_pButtonMenu->addChild(selectBtn);
+    self->m_buttonMenu->addChild(selectBtn);
 
     auto settingsBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor()
@@ -354,7 +354,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         menu_selector(KeybindingsLayer_CB::onGlobalSettings)
     );
     settingsBtn->setPosition(- 210.0f + 5.0f, - 140.0f + 5.0f);
-    self->m_pButtonMenu->addChild(settingsBtn);
+    self->m_buttonMenu->addChild(settingsBtn);
 
     auto closeBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_closeBtn_001.png"),
@@ -363,7 +363,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
     );
     closeBtn->setPosition(-210.0f + 5.0f, 140.0f - 5.0f);
     closeBtn->setSizeMult(1.5f);
-    self->m_pButtonMenu->addChild(closeBtn);
+    self->m_buttonMenu->addChild(closeBtn);
 
     MAKE_INFOBUTTON(
         "Keybinds",
@@ -378,7 +378,7 @@ bool  KeybindingsLayer_init(KeybindingsLayer* self) {
         .65f,
         210.0f - 90.0f,
         140.0f - 25.0f,
-        self->m_pButtonMenu
+        self->m_buttonMenu
     );
 
     self->setKeypadEnabled(true);

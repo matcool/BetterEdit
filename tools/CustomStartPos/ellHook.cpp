@@ -49,9 +49,9 @@ class EditLevelLayer_CB : public EditLevelLayer {
 };
 
 void loadStartPosButton(EditLevelLayer* self, GJGameLevel* level) {
-    // auto playBtn = getChild<CCMenuItemSpriteExtra*>(self->m_pButtonMenu, 1);
+    // auto playBtn = getChild<CCMenuItemSpriteExtra*>(self->m_buttonMenu, 1);
 
-    // self->m_pButtonMenu->addChild(
+    // self->m_buttonMenu->addChild(
     //     CCNodeConstructor<CCMenuItemSpriteExtra*>()
     //         .fromNode(CCMenuItemSpriteExtra::create(
     //             CCNodeConstructor()

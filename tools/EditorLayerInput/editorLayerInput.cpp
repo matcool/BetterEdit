@@ -4,7 +4,7 @@
 #include "../VisibilityTab/loadVisibilityTab.hpp"
 
 void EditorUI_CB::onNextFreeEditorLayer(CCObject*) {
-    auto objs = this->m_pEditorLayer->getAllObjects();
+    auto objs = this->m_editorLayer->getAllObjects();
 
     std::set<int> layers;
 
@@ -20,7 +20,7 @@ void EditorUI_CB::onNextFreeEditorLayer(CCObject*) {
         last = layer;
     }
 
-    this->m_pEditorLayer->setCurrentLayer(last + 1);
+    this->m_editorLayer->setCurrentLayer(last + 1);
     this->m_pCurrentLayerLabel->setString(
         CCString::createWithFormat("%d", last + 1)->getCString()
     );
@@ -39,7 +39,7 @@ void EditorUI_CB::onLockLayer(CCObject*) {
                 layer->m_bLocked = !layer->m_bLocked;
         }
     } else {
-        auto layer = LayerManager::get()->getLayer(this->m_pEditorLayer->m_nCurrentLayer);
+        auto layer = LayerManager::get()->getLayer(this->m_editorLayer->m_nCurrentLayer);
 
         if (layer)
             layer->m_bLocked = !layer->m_bLocked;
@@ -52,7 +52,7 @@ void EditorUI_CB::onShowLayerPopup(CCObject*) {
     LayerViewPopup::create()->show();
 }
 
-void  EditorUI_onGoToLayer(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+void  EditorUI_onGoToLayer(EditorUI* self,  cocos2d::CCObject* pSender) {
     matdash::orig<&EditorUI_onGoToLayer>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
@@ -60,7 +60,7 @@ void  EditorUI_onGoToLayer(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
     updateEditorLayerInputText(self);
 } MAT_GDMAKE_HOOK(0x886b0, EditorUI_onGoToLayer);
 
-void  EditorUI_onGroupDown(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+void  EditorUI_onGroupDown(EditorUI* self,  cocos2d::CCObject* pSender) {
     matdash::orig<&EditorUI_onGroupDown>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
@@ -68,7 +68,7 @@ void  EditorUI_onGroupDown(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
     updateEditorLayerInputText(self);
 } MAT_GDMAKE_HOOK(0x8d7e0, EditorUI_onGroupDown);
 
-void  EditorUI_onGroupUp(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+void  EditorUI_onGroupUp(EditorUI* self,  cocos2d::CCObject* pSender) {
     matdash::orig<&EditorUI_onGroupUp>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
@@ -76,7 +76,7 @@ void  EditorUI_onGroupUp(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
     updateEditorLayerInputText(self);
 } MAT_GDMAKE_HOOK(0x8d780, EditorUI_onGroupUp);
 
-void  EditorUI_onGoToBaseLayer(gd::EditorUI* self,  cocos2d::CCObject* pSender) {
+void  EditorUI_onGoToBaseLayer(EditorUI* self,  cocos2d::CCObject* pSender) {
     matdash::orig<&EditorUI_onGoToBaseLayer>(self,  pSender);
 
     LayerManager::get()->getLevel()->clearVisible();
@@ -102,11 +102,11 @@ void updateEditorLayerInputText(EditorUI* self) {
     self->m_pCurrentLayerLabel->setVisible(false);
 
     if (i)
-        reinterpret_cast<gd::CCTextInputNode*>(i)->setString(
+        reinterpret_cast<CCTextInputNode*>(i)->setString(
             self->m_pCurrentLayerLabel->getString()
         );
 
-    auto layer = LayerManager::get()->getLayer(self->m_pEditorLayer->m_nCurrentLayer);
+    auto layer = LayerManager::get()->getLayer(self->m_editorLayer->m_nCurrentLayer);
     auto btn = as<CCMenuItemSpriteExtra*>(self->m_pEditGroupBtn->getParent()->getChildByTag(LOCKLAYER_TAG));
 
     if (btn) {
@@ -162,7 +162,7 @@ void loadEditorLayerInput(EditorUI* self) {
     // spr->setTag(LAYERINPUTBG_TAG);
     // spr->setPosition(self->m_pCurrentLayerLabel->getPosition());
 
-    // auto eLayerInput = gd::CCTextInputNode::create("All", ed, "bigFont.fnt", 40.0f, 30.0f);
+    // auto eLayerInput = CCTextInputNode::create("All", ed, "bigFont.fnt", 40.0f, 30.0f);
 
     // eLayerInput->setPosition(self->m_pCurrentLayerLabel->getPosition());
     // eLayerInput->setLabelPlaceholderColor({ 120, 120, 120 });

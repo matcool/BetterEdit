@@ -50,10 +50,10 @@ void EditorUI_CB::onGoToPercentage(CCObject* pSender) {
 
             auto width = CCDirector::sharedDirector()->getWinSize().width;
 
-            this->m_pEditorLayer->getObjectLayer()->setPosition({
+            this->m_editorLayer->getObjectLayer()->setPosition({
                 (- getLevelLength() * min(val, 100.0f) / 100.0f + width / 2) *
-                    this->m_pEditorLayer->getObjectLayer()->getScale(),
-                this->m_pEditorLayer->getObjectLayer()->getPositionY()
+                    this->m_editorLayer->getObjectLayer()->getScale(),
+                this->m_editorLayer->getObjectLayer()->getPositionY()
             });
 
             this->constrainGameLayerPosition();
@@ -111,7 +111,7 @@ void updatePercentLabelPosition(EditorUI* self) {
             val = self->m_pPositionSlider->getValue() * 100.0f;
         } else if (getLevelLength())
             val =
-                self->m_pEditorLayer->getObjectLayer()->convertToNodeSpace(
+                self->m_editorLayer->getObjectLayer()->convertToNodeSpace(
                     CCDirector::sharedDirector()->getWinSize() / 2
                 ).x / getLevelLength() * 100.0f;
         
@@ -134,8 +134,8 @@ void updatePercentLabelPosition(EditorUI* self) {
     auto posLabel = as<CCLabelBMFont*>(self->getChildByTag(EPOSITION_TAG));
 
     if (posLabel) {
-        auto pos = self->m_pEditorLayer->getObjectLayer()->getPosition() /
-            self->m_pEditorLayer->getObjectLayer()->getScale() -
+        auto pos = self->m_editorLayer->getObjectLayer()->getPosition() /
+            self->m_editorLayer->getObjectLayer()->getScale() -
             CCDirector::sharedDirector()->getWinSize() / 2;
 
         posLabel->setString(
@@ -174,10 +174,10 @@ void  EditorUI_sliderChanged(EditorUI* self,  Slider* pSlider) {
     
     float posX = 0.0f;
     posX = (- getLevelLength() * min(val, 100.0f) / 100.0f + width / 2) *
-        self->m_pEditorLayer->getObjectLayer()->getScale();
+        self->m_editorLayer->getObjectLayer()->getScale();
 
-    self->m_pEditorLayer->getObjectLayer()->setPosition({
-        posX, self->m_pEditorLayer->getObjectLayer()->getPositionY()
+    self->m_editorLayer->getObjectLayer()->setPosition({
+        posX, self->m_editorLayer->getObjectLayer()->getPositionY()
     });
 
     self->constrainGameLayerPosition();
@@ -192,7 +192,7 @@ void  EditorUI_valueFromXPos(EditorUI* self) {
     float val = 0.0f;
     if (getLevelLength())
         val =
-            self->m_pEditorLayer->getObjectLayer()->convertToNodeSpace(
+            self->m_editorLayer->getObjectLayer()->convertToNodeSpace(
                 CCDirector::sharedDirector()->getWinSize() / 2
             ).x / getLevelLength() * 100.0f;
     
@@ -230,7 +230,7 @@ void  EditorUI_moveObject(EditorUI* self,  GameObject* obj, CCPoint pos) {
 
     if (g_bDontUpdateSlider || !self) return;
 
-    updateLastObjectX(self->m_pEditorLayer, obj);
+    updateLastObjectX(self->m_editorLayer, obj);
 
     updatePercentLabelPosition(self);
 
@@ -263,7 +263,7 @@ void loadSliderPercent(EditorUI* self) {
     menu->addChild(btn);
     self->m_pPositionSlider->addChild(menu, 999);
 
-    updateLastObjectX(self->m_pEditorLayer);
+    updateLastObjectX(self->m_editorLayer);
 
     // self->addChild(
     //     CCNodeConstructor<CCLabelBMFont*>()

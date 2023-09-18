@@ -28,7 +28,7 @@ void BGLabel::setString(const char* text) {
 
 void BGLabel::updateSize() {
     this->m_pBGSprite->setContentSize({
-        max(strlen(this->m_pLabel->getString()) * 20.f + 20.0f, 80.0f),
+        std::max(strlen(this->m_pLabel->getString()) * 20.f + 20.0f, 80.0f),
         60.f
     });
 }

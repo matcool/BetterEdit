@@ -27,7 +27,7 @@ std::string DebugTypeToStr(DebugType type) {
 }
 
 bool DSdictHasKey(DS_Dictionary* dict, std::string const& key) {
-    return dict->getKey(dict->getIndexOfKey(key.c_str())) == key;
+    return std::string(dict->getKey(dict->getIndexOfKey(key.c_str()))) == key;
 }
 
 log_stream::log_stream() {

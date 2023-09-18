@@ -22,7 +22,7 @@ bool  EditLevelLayer_init(EditLevelLayer* self,  GJGameLevel* level) {
     garageRope->setOffset({ .2f, .2f });
     garageRope->setDestination({ 0.0f, -8.0f });
 
-    self->m_pButtonMenu->addChild(garageRope);
+    self->m_buttonMenu->addChild(garageRope);
 
     setupCreatePresetButton(self, level);
     // loadStartPosButton(self, level);

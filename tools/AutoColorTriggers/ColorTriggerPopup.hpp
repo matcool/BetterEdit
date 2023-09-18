@@ -8,7 +8,7 @@ class ColorTriggerPopup : public BrownAlertDelegate {
     protected:
         InputNode* m_pRangeStartInput;
         InputNode* m_pRangeEndInput;
-        gd::EditorPauseLayer* m_pPauseLayer;
+        EditorPauseLayer* m_pPauseLayer;
 
         void setup() override;
 
@@ -16,5 +16,5 @@ class ColorTriggerPopup : public BrownAlertDelegate {
         void onInfo(cocos2d::CCObject*);
 
     public:
-        static ColorTriggerPopup* create(gd::EditorPauseLayer* = nullptr);
+        static ColorTriggerPopup* create(EditorPauseLayer* = nullptr);
 };

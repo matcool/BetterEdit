@@ -10,42 +10,42 @@
 void IDRemapPopup::setup() {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(60.0f, "0", "0123456789"_s))
             .move(winSize.width / 2 - 60.0f, winSize.height / 2 + 30.0f)
             .save(&m_pStartInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(60.0f, "0", "0123456789"_s))
             .move(winSize.width / 2 + 60.0f, winSize.height / 2 + 30.0f)
             .save(&m_pEndInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Start ID:", "goldFont.fnt")
             .move(winSize.width / 2 - 60.0f, winSize.height / 2 + 60.0f)
             .scale(.6f)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("End ID:", "goldFont.fnt")
             .move(winSize.width / 2 + 60.0f, winSize.height / 2 + 60.0f)
             .scale(.6f)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(60.0f, "0", "0123456789-"_s))
             .move(winSize.width / 2, winSize.height / 2 - 30.0f)
             .save(&m_pOffsetInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Offset:", "goldFont.fnt")
             .move(winSize.width / 2, winSize.height / 2)
@@ -53,7 +53,7 @@ void IDRemapPopup::setup() {
             .done()
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -82,7 +82,7 @@ void IDRemapPopup::setup() {
         - m_pLrSize.width / 2 + 25.0f,
         - m_pLrSize.height / 2 + 25.0f,
 
-        this->m_pButtonMenu
+        this->m_buttonMenu
     );
 }
 

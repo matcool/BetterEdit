@@ -13,7 +13,7 @@ void InputNode::setString(const char* _str) {
     this->m_pInput->refreshLabel();
 }
 
-gd::CCTextInputNode* InputNode::getInputNode() {
+CCTextInputNode* InputNode::getInputNode() {
     return this->m_pInput;
 }
 
@@ -38,7 +38,7 @@ bool InputNode::init(float _w, float _h, const char* _phtxt, const char* _fnt, c
 
     this->addChild(this->m_pBG);
 
-    this->m_pInput = gd::CCTextInputNode::create(
+    this->m_pInput = CCTextInputNode::create(
         _phtxt, this, _fnt, _w - 10.0f, 60.0f
     );
 

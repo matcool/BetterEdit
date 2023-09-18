@@ -53,7 +53,7 @@ void KeybindCell::loadFromItem(KeybindItem* bind) {
 
     m_pMenu = CCMenu::create();
     m_pMenu->setPosition(m_fWidth / 2, m_fHeight / 2);
-    this->m_pLayer->addChild(m_pMenu);
+    this->m_mainLayer->addChild(m_pMenu);
 
     auto nameLabel = CCLabelBMFont::create(name, "bigFont.fnt");
     nameLabel->limitLabelWidth(140.0f, .5f, .0f);
@@ -75,7 +75,7 @@ void KeybindCell::loadFromItem(KeybindItem* bind) {
     auto nameMenu = CCMenu::create();
     nameMenu->addChild(nameBtn);
     nameMenu->setPosition(m_fWidth / 2, m_fHeight / 2);
-    this->m_pLayer->addChild(nameMenu);
+    this->m_mainLayer->addChild(nameMenu);
 
     if (!m_pBind) {
         nameBtn->setEnabled(false);
@@ -116,14 +116,14 @@ void KeybindCell::onFold(CCObject* pSender) {
         m_pItem->delegate->m_mFoldedCategories[m_pItem->text] =
             !as<CCMenuItemToggler*>(pSender)->isToggled();
 
-        as<KeybindingsLayer_CB*>(m_pItem->delegate->m_pLayer)->reloadList();
+        as<KeybindingsLayer_CB*>(m_pItem->delegate->m_mainLayer)->reloadList();
     }
 }
 
 void KeybindCell::onEdit(CCObject* pSender) {
     auto item = as<KeybindStoreItem*>(as<CCNode*>(pSender)->getUserObject());
 
-    this->m_pItem->delegate->m_pLayer->detachInput();
+    this->m_pItem->delegate->m_mainLayer->detachInput();
 
     KeybindEditPopup::create(this, item)->show();
 }
@@ -133,7 +133,7 @@ void KeybindCell::onMore(CCObject* pSender) {
 }
 
 void KeybindCell::onRepeat(CCObject*) {
-    this->m_pItem->delegate->m_pLayer->detachInput();
+    this->m_pItem->delegate->m_mainLayer->detachInput();
 
     KeybindRepeatPopup::create(this)->show();
 }
@@ -159,7 +159,7 @@ void KeybindCell::onSelect(CCObject*) {
             this->m_pItem->selectKeybind
         );
     }
-    this->m_pItem->delegate->m_pLayer->onFinishSelect(nullptr);
+    this->m_pItem->delegate->m_mainLayer->onFinishSelect(nullptr);
 }
 
 void KeybindCell::FLAlert_Clicked(FLAlertLayer*, bool btn2) {

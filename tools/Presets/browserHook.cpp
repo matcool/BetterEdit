@@ -4,27 +4,27 @@
 
 using namespace gdmake;
 
-class EditLevelLayer_CB : public gd::EditLevelLayer {
+class EditLevelLayer_CB : public EditLevelLayer {
     public:
         void onCreatePreset(cocos2d::CCObject* pSender) {
-            auto lvl = extra::as<gd::GJGameLevel*>(
+            auto lvl = extra::as<GJGameLevel*>(
                 extra::as<cocos2d::CCNode*>(pSender)->getUserObject()
             );
 
             InputPrompt::create("Save Preset", "Preset Name", [this, lvl](const char* name) -> void {
                 if (name && strlen(name)) {
                     BetterEdit::sharedState()->addPreset({
-                        name, lvl->m_sLevelString
+                        name, lvl->m_levelString
                     });
 
-                    this->addChild(gd::TextAlertPopup::create("Preset Created!", .5f, .6f), 100);
+                    this->addChild(TextAlertPopup::create("Preset Created!", .5f, .6f), 100);
                 }
             }, "Save")->show();
         }
 };
 
-void setupCreatePresetButton(gd::EditLevelLayer* self, gd::GJGameLevel* level) {
-    auto btn = gd::CCMenuItemSpriteExtra::create(
+void setupCreatePresetButton(EditLevelLayer* self, GJGameLevel* level) {
+    auto btn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor()
             .fromFrameName("GJ_plusBtn_001.png")
             .scale(.6f)
@@ -41,9 +41,9 @@ void setupCreatePresetButton(gd::EditLevelLayer* self, gd::GJGameLevel* level) {
             menu = extra::as<cocos2d::CCMenu*>(obj);
         
     if (!menu)
-        menu = self->m_pButtonMenu;
+        menu = self->m_buttonMenu;
 
-    auto folderBtn = extra::getChild<gd::CCMenuItemSpriteExtra*>(menu, -1);
+    auto folderBtn = extra::getChild<CCMenuItemSpriteExtra*>(menu, -1);
 
     btn->setPosition(
         folderBtn->getPositionX() + 35.0f,
@@ -53,7 +53,7 @@ void setupCreatePresetButton(gd::EditLevelLayer* self, gd::GJGameLevel* level) {
     menu->addChild(btn);
 }
 
-void  LevelBrowserLayer_onNew(gd::LevelBrowserLayer* self,  cocos2d::CCObject* pSender) {
+void  LevelBrowserLayer_onNew(LevelBrowserLayer* self,  cocos2d::CCObject* pSender) {
     if (BetterEdit::sharedState()->getPresets().size())
         PresetLayer::create()->show();
     else

@@ -21,5 +21,5 @@ void setupBackupButton(EditLevelLayer* layer, GJGameLevel* level) {
 
     btn->setPosition(-170.0f, 0.0f);
 
-    layer->m_pButtonMenu->addChild(btn);
+    layer->m_buttonMenu->addChild(btn);
 }

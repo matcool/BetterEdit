@@ -2,4 +2,4 @@
 
 #include <GDMake.h>
 
-void setupCreatePresetButton(gd::EditLevelLayer*, gd::GJGameLevel*);
+void setupCreatePresetButton(EditLevelLayer*, GJGameLevel*);

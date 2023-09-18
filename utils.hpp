@@ -113,20 +113,21 @@ static constexpr ccColor3B cc3x(int hexValue) {
 }
 
 static EffectGameObject* asEffectGameObject(GameObject* obj) {
-    if (obj != nullptr) {
-        const auto vtable = *as<uintptr_t*>(obj) - base;
-        if (
-            // EffectGameObject::vftable
-            vtable == 0x2e4190 ||
-            // RingObject::vftable
-            vtable == 0x2e390c ||
-            // LabelGameObject::vftable
-            vtable == 0x2e3ed8 ||
-            // StartPosObject::vftable
-            vtable == 0x25aa40
-        )
-            return as<EffectGameObject*>(obj);
-    }
+    // FIXME: impl
+    // if (obj != nullptr) {
+    //     const auto vtable = *as<uintptr_t*>(obj) - base;
+    //     if (
+    //         // EffectGameObject::vftable
+    //         vtable == 0x2e4190 ||
+    //         // RingObject::vftable
+    //         vtable == 0x2e390c ||
+    //         // LabelGameObject::vftable
+    //         vtable == 0x2e3ed8 ||
+    //         // StartPosObject::vftable
+    //         vtable == 0x25aa40
+    //     )
+    //         return as<EffectGameObject*>(obj);
+    // }
     return nullptr;
 }
 
@@ -140,8 +141,9 @@ static std::string timePointAsString(const std::chrono::system_clock::time_point
 
 template<typename T, typename R = T>
 static constexpr R vtable_cast(T obj, uintptr_t vtable) {
-    if (obj && (*as<uintptr_t*>(obj) - base == vtable))
-        return as<R>(obj);
+    // FIXME:
+    // if (obj && (*as<uintptr_t*>(obj) - base == vtable))
+    //     return as<R>(obj);
     
     return nullptr;
 }
@@ -547,65 +549,65 @@ static void limitNodeSize(CCNode* spr, CCSize const& size, float def, float min)
     spr->setScale(scale);
 }
 
-static CCSize operator*=(CCSize & size, float mul) {
-    size.width *= mul;
-    size.height *= mul;
-    return size;
-}
+// static CCSize operator*=(CCSize & size, float mul) {
+//     size.width *= mul;
+//     size.height *= mul;
+//     return size;
+// }
 
-static CCRect operator*=(CCRect & size, float mul) {
-    size.origin.x *= mul;
-    size.origin.y *= mul;
-    size.size.width *= mul;
-    size.size.height *= mul;
-    return size;
-}
+// static CCRect operator*=(CCRect & size, float mul) {
+//     size.origin.x *= mul;
+//     size.origin.y *= mul;
+//     size.size.width *= mul;
+//     size.size.height *= mul;
+//     return size;
+// }
 
-static CCPoint operator/=(CCPoint & pos, float mul) {
-    pos.x /= mul;
-    pos.y /= mul;
-    return pos;
-}
+// static CCPoint operator/=(CCPoint & pos, float mul) {
+//     pos.x /= mul;
+//     pos.y /= mul;
+//     return pos;
+// }
 
-static CCPoint operator*=(CCPoint & pos, float mul) {
-    pos.x *= mul;
-    pos.y *= mul;
-    return pos;
-}
+// static CCPoint operator*=(CCPoint & pos, float mul) {
+//     pos.x *= mul;
+//     pos.y *= mul;
+//     return pos;
+// }
 
-static CCPoint operator+=(CCPoint & pos, CCPoint const& add) {
-    pos.x += add.x;
-    pos.y += add.y;
-    return pos;
-}
+// static CCPoint operator+=(CCPoint & pos, CCPoint const& add) {
+//     pos.x += add.x;
+//     pos.y += add.y;
+//     return pos;
+// }
 
-static CCSize operator-(CCSize const& size, float f) {
-    return { size.width - f, size.height - f };
-}
+// static CCSize operator-(CCSize const& size, float f) {
+//     return { size.width - f, size.height - f };
+// }
 
-static CCSize operator-(CCSize const& size) {
-    return { -size.width, -size.height };
-}
+// static CCSize operator-(CCSize const& size) {
+//     return { -size.width, -size.height };
+// }
 
-static bool operator==(CCSize const& size, CCSize const& size2) {
-    return
-        size.width == size2.width &&
-        size.height == size2.height;
-}
+// static bool operator==(CCSize const& size, CCSize const& size2) {
+//     return
+//         size.width == size2.width &&
+//         size.height == size2.height;
+// }
 
-static bool operator!=(CCPoint const& size, CCPoint const& size2) {
-    return
-        size.x != size2.x ||
-        size.y != size2.y;
-}
+// static bool operator!=(CCPoint const& size, CCPoint const& size2) {
+//     return
+//         size.x != size2.x ||
+//         size.y != size2.y;
+// }
 
-static bool operator==(CCPoint const& s1, CCPoint const& s2) {
-    return s1.x == s2.x && s1.y == s2.y;
-}
+// static bool operator==(CCPoint const& s1, CCPoint const& s2) {
+//     return s1.x == s2.x && s1.y == s2.y;
+// }
 
-static bool operator==(CCRect const& r1, CCRect const& r2) {
-    return r1.origin == r2.origin && r1.size == r2.size;
-}
+// static bool operator==(CCRect const& r1, CCRect const& r2) {
+//     return r1.origin == r2.origin && r1.size == r2.size;
+// }
 
 static GameObject* firstObject(CCArray* objs) {
     if (objs->count())
@@ -658,28 +660,28 @@ static void recursiveAddNear(EditorUI* ui, GameObject* fromObj, std::vector<Game
 
 static void selectStructure(EditorUI* ui, GameObject* fromObj) {
     std::vector<GameObject*> nearby;
-    auto pos = fromObj->getPosition();
-    CCARRAY_FOREACH_B_TYPE(ui->m_pEditorLayer->getAllObjects(), obj, GameObject) {
-        switch (obj->m_nObjectType) {
-            case kGameObjectTypeSlope:
-            case kGameObjectTypeSolid:
-            case kGameObjectTypeSpecial:
-            case kGameObjectTypeDecoration:
-            case kGameObjectTypeHazard:
-            case kGameObjectTypeGravityPad:
-            case kGameObjectTypePinkJumpPad:
-            case kGameObjectTypeYellowJumpPad:
-            case kGameObjectTypeRedJumpPad:
-                if (
-                    obj->m_nEditorLayer == fromObj->m_nEditorLayer
-                ) {
-                    if (ccpDistance(obj->getPosition(), pos) < 500.0f) {
-                        nearby.push_back(obj);
-                    }
-                }
-                break;
-        }
-    }
+    // auto pos = fromObj->getPosition();
+    // CCARRAY_FOREACH_B_TYPE(ui->m_editorLayer->getAllObjects(), obj, GameObject) {
+    //     switch (obj->m_nObjectType) {
+    //         case kGameObjectTypeSlope:
+    //         case kGameObjectTypeSolid:
+    //         case kGameObjectTypeSpecial:
+    //         case kGameObjectTypeDecoration:
+    //         case kGameObjectTypeHazard:
+    //         case kGameObjectTypeGravityPad:
+    //         case kGameObjectTypePinkJumpPad:
+    //         case kGameObjectTypeYellowJumpPad:
+    //         case kGameObjectTypeRedJumpPad:
+    //             if (
+    //                 obj->m_nEditorLayer == fromObj->m_nEditorLayer
+    //             ) {
+    //                 if (ccpDistance(obj->getPosition(), pos) < 500.0f) {
+    //                     nearby.push_back(obj);
+    //                 }
+    //             }
+    //             break;
+    //     }
+    // }
     auto arr = CCArray::create();
     arr->addObject(fromObj);
     recursiveAddNear(ui, fromObj, nearby, arr);

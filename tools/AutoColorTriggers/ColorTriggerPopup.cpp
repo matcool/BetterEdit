@@ -20,37 +20,37 @@ void ColorTriggerPopup::setup() {
 // label->setPosition(winSize / 2);
 // )CPP");
 
-//     this->m_pLayer->addChild(label);
+//     this->m_mainLayer->addChild(label);
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(60.0f, "0", "0123456789"_s))
             .move(winSize.width / 2 - 60.0f, winSize.height / 2)
             .save(&m_pRangeStartInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(60.0f, "0", "0123456789"_s))
             .move(winSize.width / 2 + 60.0f, winSize.height / 2)
             .save(&m_pRangeEndInput)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("-", "bigFont.fnt")
             .move(winSize / 2)
             .scale(.7f)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Start ID:", "goldFont.fnt")
             .move(winSize.width / 2 - 60.0f, winSize.height / 2 + 30.0f)
             .scale(.6f)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("End ID:", "goldFont.fnt")
             .move(winSize.width / 2 + 60.0f, winSize.height / 2 + 30.0f)
@@ -58,7 +58,7 @@ void ColorTriggerPopup::setup() {
             .done()
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
@@ -72,7 +72,7 @@ void ColorTriggerPopup::setup() {
             .done()
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -128,8 +128,8 @@ void ColorTriggerPopup::onCreate(CCObject* pSender) {
         obj->m_colColor = color->m_color;
         obj->m_bBlending = color->m_blending;
         obj->m_fOpacity = color->m_opacity;
-        obj->m_bPlayerColor1 = color->m_playerColor == 1;
-        obj->m_bPlayerColor2 = color->m_playerColor == 2;
+        obj->m_bPlayerColor1 = color->m_mainLayerColor == 1;
+        obj->m_bPlayerColor2 = color->m_mainLayerColor == 2;
         obj->m_nCopyColorID = color->m_copyID;
         obj->m_obHSVValue = color->m_obCopyHSV;
         obj->updateLabel();

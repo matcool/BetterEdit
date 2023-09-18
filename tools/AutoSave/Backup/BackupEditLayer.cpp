@@ -48,36 +48,36 @@ void BackupEditLayer::setup() {
     this->m_pNameInput->setString(this->m_pBackup->name.c_str());
     this->m_pNameInput->getInputNode()->setDelegate(this);
 
-    this->m_pLayer->addChild(this->m_pNameInput);
+    this->m_mainLayer->addChild(this->m_pNameInput);
 
     auto deleteBtn = CCMenuItemSpriteExtra::create(
         createBtnSprite("edit_delBtn_001.png", "Delete\nBackup", cc3x(0xfa3)), //  { 255, 115, 95 }
         this,
         menu_selector(BackupEditLayer::onDelete)
     );
-    this->m_pButtonMenu->addChild(deleteBtn);
+    this->m_buttonMenu->addChild(deleteBtn);
 
     auto viewBtn = CCMenuItemSpriteExtra::create(
         createBtnSprite("BE_eye-on.png", "View\nBackup"), // { 255, 255, 80 }
         this,
         menu_selector(BackupEditLayer::onView)
     );
-    this->m_pButtonMenu->addChild(viewBtn);
+    this->m_buttonMenu->addChild(viewBtn);
 
     auto loadBtn = CCMenuItemSpriteExtra::create(
         createBtnSprite("GJ_downloadsIcon_001.png", "Load\nBackup"), // { 80, 255, 95 }
         this,
         menu_selector(BackupEditLayer::onApply)
     );
-    this->m_pButtonMenu->addChild(loadBtn);
+    this->m_buttonMenu->addChild(loadBtn);
 
-    this->m_pButtonMenu->alignItemsHorizontallyWithPadding(10.0f);
+    this->m_buttonMenu->alignItemsHorizontallyWithPadding(10.0f);
 
     deleteBtn->setPositionY(-35.0f);
     loadBtn->setPositionY(-35.0f);
     viewBtn->setPositionY(-35.0f);
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
@@ -144,7 +144,7 @@ void BackupEditLayer::applyBackup() {
     checkmark->setPosition(
         CCDirector::sharedDirector()->getWinSize() / 2
     );
-    alert->m_pLayer->addChild(checkmark, 10);
+    alert->m_mainLayer->addChild(checkmark, 10);
     alert->show();
 
     this->m_pBackupLayer->reloadList();

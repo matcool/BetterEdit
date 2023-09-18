@@ -12,9 +12,9 @@ void KeybindRepeatPopup::setup() {
         winSize.height / 2 + this->m_pLrSize.height / 2 - 45.0f
     );
     subTitle->setScale(.5f);
-    this->m_pLayer->addChild(subTitle);
+    this->m_mainLayer->addChild(subTitle);
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Interval (ms)", "bigFont.fnt")
             .scale(.4f)
@@ -22,7 +22,7 @@ void KeybindRepeatPopup::setup() {
             .done()
     );
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(100.0f, "ms"))
             .exec([this](auto i) -> void {
@@ -36,7 +36,7 @@ void KeybindRepeatPopup::setup() {
             .done()
     );
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Start (ms)", "bigFont.fnt")
             .scale(.4f)
@@ -44,7 +44,7 @@ void KeybindRepeatPopup::setup() {
             .done()
     );
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(100.0f, "ms"))
             .exec([this](auto i) -> void {
@@ -61,15 +61,15 @@ void KeybindRepeatPopup::setup() {
     GameToolbox::createToggleButton(
         menu_selector(KeybindRepeatPopup::onEnable),
         this->m_pCell->m_pBind->repeat,
-        this->m_pButtonMenu, this,
-        this->m_pLayer, .7f, .4f,
+        this->m_buttonMenu, this,
+        this->m_mainLayer, .7f, .4f,
         120.0f, "", false, 0,
         nullptr, "Enable Repeating",
         { winSize.width / 2 - 65.0f, winSize.height / 2 - 60.0f },
         { 5.0f, .0f }
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -98,7 +98,7 @@ void KeybindRepeatPopup::setup() {
         .65f,
         this->m_pLrSize.width / 2 - 25.0f,
         - this->m_pLrSize.height / 2 + 25.0f,
-        this->m_pButtonMenu
+        this->m_buttonMenu
     );
 }
 

@@ -18,7 +18,7 @@ ccColor3B operator+(const ccColor3B& a, const ccColor3B& b) {
 
 class ObjectPulseAction : public CCActionInterval {
 public:
-    gd::GameObject* m_target;
+    GameObject* m_target;
     ccColor3B m_start, m_color;
     bool init(float d, const ccColor3B dest) {
         CCActionInterval::initWithDuration(d);

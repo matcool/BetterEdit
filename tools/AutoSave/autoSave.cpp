@@ -19,7 +19,7 @@ class EditorUI_Timer : public EditorUI {
 
                 if (
                     timer->paused() ||
-                    this->m_pEditorLayer->m_ePlaybackMode != kPlaybackModeNot
+                    this->m_editorLayer->m_ePlaybackMode != kPlaybackModeNot
                 )
                     return;
                 
@@ -34,7 +34,7 @@ class EditorUI_Timer : public EditorUI {
                     timer->showStatus("Autosaving...");
                     timer->getLabel()->draw();
 
-                    auto pauseLayer = EditorPauseLayer::create(this->m_pEditorLayer);
+                    auto pauseLayer = EditorPauseLayer::create(this->m_editorLayer);
                     pauseLayer->saveLevel();
                     pauseLayer->release();
 
@@ -161,19 +161,19 @@ AutoSaveTimer* getAutoSaveTimer(EditorUI* ui) {
 
 void  EditorPauseLayer_saveLevel(EditorPauseLayer* self) {
     if (shouldRotateSaw())
-        stopRotations(self->m_pEditorLayer);
+        stopRotations(self->m_editorLayer);
     
-    if (self->m_pEditorLayer->m_ePlaybackMode != kPlaybackModeNot) {
-        self->m_pEditorLayer->m_pEditorUI->onStopPlaytest(nullptr);
+    if (self->m_editorLayer->m_ePlaybackMode != kPlaybackModeNot) {
+        self->m_editorLayer->m_pEditorUI->onStopPlaytest(nullptr);
     }
 
     matdash::orig<&EditorPauseLayer_saveLevel>(self);
     
     if (shouldRotateSaw())
-        beginRotations(self->m_pEditorLayer);
+        beginRotations(self->m_editorLayer);
 
     LevelBackupManager::get()->handleAutoBackupForLevel(
-        self->m_pEditorLayer->m_pLevelSettings->m_pLevel
+        self->m_editorLayer->m_pLevelSettings->m_pLevel
     );
 } MAT_GDMAKE_HOOK(0x75010, EditorPauseLayer_saveLevel);
 

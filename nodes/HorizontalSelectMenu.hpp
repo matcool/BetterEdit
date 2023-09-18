@@ -9,7 +9,7 @@ class HorizontalSelectMenu : public cocos2d::CCNode {
 
     protected:
         cocos2d::extension::CCScale9Sprite* m_pBGLayer;
-        std::vector<gd::CCMenuItemToggler*> m_vToggles;
+        std::vector<CCMenuItemToggler*> m_vToggles;
         unsigned int m_nSelIndex = 0u;
 
         bool m_bIsMulti = false;

@@ -26,7 +26,7 @@ bool  UILayer_init(UILayer* self) {
     if (as<get_bool_from_byte*>((as<int>(app) + 0x90))->b)
         return true;
 
-    if (!self->m_pCheckPointMenu)
+    if (!self->m_checkPointMenu)
         return true;
 
     auto zBind = KeybindManager::get()->getTargetByID("gd.play.place_checkpoint");
@@ -35,7 +35,7 @@ bool  UILayer_init(UILayer* self) {
         z += b.toString() + ", ";
     z = z.substr(0, z.size() - 2);
     
-    auto btnZ = getChild<CCMenuItemSpriteExtra*>(self->m_pCheckPointMenu, 0);
+    auto btnZ = getChild<CCMenuItemSpriteExtra*>(self->m_checkPointMenu, 0);
     if (!btnZ)
         return true;
     
@@ -52,7 +52,7 @@ bool  UILayer_init(UILayer* self) {
         y += b.toString() + ", ";
     y = y.substr(0, y.size() - 2);
 
-    auto btnY = getChild<CCMenuItemSpriteExtra*>(self->m_pCheckPointMenu, 1);
+    auto btnY = getChild<CCMenuItemSpriteExtra*>(self->m_checkPointMenu, 1);
     if (!btnY)
         return true;
     

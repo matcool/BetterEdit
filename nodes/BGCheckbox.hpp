@@ -6,7 +6,7 @@
 class BGCheckbox : public cocos2d::CCNode {
     protected:
         cocos2d::extension::CCScale9Sprite* m_pBGLayer;
-        gd::CCMenuItemToggler* m_pToggler;
+        CCMenuItemToggler* m_pToggler;
         cocos2d::CCLabelBMFont* m_pLabel;
 
         bool init(const char*);
@@ -16,5 +16,5 @@ class BGCheckbox : public cocos2d::CCNode {
 
         void setEnabled(bool);
 
-        inline gd::CCMenuItemToggler* getToggle() { return m_pToggler; }
+        inline CCMenuItemToggler* getToggle() { return m_pToggler; }
 };

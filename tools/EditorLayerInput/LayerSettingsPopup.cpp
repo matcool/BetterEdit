@@ -3,14 +3,14 @@
 void LayerSettingsPopup::setup() {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Default Opacity:", "bigFont.fnt")
             .move(winSize / 2 + CCPoint { 0.0f, 20.0f })
             .scale(.5f)
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<Slider*>()
             .fromNode(Slider::create(this, (SEL_MenuHandler)&LayerSettingsPopup::sliderChanged, .8f))
             .move(winSize / 2)
@@ -22,7 +22,7 @@ void LayerSettingsPopup::setup() {
             })
             .done()
     );
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("", "goldFont.fnt")
             .move(winSize / 2 + CCPoint { 100.0f, 0.0f })
@@ -32,7 +32,7 @@ void LayerSettingsPopup::setup() {
             .done()
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
@@ -56,7 +56,7 @@ void LayerSettingsPopup::setup() {
         - this->m_pLrSize.width / 2 + 25.0f,
         - this->m_pLrSize.height / 2 + 25.0f,
 
-        this->m_pButtonMenu
+        this->m_buttonMenu
     );
 
     this->sliderChanged(nullptr);

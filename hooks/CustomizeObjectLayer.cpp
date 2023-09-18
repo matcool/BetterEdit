@@ -27,7 +27,7 @@ class CustomizeObjectLayer_CB : public CustomizeObjectLayer {
                     patchBytes(0x164fa5, { 0xbf, 0x01, 0x00, 0x00, 0x00 });
                 }
 
-                auto btn = as<CCMenuItemSpriteExtra*>(this->m_pButtonMenu->getChildByTag(NEXTFREE_TAG));
+                auto btn = as<CCMenuItemSpriteExtra*>(this->m_buttonMenu->getChildByTag(NEXTFREE_TAG));
 
                 if (btn) {
                     auto spr = as<ButtonSprite*>(btn->getNormalImage());
@@ -264,7 +264,7 @@ bool  CustomizeObjectLayer_init(
     )
         self->m_nCustomColorChannel = colorCountOnPage;
 
-    auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(self->m_pButtonMenu, 26);
+    auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(self->m_buttonMenu, 26);
 
     nextFreeBtn->setPositionX(nextFreeBtn->getPositionX() - 2.0f);
 
@@ -282,14 +282,14 @@ bool  CustomizeObjectLayer_init(
         nextFreeBtn->getPositionY()
     );
     self->m_pColorNodes->addObject(customNextFreeBtn);
-    self->m_pButtonMenu->addChild(customNextFreeBtn);
+    self->m_buttonMenu->addChild(customNextFreeBtn);
 
     if (BetterEdit::getDisableNewColorSelection())
         return true;
     
     self->m_pTitleLabel->setVisible(false);
 
-    getChild<CCLabelBMFont*>(self->m_pButtonMenu, 1)->setPosition(
+    getChild<CCLabelBMFont*>(self->m_buttonMenu, 1)->setPosition(
         210, 0
     );
 
@@ -303,7 +303,7 @@ bool  CustomizeObjectLayer_init(
     bgSprite->setPosition(winSize / 2);
 
     self->m_pColorNodes->addObject(bgSprite);
-    self->m_pLayer->addChild(bgSprite);
+    self->m_mainLayer->addChild(bgSprite);
 
     int i = 0;
     for (auto channel : std::initializer_list<int> {
@@ -319,7 +319,7 @@ bool  CustomizeObjectLayer_init(
 
         self->m_pColorButtons->addObject(channelSprite);
         self->m_pColorNodes->addObject(btn);
-        self->m_pButtonMenu->addChild(btn);
+        self->m_buttonMenu->addChild(btn);
 
         auto width = 100.0f;
         auto yoff = 35.0f;
@@ -347,7 +347,7 @@ bool  CustomizeObjectLayer_init(
 
         self->m_pColorButtons->addObject(channelSprite);
         self->m_pColorNodes->addObject(btn);
-        self->m_pButtonMenu->addChild(btn);
+        self->m_buttonMenu->addChild(btn);
 
         auto width = 180.0f;
         auto yoff = 33.5f;
@@ -386,7 +386,7 @@ bool  CustomizeObjectLayer_init(
     line->setOpacity(100);
 
     self->m_pColorNodes->addObject(line);
-    self->m_pLayer->addChild(line);
+    self->m_mainLayer->addChild(line);
 
     updateButtons(self);
 

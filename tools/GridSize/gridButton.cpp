@@ -62,7 +62,7 @@ void zoomEditorGrid(EditorUI* ui, bool zoomIn) {
     
     if (BetterEdit::getShowGridOnChange()) {
         GameManager::sharedState()->setGameVariable("0038", true);
-        ui->m_pEditorLayer->updateOptions();
+        ui->m_editorLayer->updateOptions();
     }
 
     ui->updateGridNodeSize();
@@ -103,7 +103,7 @@ class GridInputDelegate : public CCNode, public TextInputDelegate {
                 BetterEdit::sharedState()->setGridSizeEnabled(true);
 
             GameManager::sharedState()->setGameVariable("0038", true);
-            ui->m_pEditorLayer->updateOptions();
+            ui->m_editorLayer->updateOptions();
 
             ui->updateGridNodeSize();
         }

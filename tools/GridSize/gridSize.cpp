@@ -14,12 +14,12 @@ matdash::cc::stdcall<void> ObjectToolbox_gridNodeSizeForKey(int objID) {
     return {};
 } MAT_GDMAKE_HOOK(0x1dc920, ObjectToolbox_gridNodeSizeForKey);
 
-void  EditorUI_updateGridNodeSize(gd::EditorUI* self) {
+void  EditorUI_updateGridNodeSize(EditorUI* self) {
     if (!BetterEdit::sharedState()->getGridSizeEnabled())
         return matdash::orig<&EditorUI_updateGridNodeSize>(self);
 
     auto actualMode = self->m_nSelectedMode;
-    self->m_nSelectedMode = gd::EditorUI::Mode_Create;
+    self->m_nSelectedMode = EditorUI::Mode_Create;
 
     matdash::orig<&EditorUI_updateGridNodeSize>(self);
 

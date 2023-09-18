@@ -84,11 +84,10 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
 
 # target_compile_definitions(${PROJECT_NAME} PRIVATE CC_DLL=)
 
-# target_include_directories(${PROJECT_NAME} PRIVATE
-#     nuts
-#     ${CMAKE_CURRENT_SOURCE_DIR}
-#     include
-# )
+target_include_directories(${PROJECT_NAME} PRIVATE
+    nuts
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 # add_subdirectory(nodes)
 

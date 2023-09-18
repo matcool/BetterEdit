@@ -11,7 +11,7 @@ std::set<PasteLayer::State>* g_pStates = nullptr;
 bool g_bPasteState = false;
 
 void PasteLayer::setup() {
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCScale9Sprite*>()
             .fromNode(CCScale9Sprite::create(
                 "square02b_001.png", { 0.0f, 0.0f, 80.0f, 80.0f }
@@ -40,7 +40,7 @@ void PasteLayer::setup() {
     this->addStateToggle("Rotation", PasteLayer::Rotation);
     this->addStateToggle("Scale", PasteLayer::Scale);
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -56,7 +56,7 @@ void PasteLayer::setup() {
             .udata(1)
             .done()
     );
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -73,7 +73,7 @@ void PasteLayer::setup() {
             .done()
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()
@@ -105,7 +105,7 @@ void PasteLayer::addStateToggle(const char* text, PasteLayer::State state) {
     );
     toggle->toggle(g_pStates->count(state));
     toggle->setUserData(as<void*>(state));
-    this->m_pButtonMenu->addChild(toggle);
+    this->m_buttonMenu->addChild(toggle);
 
     auto label = CCLabelBMFont::create(text, "bigFont.fnt");
     label->limitLabelWidth(125.0f, .5f, .2f);
@@ -113,7 +113,7 @@ void PasteLayer::addStateToggle(const char* text, PasteLayer::State state) {
         (m_bNextRow ? 35.0f : -125.0f) + label->getScaledContentSize().width / 2,
         70.0f - 20.0f * this->m_nToggleCount
     );
-    this->m_pButtonMenu->addChild(label);
+    this->m_buttonMenu->addChild(label);
 
     this->m_vToggles.push_back(toggle);
 
@@ -148,8 +148,8 @@ void PasteLayer::onPasteState(CCObject* pSender) {
     g_bPasteState = true;
 
     lel->pasteAtributeState(
-        lel->getEditorUI()->m_pSelectedObject,
-        lel->getEditorUI()->m_pSelectedObjects
+        lel->getEditorUI()->m_selectedObject,
+        lel->getEditorUI()->m_selectedObjects
     );
 
     g_bPasteState = false;

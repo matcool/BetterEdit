@@ -1,4 +1,4 @@
 #include <GDMake.h>
 
-using addEditorTabFunc = std::function<gd::EditButtonBar*(gd::EditorUI*)>;
+using addEditorTabFunc = std::function<EditButtonBar*(EditorUI*)>;
 void addEditorTab(const char* spr, addEditorTabFunc bbar);

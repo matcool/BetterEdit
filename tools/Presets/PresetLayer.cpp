@@ -10,9 +10,9 @@ void PresetLayer::setup() {
     this->m_pSelectedLabel = CCLabelBMFont::create("Empty", "bigFont.fnt");
     this->m_pSelectedLabel->setPosition(0, 0);
     this->m_pSelectedLabel->limitLabelWidth(this->m_pLrSize.width - 90.0f, 1.0f, .2f);
-    this->m_pButtonMenu->addChild(this->m_pSelectedLabel);
+    this->m_buttonMenu->addChild(this->m_pSelectedLabel);
 
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             CCNodeConstructor()
                 .fromFrameName("GJ_arrow_01_001.png")
@@ -25,7 +25,7 @@ void PresetLayer::setup() {
         .move(- this->m_pLrSize.width / 2 + 25.0f, 0.0f)
         .done()
     );
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             CCNodeConstructor()
                 .fromFrameName("GJ_arrow_01_001.png")
@@ -40,7 +40,7 @@ void PresetLayer::setup() {
         .done()
     );
 
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             CCSprite::createWithSpriteFrameName("GJ_deleteIcon_001.png"),
             this,
@@ -52,7 +52,7 @@ void PresetLayer::setup() {
         .done()
     );
 
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             CCNodeConstructor()
                 .fromFrameName("GJ_optionsBtn_001.png")
@@ -67,7 +67,7 @@ void PresetLayer::setup() {
         .done()
     );
 
-    this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+    this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
         .fromNode(CCMenuItemSpriteExtra::create(
             ButtonSprite::create(
                 "Create", 0, 0, "goldFont.fnt", "GJ_button_01.png", 0, .8f

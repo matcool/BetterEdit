@@ -8,7 +8,7 @@ class BackupEditLayer;
 class BackupViewLayer : public CCLayer {
     protected:
         GJGameLevel* m_pLevel;
-        CCMenu* m_pButtonMenu;
+        CCMenu* m_buttonMenu;
         GJListLayer* m_pList = nullptr;
         CCLabelBMFont* m_pListLabel;
         std::string m_sTitle;

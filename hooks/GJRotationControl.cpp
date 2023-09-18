@@ -4,23 +4,23 @@
 
 using namespace gdmake;
 
-class RotateTextDelegate : public cocos2d::CCNode, public gd::TextInputDelegate {
+class RotateTextDelegate : public cocos2d::CCNode, public TextInputDelegate {
     public:
-        gd::GJRotationControl* m_pControl;
-        gd::CCTextInputNode* m_pInputNode;
-        gd::CCMenuItemSpriteExtra* m_pLockPosBtn;
-        gd::CCMenuItemSpriteExtra* m_pLockScaleBtn;
+        GJRotationControl* m_pControl;
+        CCTextInputNode* m_pInputNode;
+        CCMenuItemSpriteExtra* m_pLockPosBtn;
+        CCMenuItemSpriteExtra* m_pLockScaleBtn;
         bool m_bLockPosEnabled;
         bool m_bUnlockScaleEnabled;
 
-        virtual void textChanged(gd::CCTextInputNode* input) override {
+        virtual void textChanged(CCTextInputNode* input) override {
             float val = 1.0f;
 
             if (input->getString() && strlen(input->getString()))
                 val = static_cast<float>(std::atof(input->getString()));
         }
 
-        static RotateTextDelegate* create(gd::GJRotationControl* c) {
+        static RotateTextDelegate* create(GJRotationControl* c) {
             auto ret = new RotateTextDelegate();
 
             if (ret && ret->init()) {
@@ -34,7 +34,7 @@ class RotateTextDelegate : public cocos2d::CCNode, public gd::TextInputDelegate 
         }
 };
 
-bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, cocos2d::CCEvent* event) {
+bool pointIntersectsRotateControls(EditorUI* self, cocos2d::CCTouch* touch, cocos2d::CCEvent* event) {
     auto rtd = reinterpret_cast<RotateTextDelegate*>(
         self->m_pScaleControl->getChildByTag(7777)
     );
@@ -58,7 +58,7 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
             inputNodeSize.height
         };
 
-        auto pos = gd::GameManager::sharedState()
+        auto pos = GameManager::sharedState()
             ->getEditorLayer()
             ->getObjectLayer()
             ->convertTouchToNodeSpace(touch);
@@ -75,7 +75,7 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
 }
 
 // GDMAKE_HOOK(0x94020, "_ZN17GJRotationControl20updateSliderPositionEN7cocos2d7CCPointE")
-// void __fastcall GJRotationControl_updateSliderPosition(gd::GJRotationControl* self, edx_t edx, cocos2d::CCPoint pos) {
+// void __fastcall GJRotationControl_updateSliderPosition(GJRotationControl* self, edx_t edx, cocos2d::CCPoint pos) {
 //     GDMAKE_ORIG_V(self, edx, pos);
 
 //     auto t = self->getChildByTag(6978);
@@ -85,18 +85,18 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
 //     std::string s = stream.str();
 
 //     if (t)
-//         reinterpret_cast<gd::CCTextInputNode*>(t)->setString(s.c_str());
+//         reinterpret_cast<CCTextInputNode*>(t)->setString(s.c_str());
 // }
 
 // GDMAKE_HOOK(0x8fe70, "_ZN8EditorUI23activateRotationControlEPN7cocos2d8CCObjectE")
-// void __fastcall EditorUI_activateRotationControl(gd::EditorUI* self, edx_t edx, cocos2d::CCObject* pSender) {
+// void __fastcall EditorUI_activateRotationControl(EditorUI* self, edx_t edx, cocos2d::CCObject* pSender) {
 //     GDMAKE_ORIG_V(self, edx, pSender);
 
 //     auto sel = self->getSelectedObjects();
 
 //     float angle = 0.0f;
 //     for (auto ix = 0u; ix < sel->count(); ix++) {
-//         auto obj = reinterpret_cast<gd::GameObject*>(sel->objectAtIndex(ix));
+//         auto obj = reinterpret_cast<GameObject*>(sel->objectAtIndex(ix));
 
 //         if (ix) {
 //             if (obj->getRotation() != angle)
@@ -118,7 +118,7 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
 // }
 
 // GDMAKE_HOOK(0x93f10, "_ZN17GJRotationControl4initEv")
-// bool __fastcall GJRotationControl_init(gd::GJRotationControl* self) {
+// bool __fastcall GJRotationControl_init(GJRotationControl* self) {
 //     if (!GDMAKE_ORIG(self))
 //         return false;
 
@@ -137,7 +137,7 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
 //     spr->setContentSize({ 115.0f, 75.0f });
 //     spr->setPosition(self->getPosition() + cocos2d::CCPoint { offset_w, offset_h });
 
-//     auto eLayerInput = gd::CCTextInputNode::create("0", ed, "bigFont.fnt", 40.0f, 30.0f);
+//     auto eLayerInput = CCTextInputNode::create("0", ed, "bigFont.fnt", 40.0f, 30.0f);
 
 //     eLayerInput->setPosition(self->getPosition() + cocos2d::CCPoint { offset_w, offset_h });
 //     eLayerInput->setLabelPlaceholderColor({ 120, 120, 120 });
@@ -156,7 +156,7 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
 
 //     /////////////////////////////////
 
-//     auto unlockScaleBtn = gd::CCMenuItemSpriteExtra::create(
+//     auto unlockScaleBtn = CCMenuItemSpriteExtra::create(
 //         cocos2d::CCSprite::create("GJ_button_01.png"),
 //         self,
 //         nullptr
@@ -171,7 +171,7 @@ bool pointIntersectsRotateControls(gd::EditorUI* self, cocos2d::CCTouch* touch, 
 
 //     /////////////////////////////////
 
-//     auto lockPositionBtn = gd::CCMenuItemSpriteExtra::create(
+//     auto lockPositionBtn = CCMenuItemSpriteExtra::create(
 //         cocos2d::CCSprite::create("GJ_button_01.png"),
 //         self,
 //         nullptr

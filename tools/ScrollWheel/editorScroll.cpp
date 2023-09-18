@@ -2,16 +2,16 @@
 #include "../LevelPercent/levelPercent.hpp"
 #include "../CustomKeybinds/KeybindManager.hpp"
 
-matdash::cc::thiscall<void>  EditorUI_scrollWheel(gd::EditorUI* self_,  float amt, float b) {
+matdash::cc::thiscall<void>  EditorUI_scrollWheel(EditorUI* self_,  float amt, float b) {
     // get the actual EditorUI since this function is a virtual that messes it up
-    auto self = reinterpret_cast<gd::EditorUI*>(reinterpret_cast<uintptr_t>(self_) - 0xfc);
+    auto self = reinterpret_cast<EditorUI*>(reinterpret_cast<uintptr_t>(self_) - 0xfc);
 
-    float prevScale = self->m_pEditorLayer->m_pObjectLayer->getScale();
+    float prevScale = self->m_editorLayer->m_pObjectLayer->getScale();
     auto swipeStart =
-        self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
+        self->m_editorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
 
     if (KeybindManager::get()->isModifierPressed("betteredit.zoom_modifier")) {
-        auto zoom = self->m_pEditorLayer->getObjectLayer()->getScale();
+        auto zoom = self->m_editorLayer->getObjectLayer()->getScale();
 
         // std::log defaults to base e, and since c++ doesnt have it anywhere, just hardcode it in
         // i mean, whats the worst that can happen, they change a fucking math constant?
@@ -42,16 +42,16 @@ matdash::cc::thiscall<void>  EditorUI_scrollWheel(gd::EditorUI* self_,  float am
             if (amt > 0.0f)
                 mpos = -mpos * .5f;
 
-            self->m_pEditorLayer->getObjectLayer()->setPosition(
-                self->m_pEditorLayer->getObjectLayer()->getPosition() - mpos / max(zoom, 5.0f)
+            self->m_editorLayer->getObjectLayer()->setPosition(
+                self->m_editorLayer->getObjectLayer()->getPosition() - mpos / max(zoom, 5.0f)
             );
 
-            self->m_pEditorLayer->getEditorUI()->constrainGameLayerPosition();
+            self->m_editorLayer->getEditorUI()->constrainGameLayerPosition();
         }
 
-        self->m_pEditorLayer->m_pGroundLayer->updateGroundWidth();
+        self->m_editorLayer->m_pGroundLayer->updateGroundWidth();
     } else {
-        auto layer = self->m_pEditorLayer->getObjectLayer();
+        auto layer = self->m_editorLayer->getObjectLayer();
         constexpr float mult = 2.f;
 
         if (KeybindManager::get()->isModifierPressed("betteredit.horizontal_modifier"))
@@ -63,10 +63,10 @@ matdash::cc::thiscall<void>  EditorUI_scrollWheel(gd::EditorUI* self_,  float am
     }
 
     auto nSwipeStart = 
-        self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
+        self->m_editorLayer->m_pObjectLayer->convertToNodeSpace(self->m_obSwipeStart) * prevScale;
     
     auto rel = swipeStart - nSwipeStart;
-    rel = rel * (self->m_pEditorLayer->m_pObjectLayer->getScale() / prevScale);
+    rel = rel * (self->m_editorLayer->m_pObjectLayer->getScale() / prevScale);
 
     if (BetterEdit::getEnableRelativeSwipe())
         self->m_obSwipeStart = self->m_obSwipeStart + rel;

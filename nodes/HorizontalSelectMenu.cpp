@@ -65,7 +65,7 @@ bool HorizontalSelectMenu::init(std::vector<const char*> const& _opts) {
         pToggleOnSpr->setScale(.8f);
         pToggleOffSpr->setScale(.8f);
 
-        auto pToggle = gd::CCMenuItemToggler::create(
+        auto pToggle = CCMenuItemToggler::create(
             pToggleOnSpr,
             pToggleOffSpr,
             this,

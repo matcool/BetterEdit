@@ -55,7 +55,7 @@ class VisibilityToggleCallbacks : public EditorUI {
 
             GameManager::sharedState()->toggleGameVariable(var);
 
-            this->m_pEditorLayer->updateEditorMode();
+            this->m_editorLayer->updateEditorMode();
         }
 
         void onToggleBEFunc(CCObject* pSender) {
@@ -185,7 +185,7 @@ void loadVisibilityTab(EditorUI* self) {
         [self](bool b, auto) -> void {
             GameManager::sharedState()->setGameVariable("0036", b);
 
-            self->m_pEditorLayer->updateEditorMode();
+            self->m_editorLayer->updateEditorMode();
         }
     ));
 
@@ -222,7 +222,7 @@ void loadVisibilityTab(EditorUI* self) {
         [self](bool b, auto) -> void {
             GameManager::sharedState()->setGameVariable("0058", b);
 
-            self->m_pEditorLayer->updateOptions();
+            self->m_editorLayer->updateOptions();
         }
     ));
 
@@ -234,7 +234,7 @@ void loadVisibilityTab(EditorUI* self) {
         [self](bool b, auto) -> void {
             GameManager::sharedState()->setGameVariable("0043", b);
 
-            self->m_pEditorLayer->updateOptions();
+            self->m_editorLayer->updateOptions();
         }
     ));
 
@@ -246,8 +246,8 @@ void loadVisibilityTab(EditorUI* self) {
         [self](bool b, auto) -> void {
             GameManager::sharedState()->setGameVariable("0037", b);
 
-            self->m_pEditorLayer->updateOptions();
-            self->m_pEditorLayer->m_pGroundLayer->setVisible(b);
+            self->m_editorLayer->updateOptions();
+            self->m_editorLayer->m_pGroundLayer->setVisible(b);
         }
     ));
 
@@ -259,7 +259,7 @@ void loadVisibilityTab(EditorUI* self) {
         [self](bool b, auto) -> void {
             GameManager::sharedState()->setGameVariable("0038", b);
 
-            self->m_pEditorLayer->updateOptions();
+            self->m_editorLayer->updateOptions();
         }
     ));
 
@@ -278,7 +278,7 @@ void loadVisibilityTab(EditorUI* self) {
     auto buttonBar = EditButtonBar::create(
         btns,
         { CCDirector::sharedDirector()->getWinSize().width / 2, 86.0f },
-        self->m_pTabsArray->count(), false,
+        self->m_tabsArray->count(), false,
         GameManager::sharedState()->getIntGameVariable("0049"),
         GameManager::sharedState()->getIntGameVariable("0050")
     );

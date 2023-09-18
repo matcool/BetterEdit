@@ -1,17 +1,17 @@
 #include "moveGameLayer.hpp"
 
 void moveGameLayerSmoothAbs(EditorUI* ui, CCPoint const& pos) {
-    ui->m_pEditorLayer->getObjectLayer()->stopActionByTag(0xbb);
+    ui->m_editorLayer->getObjectLayer()->stopActionByTag(0xbb);
     auto a = CCEaseInOut::create(
         CCMoveTo::create(.4f, pos),
         2.0f
     );
     a->setTag(0xbb);
-    ui->m_pEditorLayer->getObjectLayer()->runAction(a);
+    ui->m_editorLayer->getObjectLayer()->runAction(a);
 }
 
 void moveGameLayerSmooth(EditorUI* ui, CCPoint const& pos) {
-    auto opos = ui->m_pEditorLayer->getObjectLayer()->getPosition();
+    auto opos = ui->m_editorLayer->getObjectLayer()->getPosition();
     auto npos = opos + pos;
     moveGameLayerSmoothAbs(ui, npos);
 }
@@ -19,7 +19,7 @@ void moveGameLayerSmooth(EditorUI* ui, CCPoint const& pos) {
 void focusGameLayerOnObject(EditorUI* ui, GameObject* obj) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
-    auto olayer = ui->m_pEditorLayer->getObjectLayer();
+    auto olayer = ui->m_editorLayer->getObjectLayer();
     auto npos = (-obj->getPosition() + winSize / 2) * olayer->getScale();
 
     moveGameLayerSmoothAbs(ui, npos);
@@ -28,13 +28,13 @@ void focusGameLayerOnObject(EditorUI* ui, GameObject* obj) {
 void focusGameLayerToSelection(EditorUI* ui) {
     CCPoint pos;
 
-    if (ui->m_pSelectedObject)
-        pos = ui->m_pSelectedObject->getPosition();
-    else if (ui->m_pSelectedObjects)
-        pos = ui->getGroupCenter(ui->m_pSelectedObjects, false);
+    if (ui->m_selectedObject)
+        pos = ui->m_selectedObject->getPosition();
+    else if (ui->m_selectedObjects)
+        pos = ui->getGroupCenter(ui->m_selectedObjects, false);
     else return;
 
-    auto olayer = ui->m_pEditorLayer->getObjectLayer();
+    auto olayer = ui->m_editorLayer->getObjectLayer();
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
     auto gpos = olayer->convertToWorldSpace(pos);

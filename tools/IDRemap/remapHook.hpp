@@ -2,4 +2,4 @@
 
 #include <GDMake.h>
 
-void loadRemapHook(gd::EditorPauseLayer* self);
+void loadRemapHook(EditorPauseLayer* self);

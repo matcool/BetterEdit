@@ -9,13 +9,13 @@ void addEditorTab(const char* spr, addEditorTabFunc bbar) {
     g_tabs.push_back({ spr, bbar });
 }
 
-void  EditorUI_setupCreateMenu(gd::EditorUI* self) {
+void  EditorUI_setupCreateMenu(EditorUI* self) {
     matdash::orig<&EditorUI_setupCreateMenu>(self);
 
     if (BetterEdit::isEditorViewOnlyMode())
         return;
 
-    auto pos = self->m_pTabsMenu->getPosition();
+    auto pos = self->m_tabsMenu->getPosition();
 
     for (auto [spr, bbarf] : g_tabs) {
         auto newTab_off = cocos2d::CCSprite::createWithSpriteFrameName("GJ_tabOff_001.png");
@@ -32,42 +32,42 @@ void  EditorUI_setupCreateMenu(gd::EditorUI* self) {
 
         newTab_on->addChild(off_aspr);
 
-        auto newTab = gd::CCMenuItemToggler::create(
+        auto newTab = CCMenuItemToggler::create(
             newTab_off,
             newTab_on,
             self,
-            (cocos2d::SEL_MenuHandler)&gd::EditorUI::onSelectBuildTab
+            (cocos2d::SEL_MenuHandler)&EditorUI::onSelectBuildTab
         );
 
         newTab->setSizeMult(1.2f);
         newTab->setClickable(false);
         newTab->setContentSize(
-            extra::as<cocos2d::CCNode*>(self->m_pTabsArray->objectAtIndex(0))->getContentSize()
+            extra::as<cocos2d::CCNode*>(self->m_tabsArray->objectAtIndex(0))->getContentSize()
         );
 
-        newTab->setTag(self->m_pTabsArray->count());
+        newTab->setTag(self->m_tabsArray->count());
 
         auto bbar = bbarf(self);
 
         bbar->setVisible(false);
 
-        self->m_pTabsArray->addObject(newTab);
-        self->m_pTabsMenu->addChild(newTab);
-        self->m_pCreateButtonBars->addObject(bbar);
+        self->m_tabsArray->addObject(newTab);
+        self->m_tabsMenu->addChild(newTab);
+        self->m_createButtonBars->addObject(bbar);
         self->addChild(bbar, 10);
     }
 
     // fix F1 & F2
-    patch(0x92044, { 0xb9, static_cast<uint8_t>(self->m_pTabsArray->count()) });
-    patch(0x9207a, { 0x83, 0xf8, static_cast<uint8_t>(self->m_pTabsArray->count() - 1) });
+    patch(0x92044, { 0xb9, static_cast<uint8_t>(self->m_tabsArray->count()) });
+    patch(0x9207a, { 0x83, 0xf8, static_cast<uint8_t>(self->m_tabsArray->count() - 1) });
 
     auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
     auto ratio = winSize.width / winSize.height;
 
     if (ratio > 1.5f)
-        self->m_pTabsMenu->alignItemsHorizontallyWithPadding(-3.0f);
+        self->m_tabsMenu->alignItemsHorizontallyWithPadding(-3.0f);
     else
-        self->m_pTabsMenu->alignItemsHorizontallyWithPadding(-1.0f);
+        self->m_tabsMenu->alignItemsHorizontallyWithPadding(-1.0f);
 
-    self->m_pTabsMenu->setPosition(pos);
+    self->m_tabsMenu->setPosition(pos);
 } MAT_GDMAKE_HOOK(0x7caf0, EditorUI_setupCreateMenu);

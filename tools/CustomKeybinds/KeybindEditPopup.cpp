@@ -17,18 +17,18 @@ void KeybindEditPopup::setup() {
         winSize.height / 2 + this->m_pLrSize.height / 2 - 50.0f
     );
     subTitle->limitLabelWidth(this->m_pLrSize.width - 40.0f, .5f, .1f);
-    this->m_pLayer->addChild(subTitle);
+    this->m_mainLayer->addChild(subTitle);
 
     m_pPreLabel = CCLabelBMFont::create("Press Keys...", "bigFont.fnt");
     m_pPreLabel->limitLabelWidth(this->m_pLrSize.width - 40.0f, .6f, .2f);
     m_pPreLabel->setOpacity(80);
     m_pPreLabel->setPosition(winSize / 2);
-    this->m_pLayer->addChild(m_pPreLabel);
+    this->m_mainLayer->addChild(m_pPreLabel);
 
     m_pTypeLabel = CCLabelBMFont::create("", "bigFont.fnt");
     m_pTypeLabel->setPosition(winSize / 2);
     m_pTypeLabel->setVisible(false);
-    this->m_pLayer->addChild(m_pTypeLabel);
+    this->m_mainLayer->addChild(m_pTypeLabel);
 
     m_pInfoLabel = CCLabelBMFont::create("", "bigFont.fnt");
     m_pInfoLabel->setPosition(
@@ -38,7 +38,7 @@ void KeybindEditPopup::setup() {
     m_pInfoLabel->setColor({ 200, 255, 70 });
     m_pInfoLabel->setScale(.5f);
     m_pInfoLabel->setVisible(false);
-    this->m_pLayer->addChild(m_pInfoLabel);
+    this->m_mainLayer->addChild(m_pInfoLabel);
 
     auto setBtn = CCMenuItemSpriteExtra::create(
         CCNodeConstructor<ButtonSprite*>()
@@ -50,7 +50,7 @@ void KeybindEditPopup::setup() {
         this,
         menu_selector(KeybindEditPopup::onSet)
     );
-    this->m_pButtonMenu->addChild(setBtn);
+    this->m_buttonMenu->addChild(setBtn);
 
     CCMenuItemSpriteExtra* removeBtn = nullptr;
     if (m_pStoreItem) {
@@ -64,10 +64,10 @@ void KeybindEditPopup::setup() {
             this,
             menu_selector(KeybindEditPopup::onRemove)
         );
-        this->m_pButtonMenu->addChild(removeBtn);
+        this->m_buttonMenu->addChild(removeBtn);
     }
 
-    this->m_pButtonMenu->alignItemsHorizontallyWithPadding(5.0f);
+    this->m_buttonMenu->alignItemsHorizontallyWithPadding(5.0f);
 
     setBtn->setPositionY(-this->m_pLrSize.height / 2 + 30.0f);
     if (removeBtn) removeBtn->setPositionY(-this->m_pLrSize.height / 2 + 30.0f);
@@ -79,7 +79,7 @@ void KeybindEditPopup::setup() {
     //         winSize.height / 2 - this->m_pLrSize.height / 2 + 35.0f
     //     );
     //     repeatLabel->setScale(.3f);
-    //     this->m_pLayer->addChild(repeatLabel);
+    //     this->m_mainLayer->addChild(repeatLabel);
 
     //     auto toggle = CCMenuItemToggler::createWithStandardSprites(
     //         this, (SEL_MenuHandler)&KeybindEditPopup::onRepeat, .5f
@@ -89,7 +89,7 @@ void KeybindEditPopup::setup() {
     //         - this->m_pLrSize.height / 2 + 20.0f
     //     );
     //     toggle->toggle(this->m_pCell->m_pBind->repeat);
-    //     this->m_pButtonMenu->addChild(toggle);
+    //     this->m_buttonMenu->addChild(toggle);
     // }
 }
 

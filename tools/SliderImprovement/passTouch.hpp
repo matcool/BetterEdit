@@ -15,10 +15,10 @@ inline cocos2d::CCSprite* createLockSprite(const char* bg, const char* spr) {
     return lockSpr;
 }
 
-bool pointIntersectsScaleControls(gd::EditorUI*, cocos2d::CCTouch*, cocos2d::CCEvent*);
-bool pointIntersectsRotateControls(gd::EditorUI*, cocos2d::CCTouch*, cocos2d::CCEvent*);
+bool pointIntersectsScaleControls(EditorUI*, cocos2d::CCTouch*, cocos2d::CCEvent*);
+bool pointIntersectsRotateControls(EditorUI*, cocos2d::CCTouch*, cocos2d::CCEvent*);
 
-inline bool pointIntersectsControls(gd::EditorUI* ui, cocos2d::CCTouch* touch, cocos2d::CCEvent* event) {
+inline bool pointIntersectsControls(EditorUI* ui, cocos2d::CCTouch* touch, cocos2d::CCEvent* event) {
     if (pointIntersectsScaleControls(ui, touch, event))
         return true;
     if (pointIntersectsRotateControls(ui, touch, event))

@@ -5,7 +5,7 @@ void KeybindSettingsLayer::setup() {
 
     this->m_bNoElasticity = true;
     
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<CCLabelBMFont*>()
             .fromText("Double-Click Speed (ms)", "bigFont.fnt")
             .scale(.4f)
@@ -13,7 +13,7 @@ void KeybindSettingsLayer::setup() {
             .done()
     );
 
-    this->m_pLayer->addChild(
+    this->m_mainLayer->addChild(
         CCNodeConstructor<InputNode*>()
             .fromNode(InputNode::create(100.0f, "ms"))
             .exec([this](auto i) -> void {
@@ -27,7 +27,7 @@ void KeybindSettingsLayer::setup() {
             .done()
     );
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()

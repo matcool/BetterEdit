@@ -48,7 +48,7 @@ void BESettingsLayer::setup() {
     );
     this->m_pPrevPageBtn->setUserData(as<void*>(-1));
     this->m_pPrevPageBtn->setPosition(- this->m_pLrSize.width / 2 - 40.0f, 0.0f);
-    this->m_pButtonMenu->addChild(this->m_pPrevPageBtn, 150);
+    this->m_buttonMenu->addChild(this->m_pPrevPageBtn, 150);
     this->m_nCurrentPage = g_nSettingsPage;
 
     this->m_pNextPageBtn = CCMenuItemSpriteExtra::create(
@@ -61,7 +61,7 @@ void BESettingsLayer::setup() {
     );
     this->m_pNextPageBtn->setUserData(as<void*>(1));
     this->m_pNextPageBtn->setPosition(this->m_pLrSize.width / 2 + 40.0f, 0.0f);
-    this->m_pButtonMenu->addChild(this->m_pNextPageBtn, 150);
+    this->m_buttonMenu->addChild(this->m_pNextPageBtn, 150);
 
     this->addToggle(
         "Custom Paste State",
@@ -332,8 +332,8 @@ void BESettingsLayer::addInput(
     scaleSnapInput->getInputNode()->setUserData(as<void*>(cb));
     scaleSnapInput->getInputNode()->setDelegate(this);
 
-    this->m_pLayer->addChild(scaleSnapInput);
-    this->m_pLayer->addChild(scaleSnapLabel);
+    this->m_mainLayer->addChild(scaleSnapInput);
+    this->m_mainLayer->addChild(scaleSnapLabel);
 
     this->addItem(scaleSnapInput);
     this->addItem(scaleSnapLabel);
@@ -355,8 +355,8 @@ void BESettingsLayer::addSlider(const char* text, cocos2d::SEL_MenuHandler onCha
     slider->setValue(val);
     slider->updateBar();
 
-    this->m_pLayer->addChild(label);
-    this->m_pLayer->addChild(slider);
+    this->m_mainLayer->addChild(label);
+    this->m_mainLayer->addChild(slider);
 
     this->addItem(label);
     this->addItem(slider);
@@ -370,7 +370,7 @@ CCLabelBMFont* BESettingsLayer::addTitle(const char* text, const char* font) {
     auto titleLabel = CCLabelBMFont::create(text, font);
     titleLabel->setPosition(winSize.width / 2, winSize.height / 2 + y);
     titleLabel->limitLabelWidth(this->m_pLrSize.width - 64.0f, .9f, .2f);
-    this->m_pLayer->addChild(titleLabel);
+    this->m_mainLayer->addChild(titleLabel);
 
     this->addItem(titleLabel);
     this->incrementPageCount();
@@ -388,7 +388,7 @@ CCLabelBMFont* BESettingsLayer::addSubtitle(const char* text, bool center) {
         winSize.width / 2 + x + (center ? this->m_pLrSize.width / 4 : subtitleLabel->getScaledContentSize().width / 2),
         winSize.height / 2 + y
     );
-    this->m_pLayer->addChild(subtitleLabel);
+    this->m_mainLayer->addChild(subtitleLabel);
 
     this->addItem(subtitleLabel);
     this->incrementPageCount();
@@ -401,7 +401,7 @@ CCMenuItemSpriteExtra* BESettingsLayer::addButton(CCNode* sprite, SEL_MenuHandle
 
     auto btn = CCMenuItemSpriteExtra::create(sprite, this, callback);
     btn->setPosition(x + (large ? 0 : this->m_pLrSize.width / 4), y);
-    this->m_pButtonMenu->addChild(btn);
+    this->m_buttonMenu->addChild(btn);
 
     this->addItem(btn);
     this->incrementPageCount();
@@ -461,7 +461,7 @@ void BESettingsLayer::addToggle(
         if (showDescOnToggle)
             toggle->setUserObject(infoButton);
 
-        this->m_pButtonMenu->addChild(infoButton);
+        this->m_buttonMenu->addChild(infoButton);
         this->addItem(infoButton);
     }
 
@@ -487,12 +487,12 @@ void BESettingsLayer::addToggle(
             "the game</c>.\n\n <cc>Proceed at your own risk!</c>"
         ));
 
-        this->m_pButtonMenu->addChild(eLabel);
+        this->m_buttonMenu->addChild(eLabel);
         this->addItem(eLabel);
     }
 
-    this->m_pButtonMenu->addChild(toggle);
-    this->m_pButtonMenu->addChild(label);
+    this->m_buttonMenu->addChild(toggle);
+    this->m_buttonMenu->addChild(label);
 
     this->addItem(toggle);
     this->addItem(label);

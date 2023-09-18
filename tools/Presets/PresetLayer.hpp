@@ -8,8 +8,8 @@ class PresetLayer : public BrownAlertDelegate {
     protected:
         int m_nSelectedIndex = 0;
         cocos2d::CCLabelBMFont* m_pSelectedLabel;
-        gd::CCMenuItemSpriteExtra* m_pDeleteButton;
-        gd::CCMenuItemSpriteExtra* m_pSettingsButton;
+        CCMenuItemSpriteExtra* m_pDeleteButton;
+        CCMenuItemSpriteExtra* m_pSettingsButton;
 
         void setup() override;
         void updateLabel(const char*);

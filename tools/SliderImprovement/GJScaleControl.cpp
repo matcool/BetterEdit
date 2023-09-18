@@ -338,7 +338,7 @@ bool  GJScaleControl_init(GJScaleControl* self) {
 void  EditorUI_activateScaleControl(EditorUI* self,  CCObject* pSender) {
     auto fixPos =
         BetterEdit::getFixScaleSliderPosition() &&
-        self->m_pEditorLayer->m_pObjectLayer->getScale() >= 2.f;
+        self->m_editorLayer->m_pObjectLayer->getScale() >= 2.f;
 
     if (fixPos) {
         patch(0x88b64, { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
@@ -351,7 +351,7 @@ void  EditorUI_activateScaleControl(EditorUI* self,  CCObject* pSender) {
     if (fixPos) {
         auto pos = CCDirector::sharedDirector()->getWinSize() / 2;
         pos.height += 50.0f;
-        pos = self->m_pEditorLayer->m_pObjectLayer->convertToNodeSpace(pos);
+        pos = self->m_editorLayer->m_pObjectLayer->convertToNodeSpace(pos);
         self->m_pScaleControl->setPosition(pos);
     }
 } MAT_GDMAKE_HOOK(0x889b0, EditorUI_activateScaleControl);

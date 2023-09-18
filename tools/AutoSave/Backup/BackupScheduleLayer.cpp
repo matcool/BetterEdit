@@ -8,8 +8,8 @@ void BackupScheduleLayer::setup() {
 
     GameToolbox::createToggleButton(
         menu_selector(BackupScheduleLayer::onToggleAutoBackup),
-        m_pBackup->m_bAutoBackup, this->m_pButtonMenu,
-        this, this->m_pLayer, .7f, .7f, 160.0f,
+        m_pBackup->m_bAutoBackup, this->m_buttonMenu,
+        this, this->m_mainLayer, .7f, .7f, 160.0f,
         "", false, 0, nullptr,
         "Enable Auto-Backups",
         winSize / 2 + CCPoint { -85.0f, 50.0f },
@@ -19,30 +19,30 @@ void BackupScheduleLayer::setup() {
     this->m_pLabel1 = CCLabelBMFont::create("Backup After", "bigFont.fnt");
     m_pLabel1->setPosition(winSize / 2 + CCPoint { 0.0f, 20.0f });
     m_pLabel1->setScale(.5f);
-    this->m_pLayer->addChild(m_pLabel1);
+    this->m_mainLayer->addChild(m_pLabel1);
 
     m_pInput = InputNode::create(100.f, "x");
     m_pInput->setString(std::to_string(m_pBackup->m_nBackupEvery).c_str());
     m_pInput->setPosition(winSize / 2 + CCPoint { 0.0f, -10.0f });
     m_pInput->getInputNode()->setDelegate(this);
-    this->m_pLayer->addChild(m_pInput);
+    this->m_mainLayer->addChild(m_pInput);
 
     m_pLabel2 = CCLabelBMFont::create("Objects Placed", "bigFont.fnt");
     m_pLabel2->setPosition(winSize / 2 + CCPoint { 0.0f, -40.0f });
     m_pLabel2->setScale(.5f);
-    this->m_pLayer->addChild(m_pLabel2);
+    this->m_mainLayer->addChild(m_pLabel2);
 
     auto label3 = CCLabelBMFont::create(
         (
             "Objects added since last backup: " +
-            std::to_string(m_pLevel->m_nObjectCount - m_pBackup->m_nLastBackupObjectCount)
+            std::to_string(m_pLevel->m_objectCount - m_pBackup->m_nLastBackupObjectCount)
         ).c_str(), "goldFont.fnt"
     );
     label3->setPosition(winSize / 2 + CCPoint { 0.0f, -65.0f });
     label3->setScale(.4f);
-    this->m_pLayer->addChild(label3);
+    this->m_mainLayer->addChild(label3);
 
-    this->m_pButtonMenu->addChild(
+    this->m_buttonMenu->addChild(
         CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor<ButtonSprite*>()

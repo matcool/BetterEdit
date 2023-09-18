@@ -71,7 +71,7 @@ void GroupSummaryPopup::setup() {
             winSize.height / 2 + 85.0f
         });
         topItem->setZOrder(500);
-        this->m_pLayer->addChild(topItem);
+        this->m_mainLayer->addChild(topItem);
 
         auto bottomItem = CCSprite::createWithSpriteFrameName("GJ_commentTop_001.png");
         bottomItem->setPosition({
@@ -80,7 +80,7 @@ void GroupSummaryPopup::setup() {
         });
         bottomItem->setZOrder(500);
         bottomItem->setFlipY(true);
-        this->m_pLayer->addChild(bottomItem);
+        this->m_mainLayer->addChild(bottomItem);
 
         auto sideItem = CCSprite::createWithSpriteFrameName("GJ_commentSide_001.png");
         sideItem->setPosition({
@@ -89,7 +89,7 @@ void GroupSummaryPopup::setup() {
         });
         sideItem->setZOrder(500);
         sideItem->setScaleY(6.f);
-        this->m_pLayer->addChild(sideItem);
+        this->m_mainLayer->addChild(sideItem);
 
         auto sideItemRight = CCSprite::createWithSpriteFrameName("GJ_commentSide_001.png");
         sideItemRight->setPosition({
@@ -99,11 +99,11 @@ void GroupSummaryPopup::setup() {
         sideItemRight->setZOrder(500);
         sideItemRight->setScaleY(6.f);
         sideItemRight->setFlipX(true);
-        this->m_pLayer->addChild(sideItemRight);
+        this->m_mainLayer->addChild(sideItemRight);
     }
 
     {
-        this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+        this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
                     .fromFrameName("GJ_arrow_01_001.png")
@@ -116,7 +116,7 @@ void GroupSummaryPopup::setup() {
             .move(- m_fItemWidth / 2 - 25.0f, 0.0f)
             .done()
         );
-        this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
+        this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemSpriteExtra*>()
             .fromNode(CCMenuItemSpriteExtra::create(
                 CCNodeConstructor()
                     .fromFrameName("GJ_arrow_01_001.png")
@@ -133,7 +133,7 @@ void GroupSummaryPopup::setup() {
     }
 
     {
-        this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
+        this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
             .fromNode(CCMenuItemToggler::create(
                 this->createFilterSpr("BE_all.png", "GJ_button_01.png"),
                 this->createFilterSpr("BE_all.png", "GJ_button_02.png"),
@@ -145,7 +145,7 @@ void GroupSummaryPopup::setup() {
             .exec([this](auto t) -> void { m_vShowBtns.push_back(t); })
             .done()
         );
-        this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
+        this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
             .fromNode(CCMenuItemToggler::create(
                 this->createFilterSpr("BE_0_objs.png", "GJ_button_01.png"),
                 this->createFilterSpr("BE_0_objs.png", "GJ_button_02.png"),
@@ -157,7 +157,7 @@ void GroupSummaryPopup::setup() {
             .exec([this](auto t) -> void { m_vShowBtns.push_back(t); })
             .done()
         );
-        this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
+        this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
             .fromNode(CCMenuItemToggler::create(
                 this->createFilterSpr("BE_trigger_only.png", "GJ_button_01.png"),
                 this->createFilterSpr("BE_trigger_only.png", "GJ_button_02.png"),
@@ -169,7 +169,7 @@ void GroupSummaryPopup::setup() {
             .exec([this](auto t) -> void { m_vShowBtns.push_back(t); })
             .done()
         );
-        this->m_pButtonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
+        this->m_buttonMenu->addChild(CCNodeConstructor<CCMenuItemToggler*>()
             .fromNode(CCMenuItemToggler::create(
                 this->createFilterSpr("BE_obj_only.png", "GJ_button_01.png"),
                 this->createFilterSpr("BE_obj_only.png", "GJ_button_02.png"),
@@ -188,7 +188,7 @@ void GroupSummaryPopup::setup() {
             winSize.width / 2 - this->m_pLrSize.width / 2 + 75.f,
             winSize.height / 2 + this->m_pLrSize.height / 2 - 37.5f
         );
-        this->m_pLayer->addChild(this->m_pGroupCount);
+        this->m_mainLayer->addChild(this->m_pGroupCount);
     }
 
     this->m_pNoFilterInfo = CCLabelBMFont::create(
@@ -203,7 +203,7 @@ void GroupSummaryPopup::setup() {
         winSize.height / 2 - 10.f
     );
     this->m_pNoFilterInfo->setVisible(false);
-    this->m_pLayer->addChild(this->m_pNoFilterInfo);
+    this->m_mainLayer->addChild(this->m_pNoFilterInfo);
 
     this->m_pPageBtn = ButtonSprite::create(
         "Page n/nn", 0, 0, "goldFont.fnt", "GJ_button_05.png", 0, .5f
@@ -217,7 +217,7 @@ void GroupSummaryPopup::setup() {
         this->m_pLrSize.width / 2 - 65.f,
         this->m_pLrSize.height / 2 - 25.f
     );
-    this->m_pButtonMenu->addChild(pageBtn);
+    this->m_buttonMenu->addChild(pageBtn);
 
     CCDirector::sharedDirector()->getTouchDispatcher()->incrementForcePrio(2);
     this->registerWithTouchDispatcher();
@@ -355,7 +355,7 @@ void GroupSummaryPopup::updatePage() {
     this->m_pList->setPosition(
         winSize / 2 - CCPoint { 170.0f, 118.0f }
     );
-    this->m_pLayer->addChild(this->m_pList);
+    this->m_mainLayer->addChild(this->m_pList);
 }
 
 void GroupSummaryPopup::onPage(CCObject* pSender) {
