@@ -321,7 +321,7 @@ class AdvancedFilterLayer : public BrownAlertDelegate {
                 if (!groups->match(std::vector<int> ( gids.begin(), gids.end() )))
                     return false;
                 
-                if (!(scale.in(obj->m_fScale))) return false;
+                if (!(scale.in(obj->m_scale))) return false;
                 if (!(zOrder.in(obj->getZOrder()))) return false;
                 if (!(color1.in(obj->getBaseColor()->colorID))) return false;
                 

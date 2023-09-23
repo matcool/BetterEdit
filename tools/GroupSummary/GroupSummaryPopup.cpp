@@ -18,11 +18,11 @@ ButtonSprite* GroupSummaryPopup::createFilterSpr(const char* sprName, const char
 }
 
 CCSprite* GroupSummaryPopup::createSpriteForTrigger(EffectGameObject* trigger, int group) {
-    auto sprName = ObjectToolbox::sharedState()->intKeyToFrame(trigger->m_nObjectID);
+    auto sprName = ObjectToolbox::sharedState()->intKeyToFrame(trigger->m_objectID);
     auto spr = CCSprite::createWithSpriteFrameName(sprName);
     spr->setScale(.65f);
 
-    if (trigger->m_nObjectID == 1049) {
+    if (trigger->m_objectID == 1049) {
         auto toggleSpr = CCSprite::createWithSpriteFrameName("edit_eToggleBtn2_001.png");
         toggleSpr->setPosition({
             spr->getContentSize().width / 2,

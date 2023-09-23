@@ -565,12 +565,12 @@ void  EditorUI_scaleObjects(EditorUI* self, CCArray* objs, CCPoint centerPos) {
         auto gameObj = reinterpret_cast<GameObject*>(obj);
         auto pos = gameObj->getPosition();
         float newScale = gameObj->m_fMultiScaleMultiplier * scale;
-        float newMultiplier = newScale / gameObj->m_fScale;
+        float newMultiplier = newScale / gameObj->m_scale;
         auto newPos = (pos - centerPos) * newMultiplier + (centerPos - pos);
         
         // this is just GameObject::updateCustomScale
         // although that does some rounding so its stupid
-        gameObj->m_fScale = newScale;
+        gameObj->m_scale = newScale;
         gameObj->setRScale(1.f);
         gameObj->m_bTextureRectDirty = true;
         gameObj->m_bIsObjectRectDirty = true;

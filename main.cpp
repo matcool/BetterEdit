@@ -62,16 +62,16 @@ void mod_main(HMODULE) {
     // patch(0x23b56, { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 });
 
     INIT_MANAGER(BetterEdit);
-    INIT_MANAGER(LevelBackupManager);
-    INIT_MANAGER(KeybindManager);
-    INIT_MANAGER(SuperKeyboardManager);
-    INIT_MANAGER(SuperMouseManager);
+    // INIT_MANAGER(LevelBackupManager);
+    // INIT_MANAGER(KeybindManager);
+    // INIT_MANAGER(SuperKeyboardManager);
+    // INIT_MANAGER(SuperMouseManager);
 
     BetterEdit::log() << kDebugTypeInitializing << "Loading tools" << log_end();
-    loadBEKeybinds();
+    // loadBEKeybinds();
     loadEnterSearch();
     loadTeleportScaleFix();
-    loadFLAlertLayerFix();
+    // loadFLAlertLayerFix();
     loadPlaceObjectsBefore();
     loadDashOrbLines();
 

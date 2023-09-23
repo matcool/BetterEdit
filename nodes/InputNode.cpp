@@ -39,13 +39,13 @@ bool InputNode::init(float _w, float _h, const char* _phtxt, const char* _fnt, c
     this->addChild(this->m_pBG);
 
     this->m_pInput = CCTextInputNode::create(
-        _phtxt, this, _fnt, _w - 10.0f, 60.0f
+        _w - 10.0f, 60.0f, _phtxt, _fnt
     );
 
     this->m_pInput->setLabelPlaceholderColor({ 150, 150, 150 });
-    this->m_pInput->setLabelPlaceholerScale(.75f);
+    this->m_pInput->setLabelPlaceholderScale(.75f);
     this->m_pInput->setMaxLabelScale(.8f);
-    this->m_pInput->setMaxLabelLength(_cc);
+    this->m_pInput->setMaxLabelWidth(_cc);
     if (_awc.length())
         this->m_pInput->setAllowedChars(_awc);
 

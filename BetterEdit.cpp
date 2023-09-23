@@ -112,8 +112,8 @@ BetterEdit* g_betterEdit;
 bool BetterEdit::init() {
     this->m_fileName = "BetterEdit.dat";
 
-    if (!LayerManager::initGlobal())
-        return false;
+    // if (!LayerManager::initGlobal())
+    //     return false;
 
     // BE_SETTINGS(BE_DEFAULT_SETTING)
 
@@ -151,11 +151,11 @@ void BetterEdit::encodeDataTo(DS_Dictionary* data) {
             );
     );
 
-    BetterEdit::log() << kDebugTypeSaving << "Saving Backups" << log_end();
-    LevelBackupManager::get()->save();
+    // BetterEdit::log() << kDebugTypeSaving << "Saving Backups" << log_end();
+    // LevelBackupManager::get()->save();
 
-    BetterEdit::log() << kDebugTypeSaving << "Saving Keybinds" << log_end();
-    KeybindManager::get()->save();
+    // BetterEdit::log() << kDebugTypeSaving << "Saving Keybinds" << log_end();
+    // KeybindManager::get()->save();
 }
 
 void BetterEdit::dataLoaded(DS_Dictionary* data) {
@@ -232,12 +232,12 @@ bool BetterEdit::useExperimentalFeatures(std::function<void()> msg_cb) {
         auto fl = FLAlertLayer::create(
             BetterEdit::sharedState(),
             "Experimental Features",
-            "Cancel", "Enable",
-            380.0f,
             "You're trying to use an <cb>Experimental Feature.</c>\n "
             "These features are likely <cy>unfinished</c> and may "
             "<cr>crash</c>, or just not work at all.\n "
-            "Would you like to <cg>enable Experimental Features</c>?"
+            "Would you like to <cg>enable Experimental Features</c>?",
+            "Cancel", "Enable",
+            380.0f
         );
         fl->setTag(2);
         fl->setUserObject(CCFuncPointer::create(msg_cb));
@@ -251,8 +251,6 @@ void BetterEdit::showHookConflictMessage() {
     FLAlertLayer::create(
         nullptr,
         "Hook Conflict Detected",
-        "OK", nullptr,
-        380.0f,
         "It appears that you have other <cp>mods</c> installed which "
         "are <cy>conflicting</c> with <cl>BetterEdit</c>.\n\n"
 
@@ -260,7 +258,9 @@ void BetterEdit::showHookConflictMessage() {
         "<co>Global Clipboard</c>, and other editor mods.\n\n"
 
         "Please <cr>remove</c> or <cg>load</c> the mods at a different "
-        "loading phase. Contact <cy>HJfod#1795</c> for help."
+        "loading phase. Contact <cy>HJfod#1795</c> for help.",
+        "OK", nullptr,
+        380.0f
     )->show();
 }
 

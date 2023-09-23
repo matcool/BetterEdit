@@ -11,7 +11,7 @@ void MoreTriggersPopup::setup() {
 
     auto ix = 0;
     for (auto trigger : info.m_vTriggers) {
-        auto sprName = ObjectToolbox::sharedState()->intKeyToFrame(trigger->m_nObjectID);
+        auto sprName = ObjectToolbox::sharedState()->intKeyToFrame(trigger->m_objectID);
 
         auto spr = this->m_pPopup->createSpriteForTrigger(trigger, this->m_nGroup);
 

@@ -10,25 +10,25 @@ add_library(${PROJECT_NAME} SHARED
     main.cpp
     BetterEdit.cpp
 
-    hooks/CustomizeObjectLayer.cpp
-    hooks/EditLevelLayer.cpp
-    hooks/EditorPauseLayer.cpp
-    hooks/EditorUI.cpp
-    hooks/freezeFix.cpp
-    hooks/GJRotationControl.cpp
-    hooks/HSVWidgetPopup.cpp
-    hooks/LevelEditorLayer.cpp
-    hooks/LoadingLayer.cpp
-    hooks/PauseLayer.cpp
-    hooks/saveHook.cpp
-    hooks/SetGroupIDLayer.cpp
-    hooks/SetupPickupTriggerPopup.cpp
-    hooks/UILayer.cpp
+    # hooks/CustomizeObjectLayer.cpp
+    # hooks/EditLevelLayer.cpp
+    # hooks/EditorPauseLayer.cpp
+    # hooks/EditorUI.cpp
+    # hooks/freezeFix.cpp
+    # hooks/GJRotationControl.cpp
+    # hooks/HSVWidgetPopup.cpp
+    # hooks/LevelEditorLayer.cpp
+    # hooks/LoadingLayer.cpp
+    # hooks/PauseLayer.cpp
+    # hooks/saveHook.cpp
+    # hooks/SetGroupIDLayer.cpp
+    # hooks/SetupPickupTriggerPopup.cpp
+    # hooks/UILayer.cpp
 
-    utils/addTab.cpp
-    utils/BGLabel.cpp
-    utils/InfoButton.cpp
-    utils/moveGameLayer.cpp
+    # utils/addTab.cpp
+    # utils/BGLabel.cpp
+    # utils/InfoButton.cpp
+    # utils/moveGameLayer.cpp
 )
 
 if (NOT DEFINED ENV{GEODE_SDK})
@@ -41,40 +41,40 @@ add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 
 file(GLOB_RECURSE TOOLS_SOURCE_FILES
-    tools/AutoColorTriggers/*.cpp
-    tools/AutoSave/*.cpp
-    # tools/ClickableDots/*.cpp
-    tools/CustomKeybinds/*.cpp
-    tools/CustomPasteState/*.cpp
-    # tools/CustomStartPos/*.cpp
-    tools/EditorLayerInput/*.cpp
-    tools/EditTab/*.cpp
+    # tools/AutoColorTriggers/*.cpp
+    # tools/AutoSave/*.cpp
+    # # tools/ClickableDots/*.cpp
+    # tools/CustomKeybinds/*.cpp
+    # tools/CustomPasteState/*.cpp
+    # # tools/CustomStartPos/*.cpp
+    # tools/EditorLayerInput/*.cpp
+    # tools/EditTab/*.cpp
     tools/EnterToSearch/*.cpp
-    tools/ExtraObjectInfo/*.cpp
-    tools/EyeDropper/*.cpp
-    tools/FLAlertLayerFix/*.cpp
-    tools/GlobalClipboard/*.cpp
-    # tools/gmd/*.cpp
-    tools/GridSize/*.cpp
-    tools/GroupIDFilter/*.cpp
-    tools/GroupSummary/*.cpp
-    tools/Guidelines/*.cpp
-    tools/HighlightTriggers/*.cpp
-    tools/IDRemap/*.cpp
-    tools/LevelPercent/*.cpp
+    # tools/ExtraObjectInfo/*.cpp
+    # tools/EyeDropper/*.cpp
+    # tools/FLAlertLayerFix/*.cpp
+    # tools/GlobalClipboard/*.cpp
+    # # tools/gmd/*.cpp
+    # tools/GridSize/*.cpp
+    # tools/GroupIDFilter/*.cpp
+    # tools/GroupSummary/*.cpp
+    # tools/Guidelines/*.cpp
+    # tools/HighlightTriggers/*.cpp
+    # tools/IDRemap/*.cpp
+    # tools/LevelPercent/*.cpp
     tools/other/*.cpp
-    tools/PasteString/*.cpp
-    tools/Presets/*.cpp
-    tools/RGBColorInput/*.cpp
-    tools/RotateSaws/*.cpp
-    # tools/Screenshot/*.cpp
-    tools/ScrollWheel/*.cpp
-    tools/settings/*.cpp
-    tools/SliderImprovement/*.cpp
-    tools/VisibilityTab/*.cpp
+    # tools/PasteString/*.cpp
+    # tools/Presets/*.cpp
+    # tools/RGBColorInput/*.cpp
+    # tools/RotateSaws/*.cpp
+    # # tools/Screenshot/*.cpp
+    # tools/ScrollWheel/*.cpp
+    # tools/settings/*.cpp
+    # tools/SliderImprovement/*.cpp
+    # tools/VisibilityTab/*.cpp
 )
 
-# target_sources(${PROJECT_NAME} PRIVATE ${TOOLS_SOURCE_FILES})
+target_sources(${PROJECT_NAME} PRIVATE ${TOOLS_SOURCE_FILES})
 
 # CPMAddPackage("gh:matcool/mat-dash#cdc9f70")
 # CPMAddPackage("gh:HJfod/cocos-headers#cbf79fc")

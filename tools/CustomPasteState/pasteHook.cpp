@@ -19,7 +19,7 @@ void  GameObject_duplicateAttributes(GameObject* dest,  GameObject *src) {
     dest->m_bGroupDisabled = false;
     dest->m_unk414 = 0;
 
-    if (states->count(PasteLayer::ObjID))           dest->m_nObjectID = src->m_nObjectID;
+    if (states->count(PasteLayer::ObjID))           dest->m_objectID = src->m_objectID;
     if (states->count(PasteLayer::EditorLayer))     dest->m_nEditorLayer = src->m_nEditorLayer;
     if (states->count(PasteLayer::EditorLayer2))    dest->m_nEditorLayer2 = src->m_nEditorLayer2;
     if (states->count(PasteLayer::DontFade))        dest->m_bIsDontFade = src->m_bIsDontFade;
@@ -53,7 +53,7 @@ void  LevelEditorLayer_copyObjectState(LevelEditorLayer* self,  GameObject* obj)
     matdash::orig<&LevelEditorLayer_copyObjectState>(self,  obj);
 
     if (obj != nullptr) {
-        self->m_pCopyStateObject->m_nObjectID = obj->m_nObjectID;
+        self->m_pCopyStateObject->m_objectID = obj->m_objectID;
         self->m_pCopyStateObject->setPosition(obj->getPosition());
         self->m_pCopyStateObject->setRotation(obj->getRotation());
         self->m_pCopyStateObject->updateCustomScale(obj->getScale());

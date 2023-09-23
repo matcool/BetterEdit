@@ -36,7 +36,7 @@ std::array<int, 100> g_sawIDs = {
 
 bool objectIsSaw(GameObject* obj) {
     for (auto id : g_sawIDs)
-        if (id == obj->m_nObjectID)
+        if (id == obj->m_objectID)
             return true;
     
     return false;
@@ -50,7 +50,7 @@ void beginRotateSaw(GameObject* obj) {
         return;
 
     CCAction* r;
-    switch (obj->m_nObjectID) {
+    switch (obj->m_objectID) {
         // the big invisible saw, for some reason
         case 0xba: r = obj->createRotateAction(300.0f, 0); break;
         // the big reaper saw

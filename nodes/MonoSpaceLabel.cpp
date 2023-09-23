@@ -24,7 +24,7 @@ void MonoSpaceLabel::updateLabel() {
     this->setString(m_sInitialString, false);
 
     if (m_fWidth) {
-        float lineWidth = m_fWidth / m_fScaleX;
+        float lineWidth = m_fWidth / this->getScaleX();
         float posX = 0.0f;
 
         CCObject* child;

@@ -82,7 +82,7 @@ void  EditorUI_updateObjectInfoLabel(EditorUI* self) {
         ss << "Rot: " << self->m_selectedObject->getRotation() << "\n";
         ss << "Scale: " << self->m_selectedObject->getScale() << "\n";
         ss << "Pos: " << self->m_selectedObject->getPositionX() << "," << self->m_selectedObject->getPositionY() << "\n";
-        ss << "ObjID: " << self->m_selectedObject->m_nObjectID << "\n";
+        ss << "ObjID: " << self->m_selectedObject->m_objectID << "\n";
 
         ss << "Addr: 0x" << std::hex << reinterpret_cast<uintptr_t>(self->m_selectedObject) << std::dec << "\n";
 

@@ -80,7 +80,7 @@ CCMenuItemSpriteExtra* KeymapLayer::getKeyButton(
     );
 
     btn->setPosition(pos);
-    btn->m_fScaleMultiplier = .8f;
+    btn->m_scaleMultiplier = .8f;
 
     return btn;
 }
@@ -114,8 +114,8 @@ CCMenuItemToggler* KeymapLayer::getKeyToggle(
 
     btn->setPosition(pos);
 
-    btn->m_pOnButton->m_fScaleMultiplier = .8f;
-    btn->m_pOffButton->m_fScaleMultiplier = .8f;
+    btn->m_pOnButton->m_scaleMultiplier = .8f;
+    btn->m_pOffButton->m_scaleMultiplier = .8f;
 
     if (toggle)
         *toggle = btn;

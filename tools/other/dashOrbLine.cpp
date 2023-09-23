@@ -37,14 +37,14 @@ void unloadDashOrbLines() {
 
 void registerDashOrb(GameObject* obj) {
     if (
-        obj->m_nObjectID == 1704 ||
-        obj->m_nObjectID == 1751
+        obj->m_objectID == 1704 ||
+        obj->m_objectID == 1751
     ) {
         g_pDashOrbs->addObject(obj);
     }
 
     if (
-        obj->m_nObjectID == 1829
+        obj->m_objectID == 1829
     ) {
         g_pDashOrbEnds->addObject(obj);
     }
@@ -56,11 +56,11 @@ void unregisterDashOrb(GameObject* obj) {
 }
 
 void drawDashOrbLines(DrawGridLayer* self) {
-    if (!shouldShowDashLines())
-        return;
+    // if (!shouldShowDashLines())
+    //     return;
 
     CCARRAY_FOREACH_B_TYPE(g_pDashOrbs, obj, GameObject) {
-        switch (obj->m_nObjectID) {
+        switch (obj->m_objectID) {
             case 1704:  // green dash orb
                 ccDrawColor4B(0, 255, 0, 255);
                 break;
