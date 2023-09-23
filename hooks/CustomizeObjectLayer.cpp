@@ -38,14 +38,14 @@ class CB : public CustomizeObjectLayer {
                 }
             }, "Apply")->setApplyOnEsc(true)->setTrashButton(true);
             p->getInputNode()->getInputNode()->setAllowedChars("0123456789");
-            p->getInputNode()->getInputNode()->setMaxLabelLength(6);
+            p->getInputNode()->getInputNode()->setMaxLabelWidth(6);
             p->getInputNode()->setString(g_nextFreeColorInput.c_str());
             p->show();
         }
 };
 
 
-
+#include <Geode/modify/CustomizeObjectLayer.hpp>
 class $modify(CustomizeObjectLayer) {
 
     std::string getShortColorBtnText(int channel) {
@@ -68,12 +68,12 @@ class $modify(CustomizeObjectLayer) {
     }
 }
 
-void updateCustomChannelSprite( ColorChannelSprite* btn) {
-    std::string txt = GJSpecialColorSelect::textForColorIdx(this->m_customColorChannel);
+void updateCustomChannelSprite(CustomizeObjectLayer* self, ColorChannelSprite* btn) {
+    std::string txt = GJSpecialColorSelect::textForColorIdx(self->m_customColorChannel);
     
     if (txt == "NA")
         try {
-            txt = std::to_string(this->m_customColorChannel);
+            txt = std::to_string(self->m_customColorChannel);
         } catch(...) {
             txt = std::to_string(colorCountOnPage);
         }
@@ -187,11 +187,11 @@ ColorChannelSprite* getChannelSprite(int channel) {
     return channelSprite;
 }
 
-void updateCustomChannelSprite(CustomizeObjectLayer* this) {
+void updateCustomChannelSprite(CustomizeObjectLayer* self) {
     if (BetterEdit::getDisableNewColorSelection())
         return;
 
-    CCARRAY_FOREACH_B_TYPE(this->m_colorButtons, btn, ColorChannelSprite) {
+    CCARRAY_FOREACH_B_TYPE(self->m_colorButtons, btn, ColorChannelSprite) {
         auto label = as<CCLabelBMFont*>(
             btn->getChildByTag(COLORBTN_LABEL_TAG)
         );
@@ -199,7 +199,7 @@ void updateCustomChannelSprite(CustomizeObjectLayer* this) {
         if (!label) continue;
 
         if (btn->getParent()->getTag() == 1008)
-            updateCustomChannelSprite(this, btn);
+            updateCustomChannelSprite(self, btn);
     }
 }
 
@@ -243,7 +243,7 @@ CCSprite* createBGSprite() {
     ) {
         CustomizeObjectLayer::onSelectMode(  pSender);
 
-        updateButtons(this);
+        updateButtons();
     } MAT_GDMAKE_HOOK(0x56db0, onSelectMode);
 
     bool  init(
@@ -285,7 +285,7 @@ CCSprite* createBGSprite() {
             nextFreeBtn->getPositionX() + 58.0f,
             nextFreeBtn->getPositionY()
         );
-        this->m_colorNodes->addObject(customNextFreeBtn);
+        this->m_colorTabNodes->addObject(customNextFreeBtn);
         this->m_buttonMenu->addChild(customNextFreeBtn);
 
         if (BetterEdit::getDisableNewColorSelection())
@@ -306,7 +306,7 @@ CCSprite* createBGSprite() {
         bgSprite->setOpacity(100);
         bgSprite->setPosition(winSize / 2);
 
-        this->m_colorNodes->addObject(bgSprite);
+        this->m_colorTabNodes->addObject(bgSprite);
         this->m_mainLayer->addChild(bgSprite);
 
         int i = 0;
@@ -322,7 +322,7 @@ CCSprite* createBGSprite() {
             );
 
             this->m_colorButtons->addObject(channelSprite);
-            this->m_colorNodes->addObject(btn);
+            this->m_colorTabNodes->addObject(btn);
             this->m_buttonMenu->addChild(btn);
 
             auto width = 100.0f;
@@ -350,7 +350,7 @@ CCSprite* createBGSprite() {
             );
 
             this->m_colorButtons->addObject(channelSprite);
-            this->m_colorNodes->addObject(btn);
+            this->m_colorTabNodes->addObject(btn);
             this->m_buttonMenu->addChild(btn);
 
             auto width = 180.0f;
@@ -379,7 +379,7 @@ CCSprite* createBGSprite() {
         //         225.0f
         //     );
 
-        //     this->m_colorNodes->addObject(btn);
+        //     this->m_colorTabNodes->addObject(btn);
         //     this->addChild(btn);
         // }
 
@@ -389,10 +389,10 @@ CCSprite* createBGSprite() {
         line->setScaleY(1.65f);
         line->setOpacity(100);
 
-        this->m_colorNodes->addObject(line);
+        this->m_colorTabNodes->addObject(line);
         this->m_mainLayer->addChild(line);
 
-        updateButtons(this);
+        updateButtons();
 
         auto showInput = this->getActiveMode(true) == this->m_customColorChannel;
         this->m_arrowDown->setVisible(showInput);
@@ -405,11 +405,9 @@ CCSprite* createBGSprite() {
     } MAT_GDMAKE_HOOK(0x53e00, init);
 
     void  textChanged(
-        CustomizeObjectLayer* this_,  CCTextInputNode* input
+        CCTextInputNode* input
     ) {
-        matdash::orig<&textChanged>(this_,  input);
-
-        auto this = as<CustomizeObjectLayer*>(as<uintptr_t>(this_) - 0x1cc);
+        CustomizeObjectLayer::textChanged(input);
 
         if (input->getString() && strlen(input->getString()))
             try {
@@ -429,13 +427,13 @@ CCSprite* createBGSprite() {
     ) {
         CustomizeObjectLayer::onUpdateCustomColor(  pSender);
 
-        updateButtons(this);
+        updateButtons();
     } MAT_GDMAKE_HOOK(0x57350, onUpdateCustomColor);
 
     void  colorSelectClosed(
           CCNode* node
     ) {
-        updateButtons(as<CustomizeObjectLayer*>(as<uintptr_t>(this) - 0x1d4));
+        updateButtons();
 
         CustomizeObjectLayer::colorSelectClosed(  node);
     } MAT_GDMAKE_HOOK(0x564a0, colorSelectClosed);
@@ -451,7 +449,7 @@ CCSprite* createBGSprite() {
         if (this->m_customColorChannel < colorCountOnPage)
             this->m_customColorChannel = colorCountOnPage;
 
-        updateButtons(this);
+        updateButtons();
     } MAT_GDMAKE_HOOK(0x579d0, highlightSelected);
 };
 

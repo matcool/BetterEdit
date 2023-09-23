@@ -10,7 +10,7 @@ add_library(${PROJECT_NAME} SHARED
     main.cpp
     BetterEdit.cpp
 
-    # hooks/CustomizeObjectLayer.cpp
+    hooks/CustomizeObjectLayer.cpp
     # hooks/EditLevelLayer.cpp
     # hooks/EditorPauseLayer.cpp
     # hooks/EditorUI.cpp
