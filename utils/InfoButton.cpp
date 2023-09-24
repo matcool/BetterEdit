@@ -18,7 +18,7 @@ bool InfoButton::init(std::string const& title, std::string const& desc, float s
 }
 
 void InfoButton::activate() {
-	FLAlertLayer::create(nullptr, m_sTitle.c_str(), m_sDescription, "OK", "Cancel", 400.0f)->show();
+	FLAlertLayer::create(nullptr, m_sTitle.c_str(), m_sDescription, "OK", nullptr, 400.0f)->show();
 }
 
 InfoButton* InfoButton::create(std::string const& title, std::string const& desc, float scale) {

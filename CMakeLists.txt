@@ -12,7 +12,7 @@ add_library(${PROJECT_NAME} SHARED
 
     hooks/CustomizeObjectLayer.cpp
     hooks/EditLevelLayer.cpp
-    # hooks/EditorPauseLayer.cpp
+    hooks/EditorPauseLayer.cpp
     # hooks/EditorUI.cpp
     hooks/freezeFix.cpp
     hooks/HSVWidgetPopup.cpp
@@ -37,7 +37,7 @@ add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 
 file(GLOB_RECURSE TOOLS_SOURCE_FILES
-    # tools/AutoColorTriggers/*.cpp
+    tools/AutoColorTriggers/*.cpp
     # tools/AutoSave/*.cpp
     # # tools/ClickableDots/*.cpp
     # tools/CustomKeybinds/*.cpp
@@ -56,18 +56,18 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
     # tools/GroupSummary/*.cpp
     # tools/Guidelines/*.cpp
     # tools/HighlightTriggers/*.cpp
-    # tools/IDRemap/*.cpp
+    tools/IDRemap/*.cpp
     tools/LevelPercent/*.cpp
     tools/other/*.cpp
-    # tools/PasteString/*.cpp
+    tools/PasteString/*.cpp
     tools/Presets/*.cpp
     # tools/RGBColorInput/*.cpp
     # tools/RotateSaws/*.cpp
     # # tools/Screenshot/*.cpp
     # tools/ScrollWheel/*.cpp
-    # tools/settings/*.cpp
+    tools/settings/*.cpp
     # tools/SliderImprovement/*.cpp
-    # tools/VisibilityTab/*.cpp
+    tools/VisibilityTab/*.cpp
 )
 
 target_sources(${PROJECT_NAME} PRIVATE ${TOOLS_SOURCE_FILES})

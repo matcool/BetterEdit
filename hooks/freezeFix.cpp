@@ -22,7 +22,7 @@ class $modify(EditorUI) {
 				"volume turned down! (You can turn up volume in "
 				"<cg>BetterEdit settings</c>)"
 				"OK",
-				"Cancel", nullptr, 320.0f
+				nullptr, nullptr, 320.0f
 			)
 				->show();
 			BetterEdit::setHasShownPulseVolumeWarning(true);

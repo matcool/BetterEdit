@@ -1,221 +1,204 @@
-#include <GDMake.h>
 #include "EditorPauseLayer.hpp"
-#include "../tools/settings/BESettingsLayer.hpp"
+
 #include "../tools/AutoColorTriggers/autoCT.hpp"
-#include "../tools/LevelPercent/levelPercent.hpp"
+#include "../tools/AutoSave/autoSave.hpp"
 #include "../tools/IDRemap/remapHook.hpp"
+#include "../tools/LevelPercent/levelPercent.hpp"
 #include "../tools/PasteString/loadPasteButton.hpp"
 #include "../tools/RotateSaws/rotateSaws.hpp"
-#include "../tools/AutoSave/autoSave.hpp"
 #include "../tools/VisibilityTab/loadVisibilityTab.hpp"
+#include "../tools/settings/BESettingsLayer.hpp"
+
+#include <GDMake.h>
 
 using namespace gdmake;
 
 bool g_bRotateSaws = false;
-bool g_bShowKeybinds = false;
 
-bool shouldRotateSaw() { return g_bRotateSaws; }
-void enableRotations(bool b) { g_bRotateSaws = b; }
-void setupRotateSaws() { BetterEdit::saveGlobalBool("rotate-saws", &g_bRotateSaws); }
-
-CCMenuItemSpriteExtra* createNewPlayBtn(
-     const char* sprName, SEL_MenuHandler cb, float scale = 1.f
-) {
-    auto spr = CCScale9Sprite::create(
-        "GJ_button_01.png", { 0, 0, 40, 40 }
-    );
-    spr->setContentSize({ 65.f, 65.f });
-    auto addSpr = CCSprite::createWithSpriteFrameName(sprName);
-    addSpr->setPosition(spr->getContentSize() / 2);
-    addSpr->setScale(scale);
-    spr->addChild(addSpr);
-    auto btn = CCMenuItemSpriteExtra::create(
-        spr, self, cb
-    );
-    return btn;
+bool shouldRotateSaw() {
+	return g_bRotateSaws;
 }
 
-void CB::onBESettings(cocos2d::CCObject* pSender) {
-    BESettingsLayer::create(this)->show();
+void enableRotations(bool b) {
+	g_bRotateSaws = b;
 }
 
-void CB::onShowKeybinds(CCObject* pSender) {
-    g_bShowKeybinds = !as<CCMenuItemToggler*>(pSender)->isToggled();
+void setupRotateSaws() {
+	BetterEdit::saveGlobalBool("rotate-saws", &g_bRotateSaws);
 }
 
-void CB::onRotateSaws(CCObject* pSender) {
-    g_bRotateSaws = !as<CCMenuItemToggler*>(pSender)->isToggled();
-
-    if (g_bRotateSaws)
-        beginRotations(LevelEditorLayer::get());
-    else
-        stopRotations(LevelEditorLayer::get());
-}
+// CCMenuItemSpriteExtra* createNewPlayBtn(
+// 	char const* sprName, SEL_MenuHandler cb, float scale = 1.f
+// ) {
+// 	auto spr = CCScale9Sprite::create("GJ_button_01.png", { 0, 0, 40, 40 });
+// 	spr->setContentSize({ 65.f, 65.f });
+// 	auto addSpr = CCSprite::createWithSpriteFrameName(sprName);
+// 	addSpr->setPosition(spr->getContentSize() / 2);
+// 	addSpr->setScale(scale);
+// 	spr->addChild(addSpr);
+// 	auto btn = CCMenuItemSpriteExtra::create(spr, this, cb);
+// 	return btn;
+// }
 
 int countLDMObjects(LevelEditorLayer* lel) {
-    int count = 0;
-    CCARRAY_FOREACH_B_TYPE(lel->getAllObjects(), obj, GameObject) {
-        if (obj->m_highDetail)
-            count++;
-    }
-    return count;
+	int count = 0;
+	CCARRAY_FOREACH_B_TYPE(lel->getAllObjects(), obj, GameObject) {
+		if (obj->m_highDetail) {
+			count++;
+		}
+	}
+	return count;
 }
 
-class $modify(EditorPauseLayer) {
+#include <Geode/modify/EditorPauseLayer.hpp>
 
-void  keyDown(  enumKeyCodes key) {
-    if (key == KEY_Escape)
-        as<EditorPauseLayer*>(as<uintptr_t>(self) - 0xf8)->onResume(nullptr);
-    else
-        EditorPauseLayer::keyDown(  key);
-} MAT_GDMAKE_HOOK(0x758d0, keyDown);
+class $modify(PauseChanges, EditorPauseLayer) {
+	void onBESettings(cocos2d::CCObject* pSender) {
+		BESettingsLayer::create(this)->show();
+	}
 
-void  onResume(  CCObject* pSender) {
-    EditorPauseLayer::onResume(  pSender);
+	// void onRotateSaws(CCObject* pSender) {
+	// 	g_bRotateSaws = !as<CCMenuItemToggler*>(pSender)->isToggled();
 
-    for (auto const& addr : std::initializer_list<int> {
-        0x73169,
-        0x856A4, 
-        0x87B17,
-        0x87BC7,
-        0x87D95,
-        0x880F4,
-        0x160B06,
-    })
-        if (BetterEdit::getBypassObjectLimit())
-            patch(addr, { 0xff, 0xff, 0xff, 0x7f });
-        else unpatch(addr);
-    
-    if (BetterEdit::getBypassObjectLimit()) {
-        patch(0x7A100, { 0xeb });
-        patch(0x7A022, { 0xeb });
-        patch(0x7A203, { 0x90, 0x90 });
-    } else {
-        unpatch(0x7A100);
-        unpatch(0x7A022);
-        unpatch(0x7A203);
-    }
+	// 	if (g_bRotateSaws) {
+	// 		beginRotations(LevelEditorLayer::get());
+	// 	}
+	// 	else {
+	// 		stopRotations(LevelEditorLayer::get());
+	// 	}
+	// }
 
-    if (BetterEdit::getUseUpArrowForGameplay()) {
-        patch(0x91abb, { 0x3d, 0x26, 0x00 });
-        patch(0x921a6, { 0x3d, 0x26, 0x00 });
-    } else {
-        unpatch(0x91abb);
-        unpatch(0x921a6);
-    }
+	void keyDown(enumKeyCodes key) {
+		if (key == KEY_Escape) {
+			EditorPauseLayer::onResume(nullptr);
+		}
+		else {
+			EditorPauseLayer::keyDown(key);
+		}
+	}
 
-    auto ui = EditorUI::get();
+	void onResume(CCObject* pSender) {
+		EditorPauseLayer::onResume(pSender);
 
-    updateVisibilityTab(ui);
+		// TODO: patches yeah
+		// for (auto const& addr : std::initializer_list<int> {
+		// 		 0x73169,
+		// 		 0x856A4,
+		// 		 0x87B17,
+		// 		 0x87BC7,
+		// 		 0x87D95,
+		// 		 0x880F4,
+		// 		 0x160B06,
+		// 	 }) {
+		// 	if (BetterEdit::getBypassObjectLimit()) {
+		// 		patch(addr, { 0xff, 0xff, 0xff, 0x7f });
+		// 	}
+		// 	else {
+		// 		unpatch(addr);
+		// 	}
+		// }
 
-    // if (getAutoSaveTimer(ui)->cancellable())
-    //     getAutoSaveTimer(ui)->cancel();
-        
-    // getAutoSaveTimer(ui)->resume();
+		// if (BetterEdit::getBypassObjectLimit()) {
+		// 	patch(0x7A100, { 0xeb });
+		// 	patch(0x7A022, { 0xeb });
+		// 	patch(0x7A203, { 0x90, 0x90 });
+		// }
+		// else {
+		// 	unpatch(0x7A100);
+		// 	unpatch(0x7A022);
+		// 	unpatch(0x7A203);
+		// }
 
-    updatePercentLabelPosition(ui);
-    // showPositionLabel(LevelEditorLayer::get()->getEditorUI(), true);
-} MAT_GDMAKE_HOOK(0x74fe0, onResume);
+		// if (BetterEdit::getUseUpArrowForGameplay()) {
+		// 	patch(0x91abb, { 0x3d, 0x26, 0x00 });
+		// 	patch(0x921a6, { 0x3d, 0x26, 0x00 });
+		// }
+		// else {
+		// 	unpatch(0x91abb);
+		// 	unpatch(0x921a6);
+		// }
 
-void  onExitEditor(
-    
-    
-    CCObject* pSender
-) {
-    stopRotations(this->m_editorLayer);
-    // resetAutoSaveTimer(this->m_editorLayer->m_pEditorUI);
+		auto ui = EditorUI::get();
 
-    EditorPauseLayer::onExitEditor(  pSender);
+		// TODO: reenable
+		// updateVisibilityTab(ui);
 
-    this->removeFromParentAndCleanup(true);
-} MAT_GDMAKE_HOOK(0x75660, onExitEditor);
+		updatePercentLabelPosition(ui);
+		// showPositionLabel(LevelEditorLayer::get()->getEditorUI(), true);
+	}
 
-bool  init(
-    
-    
-    LevelEditorLayer* el
-) {
-    if (!EditorPauseLayer::init(  el))
-        return false;
+	void onExitEditor(CCObject* pSender) {
+		// TODO: reenable
+		// stopRotations(this->m_editorLayer);
 
-    auto menu = as<CCMenu*>(this->m_guidelinesOffButton->getParent());
-    auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
+		EditorPauseLayer::onExitEditor(pSender);
 
-    auto mainMenu = as<CCMenu*>(this->getChildren()->objectAtIndex(0));
+		this->removeFromParentAndCleanup(true);
+	}
 
-    if (BetterEdit::isEditorViewOnlyMode()) {
-        CCARRAY_FOREACH_B_BASE(mainMenu->getChildren(), btn, CCMenuItemSpriteExtra*, ix) {
-            if (!ix) continue;
+	bool init(LevelEditorLayer* el) {
+		if (!EditorPauseLayer::init(el)) {
+			return false;
+		}
 
-            btn->setEnabled(false);
-            as<ButtonSprite*>(btn->getNormalImage())->setCascadeColorEnabled(true);
-            as<ButtonSprite*>(btn->getNormalImage())->setCascadeOpacityEnabled(true);
-            as<ButtonSprite*>(btn->getNormalImage())->setColor({ 90, 90, 90 });
-            as<ButtonSprite*>(btn->getNormalImage())->setOpacity(200);
-        }
-    }
+		auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
 
-    auto gdSettingsBtn = getChild<CCMenu*>(menu, menu->getChildrenCount() - 1);
+		// TODO: Geode separates menus
 
-    auto btn = CCMenuItemSpriteExtra::create(
-        CCNodeConstructor()
-            .fromFrameName("GJ_optionsBtn02_001.png")
-            .scale(.8f)
-            .color(ccc3(255, 0, 0))
-            .done(),
-        self,
-        (SEL_MenuHandler)&CB::onBESettings
-    );
-    btn->setPosition(winSize.width / 2 - 70, gdSettingsBtn->getPositionY());
-    menu->addChild(btn);
+		// auto mainMenu = as<CCMenu*>(this->getChildren()->objectAtIndex(0));
 
-    gdSettingsBtn->setPositionX(winSize.width / 2 - 30);
+		// if (BetterEdit::isEditorViewOnlyMode()) {
+		// 	CCARRAY_FOREACH_B_BASE(mainMenu->getChildren(), btn, CCMenuItemSpriteExtra*, ix) {
+		// 		if (!ix) {
+		// 			continue;
+		// 		}
 
-    loadColorTriggerButton(self);
-    loadRemapHook(self);
-    loadPasteButton(self);
+		// 		btn->setEnabled(false);
+		// 		as<ButtonSprite*>(btn->getNormalImage())->setCascadeColorEnabled(true);
+		// 		as<ButtonSprite*>(btn->getNormalImage())->setCascadeOpacityEnabled(true);
+		// 		as<ButtonSprite*>(btn->getNormalImage())->setColor({ 90, 90, 90 });
+		// 		as<ButtonSprite*>(btn->getNormalImage())->setOpacity(200);
+		// 	}
+		// }
 
-    GameToolbox::createToggleButton(
-        (SEL_MenuHandler)&CB::onRotateSaws,
-        g_bRotateSaws, as<CCMenu*>(this->m_guidelinesOffButton->getParent()),
-        self, self, .55f, .42f, 85.0f, "", false, 0, nullptr,
-        "Preview Saws",
-        {
-            CCDirector::sharedDirector()->getScreenLeft() + 25.0f,
-            CCDirector::sharedDirector()->getScreenBottom() + 192.0f
-        },
-        { 8.0f, 0.0f }
-    );
+		auto settingsMenu = static_cast<CCMenu*>(this->getChildByID("settings-menu"));
 
-    GameToolbox::createToggleButton(
-        (SEL_MenuHandler)&CB::onShowKeybinds,
-        g_bShowKeybinds, as<CCMenu*>(this->m_guidelinesOffButton->getParent()),
-        self, self, .55f, .42f, 85.0f, "", false, 0, nullptr,
-        "Show Keybinds",
-        {
-            CCDirector::sharedDirector()->getScreenLeft() + 25.0f,
-            CCDirector::sharedDirector()->getScreenBottom() + 216.0f
-        },
-        { 8.0f, 0.0f }
-    );
+		auto btn = CCMenuItemSpriteExtra::create(
+			CCNodeConstructor()
+				.fromFrameName("GJ_optionsBtn02_001.png")
+				.scale(.8f)
+				.color(ccc3(255, 0, 0))
+				.done(),
+			this, (SEL_MenuHandler)&PauseChanges::onBESettings
+		);
+		settingsMenu->addChild(btn);
+		settingsMenu->updateLayout();
 
-    auto objCountLabel = getChild<CCLabelBMFont*>(self, 9);
+		loadColorTriggerButton(this);
+		loadRemapHook(this);
+		loadPasteButton(this);
 
-    if (objCountLabel) {
-        std::string str = objCountLabel->getString();
-        int c = countLDMObjects(this->m_editorLayer);
-        float p = static_cast<float>(c) /
-            this->m_editorLayer->getAllObjects()->count() *
-            100.f;
-        p = roundf(p);
-        str += " | " + std::to_string(c) + " LDM (" +
-            BetterEdit::formatToString(p) + "%)";
-        objCountLabel->setString(str.c_str());
-    }
+		// TODO: reenable?
+		// GameToolbox::createToggleButton(
+		// 	"Preview Saws", (SEL_MenuHandler)&PauseChanges::onRotateSaws, g_bRotateSaws,
+		// 	as<CCMenu*>(this->m_guidelinesOffButton->getParent()),
+		// 	{ CCDirector::sharedDirector()->getScreenLeft() + 25.0f,
+		// 	  CCDirector::sharedDirector()->getScreenBottom() + 192.0f },
+		// 	this, this, .55f, .42f, 85.0f, { 8.0f, 0.0f }, "", false, 0, nullptr
+		// );
 
-    // getAutoSaveTimer(LevelEditorLayer::get()->getEditorUI())->pause();
+		auto objCountLabel =
+			static_cast<CCLabelBMFont*>(this->getChildByIDRecursive("object-count-label"));
 
-    return true;
-} MAT_GDMAKE_HOOK(0x730e0, init);
+		if (objCountLabel) {
+			std::string str = objCountLabel->getString();
+			int c = countLDMObjects(this->m_editorLayer);
+			float p = static_cast<float>(c) / this->m_editorLayer->getAllObjects()->count() * 100.f;
+			p = roundf(p);
+			str += " | " + std::to_string(c) + " LDM (" + BetterEdit::formatToString(p) + "%)";
+			objCountLabel->setString(str.c_str());
+		}
 
+		return true;
+	}
 };
