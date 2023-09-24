@@ -31,33 +31,36 @@ static constexpr E enum_cast(T type) { return static_cast<E>(reinterpret_cast<in
 static std::unordered_map<uintptr_t, std::vector<uint8_t>> g_patchedBytes;
 
 static std::vector<uint8_t> patch(uintptr_t addr, std::vector<uint8_t> bytes, bool hardOverwrite = false, bool repatch = false) {
-    if (!g_patchedBytes[addr].size())
-        g_patchedBytes[addr] = patchBytesEx(addr, bytes, hardOverwrite);
-    else if (repatch)
-        patchBytesEx(addr, bytes, hardOverwrite);
+    return {};
+    // if (!g_patchedBytes[addr].size())
+    //     g_patchedBytes[addr] = patchBytesEx(addr, bytes, hardOverwrite);
+    // else if (repatch)
+    //     patchBytesEx(addr, bytes, hardOverwrite);
 
-    return g_patchedBytes[addr];
+    // return g_patchedBytes[addr];
 }
 
 static void unpatch(uintptr_t addr, bool hardOverwrite = false) {
-    if (addr == 0) {
-        for (auto const& [key, val] : g_patchedBytes) {
-            if (val.size())
-                patchBytesEx(key, val, true);
+    return;
+    // if (addr == 0) {
+    //     for (auto const& [key, val] : g_patchedBytes) {
+    //         if (val.size())
+    //             patchBytesEx(key, val, true);
         
-            g_patchedBytes[key] = {};
-        }
-        return;
-    }
+    //         g_patchedBytes[key] = {};
+    //     }
+    //     return;
+    // }
 
-    if (g_patchedBytes[addr].size())
-        patchBytes(addr, g_patchedBytes[addr]);
+    // if (g_patchedBytes[addr].size())
+    //     patchBytes(addr, g_patchedBytes[addr]);
     
-    g_patchedBytes.erase(addr);
+    // g_patchedBytes.erase(addr);
 }
 
 static bool ispatched(uintptr_t addr) {
-    return g_patchedBytes.count(addr);
+    return false;
+    // return g_patchedBytes.count(addr);
 }
 
 static CCSprite* createBESprite(const char* name, const char* fallback = nullptr) {
@@ -132,11 +135,12 @@ static EffectGameObject* asEffectGameObject(GameObject* obj) {
 }
 
 static std::string timePointAsString(const std::chrono::system_clock::time_point& tp) {
-    std::time_t t = std::chrono::system_clock::to_time_t(tp);
-    char buf[128];
-    ctime_s(buf, sizeof buf, &t);
-    buf[strlen(buf) - 1] = ' ';
-    return buf;
+    // std::time_t t = std::chrono::system_clock::to_time_t(tp);
+    // char buf[128];
+    // ctime_s(buf, sizeof buf, &t);
+    // buf[strlen(buf) - 1] = ' ';
+    // return buf;
+    return "";
 }
 
 template<typename T, typename R = T>
@@ -149,28 +153,28 @@ static constexpr R vtable_cast(T obj, uintptr_t vtable) {
 }
 
 static CCPoint getMousePos() {
-    auto winSize = CCDirector::sharedDirector()->getWinSize();
-    auto winSizePx = CCDirector::sharedDirector()->getOpenGLView()->getViewPortRect();
-    auto ratio_w = winSize.width / winSizePx.size.width;
-    auto ratio_h = winSize.height / winSizePx.size.height;
-    auto mpos = CCDirector::sharedDirector()->getOpenGLView()->getMousePosition();
-    mpos.y = winSizePx.size.height - mpos.y;
-    mpos.x *= ratio_w;
-    mpos.y *= ratio_h;
+    // auto winSize = CCDirector::sharedDirector()->getWinSize();
+    // auto winSizePx = CCDirector::sharedDirector()->getOpenGLView()->getViewPortRect();
+    // auto ratio_w = winSize.width / winSizePx.size.width;
+    // auto ratio_h = winSize.height / winSizePx.size.height;
+    // auto mpos = CCDirector::sharedDirector()->getOpenGLView()->getMousePosition();
+    // mpos.y = winSizePx.size.height - mpos.y;
+    // mpos.x *= ratio_w;
+    // mpos.y *= ratio_h;
 
-    return mpos;
+    return geode::cocos::getMousePos();
 }
 
-template<typename R, typename T>
-static constexpr R union_cast(T v) {
-    static_assert(sizeof T == sizeof R, "union_cast: R and T don't match in size!");
-    union {
-        R r;
-        T t;
-    } x;
-    x.t = v;
-    return x.r;
-}
+// template<typename R, typename T>
+// static constexpr R union_cast(T v) {
+//     static_assert(sizeof T == sizeof R, "union_cast: R and T don't match in size!");
+//     union {
+//         R r;
+//         T t;
+//     } x;
+//     x.t = v;
+//     return x.r;
+// }
 
 template <typename T>
 bool bool_cast(T const v) { return static_cast<bool>(reinterpret_cast<int>(v)); }
@@ -409,64 +413,64 @@ inline std::vector<uint8_t> intToBytes(int paramInt, bool r = true) {
 }
 
 // from https://github.com/adafcaefc/GDClipboardFix/blob/master/GDClipboardFix/Source.cpp
-static bool copyToWin32Clipboard(std::string const& s) {
-    if (!OpenClipboard(nullptr))
-        return false;
-    if (!EmptyClipboard()) {
-        CloseClipboard();
-        return false;
-    }
+// static bool copyToWin32Clipboard(std::string const& s) {
+//     if (!OpenClipboard(nullptr))
+//         return false;
+//     if (!EmptyClipboard()) {
+//         CloseClipboard();
+//         return false;
+//     }
 
-    HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, s.size() + 1);
+//     HGLOBAL hg = GlobalAlloc(GMEM_MOVEABLE, s.size() + 1);
     
-	if (!hg) {
-		CloseClipboard();
-		return false;
-	}
+// 	if (!hg) {
+// 		CloseClipboard();
+// 		return false;
+// 	}
 
-	auto dest = GlobalLock(hg);
+// 	auto dest = GlobalLock(hg);
 
-	if (!dest) {
-		CloseClipboard();
-		return false;
-	}
+// 	if (!dest) {
+// 		CloseClipboard();
+// 		return false;
+// 	}
 
-	memcpy(dest, s.c_str(), s.size() + 1);
+// 	memcpy(dest, s.c_str(), s.size() + 1);
 
-	GlobalUnlock(hg);
+// 	GlobalUnlock(hg);
 
-	SetClipboardData(CF_TEXT, hg);
-	CloseClipboard();
+// 	SetClipboardData(CF_TEXT, hg);
+// 	CloseClipboard();
 
-	GlobalFree(hg);
+// 	GlobalFree(hg);
 
-    return true;
-}
+//     return true;
+// }
 
 // from https://stackoverflow.com/questions/14762456/getclipboarddatacf-text
-static std::string readWin32Clipboard() {
-    if (!OpenClipboard(nullptr))
-        return "";
+// static std::string readWin32Clipboard() {
+//     if (!OpenClipboard(nullptr))
+//         return "";
     
-    HANDLE hData = GetClipboardData(CF_TEXT);
-    if (hData == nullptr) {
-        CloseClipboard();
-        return "";
-    }
+//     HANDLE hData = GetClipboardData(CF_TEXT);
+//     if (hData == nullptr) {
+//         CloseClipboard();
+//         return "";
+//     }
 
-    char * pszText = static_cast<char*>(GlobalLock(hData));
-    if (pszText == nullptr) {
-        CloseClipboard();
-        return "";
-    }
+//     char * pszText = static_cast<char*>(GlobalLock(hData));
+//     if (pszText == nullptr) {
+//         CloseClipboard();
+//         return "";
+//     }
 
-    std::string text(pszText);
+//     std::string text(pszText);
 
-    GlobalUnlock(hData);
-    CloseClipboard();
+//     GlobalUnlock(hData);
+//     CloseClipboard();
 
-    return text; 
-}
+//     return text; 
+// }
 
 static std::ostream& operator<<(std::ostream& stream, CCPoint const& pos) {
     return stream << pos.x << ", " << pos.y;
@@ -703,29 +707,29 @@ static bool nodeIsHovered(CCNode* node, CCPoint const& gpos) {
     return rect.containsPoint(gpos);
 }
 
-static HWND glfwGetWin32Window(GLFWwindow* wnd) {
-    auto cocosBase = GetModuleHandleA("libcocos2d.dll");
+// static HWND glfwGetWin32Window(GLFWwindow* wnd) {
+//     auto cocosBase = GetModuleHandleA("libcocos2d.dll");
 
-    auto pRet = reinterpret_cast<HWND(__cdecl*)(GLFWwindow*)>(
-        reinterpret_cast<uintptr_t>(cocosBase) + 0x112c10
-    )(wnd);
+//     auto pRet = reinterpret_cast<HWND(__cdecl*)(GLFWwindow*)>(
+//         reinterpret_cast<uintptr_t>(cocosBase) + 0x112c10
+//     )(wnd);
 
-    return pRet;
-}
+//     return pRet;
+// }
 
-static HWND getGDHWND() {
-    // le matcool
-    static HWND g_hwnd = nullptr;
+// static HWND getGDHWND() {
+//     // le matcool
+//     static HWND g_hwnd = nullptr;
 
-    if (!g_hwnd) {
-        auto dir = CCDirector::sharedDirector();
-        if (!dir) return nullptr;
-        auto opengl = dir->getOpenGLView();
-        if (!opengl) return nullptr;
-        auto wnd = dir->getOpenGLView()->getWindow();
-        if (!wnd) return nullptr;
-        g_hwnd = glfwGetWin32Window(wnd);
-    }
+//     if (!g_hwnd) {
+//         auto dir = CCDirector::sharedDirector();
+//         if (!dir) return nullptr;
+//         auto opengl = dir->getOpenGLView();
+//         if (!opengl) return nullptr;
+//         auto wnd = dir->getOpenGLView()->getWindow();
+//         if (!wnd) return nullptr;
+//         g_hwnd = glfwGetWin32Window(wnd);
+//     }
 
-    return g_hwnd;
-}
+//     return g_hwnd;
+// }

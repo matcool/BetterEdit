@@ -43,46 +43,46 @@ struct DebugMsg {
 
 #pragma region macros (ew)
 #define BE_SETTINGS(__macro__)                                                                  \
-    __macro__(ScaleSnap, float, .25f, Float, std::stof, BE_MAKE_SFUNC_RANGE, 0.01f, 1.0f)       \
-    __macro__(GridSize, float, 30.0f, Float, std::stof, BE_MAKE_SFUNC_RANGE, 0.9375f, 120.0f)   \
-    __macro__(ObjectsPreStartLine, int, 15, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 60)     \
-    __macro__(PercentageAccuracy, int, 0, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 0, 10)       \
-    __macro__(AutoSaveTime, int, 1, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 60)             \
-    __macro__(GridSizeEnabled, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
-    __macro__(ShowGridOnChange, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
-    __macro__(AlwaysUseCustomGridSize, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)       \
-    __macro__(PasteStateEnabled, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)              \
-    __macro__(DisableMouseZoomMove, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
-    __macro__(FadeOutPercentage, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(PulseObjectsInEditor, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
-    __macro__(HasShownPulseVolumeWarning, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)    \
-    __macro__(RotateSawsInEditor, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
-    __macro__(DisableEditorPos, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)              \
-    __macro__(DisableZoomText, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
-    __macro__(DisablePercentage, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(DisableExtraObjectInfo, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
-    __macro__(DisableGlobalClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
-    __macro__(ShowAllLayers, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                 \
-    __macro__(EnableControlA, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                \
-    __macro__(BypassObjectLimit, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(UseOldProgressBar, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(RepeatCopyPaste, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
-    __macro__(EnableRelativeSwipe, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
-    __macro__(DisableNewColorSelection, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)      \
-    __macro__(UseUpArrowForGameplay, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
-    __macro__(EnableAutoSave, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                \
-    __macro__(DisableVisibilityTab, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
-    __macro__(HighlightTriggers, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(DisableDoubleClick, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
-    __macro__(KeybindRepeatEnabled, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
-    __macro__(KeybindRepeatInterval, int, 300, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1,10000)\
-    __macro__(KeybindRepeatStart, int, 700, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 10000)  \
-    __macro__(ShowKeybindOnHover, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
-    __macro__(CopyObjectsToClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
-    __macro__(EnableCustomEditMenu, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
-    __macro__(NoEasterEggs, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                  \
-    __macro__(EnableExperimentalFeatures, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)    \
-    __macro__(FixScaleSliderPosition, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
+    GEODE_INVOKE(__macro__, ScaleSnap, float, .25f, Float, std::stof, BE_MAKE_SFUNC_RANGE, 0.01f, 1.0f)       \
+    GEODE_INVOKE(__macro__, GridSize, float, 30.0f, Float, std::stof, BE_MAKE_SFUNC_RANGE, 0.9375f, 120.0f)   \
+    GEODE_INVOKE(__macro__, ObjectsPreStartLine, int, 15, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 60)     \
+    GEODE_INVOKE(__macro__, PercentageAccuracy, int, 0, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 0, 10)       \
+    GEODE_INVOKE(__macro__, AutoSaveTime, int, 1, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 60)             \
+    GEODE_INVOKE(__macro__, GridSizeEnabled, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
+    GEODE_INVOKE(__macro__, ShowGridOnChange, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
+    GEODE_INVOKE(__macro__, AlwaysUseCustomGridSize, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)       \
+    GEODE_INVOKE(__macro__, PasteStateEnabled, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)              \
+    GEODE_INVOKE(__macro__, DisableMouseZoomMove, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
+    GEODE_INVOKE(__macro__, FadeOutPercentage, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    GEODE_INVOKE(__macro__, PulseObjectsInEditor, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
+    GEODE_INVOKE(__macro__, HasShownPulseVolumeWarning, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)    \
+    GEODE_INVOKE(__macro__, RotateSawsInEditor, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
+    GEODE_INVOKE(__macro__, DisableEditorPos, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)              \
+    GEODE_INVOKE(__macro__, DisableZoomText, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
+    GEODE_INVOKE(__macro__, DisablePercentage, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    GEODE_INVOKE(__macro__, DisableExtraObjectInfo, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
+    GEODE_INVOKE(__macro__, DisableGlobalClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
+    GEODE_INVOKE(__macro__, ShowAllLayers, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                 \
+    GEODE_INVOKE(__macro__, EnableControlA, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                \
+    GEODE_INVOKE(__macro__, BypassObjectLimit, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    GEODE_INVOKE(__macro__, UseOldProgressBar, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    GEODE_INVOKE(__macro__, RepeatCopyPaste, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)               \
+    GEODE_INVOKE(__macro__, EnableRelativeSwipe, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
+    GEODE_INVOKE(__macro__, DisableNewColorSelection, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)      \
+    GEODE_INVOKE(__macro__, UseUpArrowForGameplay, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
+    GEODE_INVOKE(__macro__, EnableAutoSave, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                \
+    GEODE_INVOKE(__macro__, DisableVisibilityTab, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)          \
+    GEODE_INVOKE(__macro__, HighlightTriggers, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    GEODE_INVOKE(__macro__, DisableDoubleClick, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)            \
+    GEODE_INVOKE(__macro__, KeybindRepeatEnabled, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
+    GEODE_INVOKE(__macro__, KeybindRepeatInterval, int, 300, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1,10000)\
+    GEODE_INVOKE(__macro__, KeybindRepeatStart, int, 700, Integer, std::stoi, BE_MAKE_SFUNC_RANGE, 1, 10000)  \
+    GEODE_INVOKE(__macro__, ShowKeybindOnHover, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)             \
+    GEODE_INVOKE(__macro__, CopyObjectsToClipboard, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)        \
+    GEODE_INVOKE(__macro__, EnableCustomEditMenu, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)           \
+    GEODE_INVOKE(__macro__, NoEasterEggs, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)                  \
+    GEODE_INVOKE(__macro__, EnableExperimentalFeatures, bool, false, Bool, std::stoi, BE_MAKE_SFUNC, _, _)    \
+    GEODE_INVOKE(__macro__, FixScaleSliderPosition, bool, true, Bool, std::stoi, BE_MAKE_SFUNC, _, _)         \
 
 #define STEP_SUBDICT_NC(dict, key, ...)         \
     if (dict->stepIntoSubDictWithKey(key)) {    \
@@ -112,15 +112,15 @@ struct DebugMsg {
     }
 
 #define BE_MAKE_SFUNC(__name__, __type__, _, __, ___)       \
-    static void set##__name__##(__type__ value) {           \
+    static void set##__name__(__type__ value) {           \
         sharedState()->m_Sett##__name__ = value;            \
     }                                                       \
     static void set##__name__##OrDefault(__type__ value) {  \
-        set##__name__##(value);                             \
+        set##__name__(value);                             \
     }                                                       \
 
 #define BE_MAKE_SFUNC_RANGE(__name__, __type__, __value__, __lbound__, __rbound__)      \
-    static void set##__name__##(__type__ value) {                                       \
+    static void set##__name__(__type__ value) {                                       \
         if (value < __lbound__) sharedState()->m_Sett##__name__ = __lbound__;           \
         else if (value > __rbound__) sharedState()->m_Sett##__name__ = __rbound__;      \
         else sharedState()->m_Sett##__name__ = value;                                   \
@@ -211,13 +211,13 @@ class BetterEdit : public GManager, public FLAlertLayerProtocol {
         BE_SETTINGS(BE_MAKE_SETTING)
 
     protected:
-        virtual bool init() override;
+        bool init() override;
 
-        virtual void encodeDataTo(DS_Dictionary* data);
-        virtual void dataLoaded(DS_Dictionary* data);
-        virtual void firstLoad();
+        void encodeDataTo(DS_Dictionary* data) override;
+        void dataLoaded(DS_Dictionary* data) override;
+        void firstLoad() override;
 
-		void FLAlert_Clicked(FLAlertLayer*, bool btn2);
+		void FLAlert_Clicked(FLAlertLayer*, bool btn2) override;
     
     public:
         template<typename T>

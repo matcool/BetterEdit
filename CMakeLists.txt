@@ -49,7 +49,7 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
     # # tools/CustomStartPos/*.cpp
     # tools/EditorLayerInput/*.cpp
     # tools/EditTab/*.cpp
-    tools/EnterToSearch/*.cpp
+    # tools/EnterToSearch/*.cpp
     # tools/ExtraObjectInfo/*.cpp
     # tools/EyeDropper/*.cpp
     # tools/FLAlertLayerFix/*.cpp
@@ -62,7 +62,7 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
     # tools/HighlightTriggers/*.cpp
     # tools/IDRemap/*.cpp
     # tools/LevelPercent/*.cpp
-    tools/other/*.cpp
+    # tools/other/*.cpp
     # tools/PasteString/*.cpp
     # tools/Presets/*.cpp
     # tools/RGBColorInput/*.cpp

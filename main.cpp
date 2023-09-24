@@ -27,14 +27,16 @@
 //     return vec;
 // }
 
+using namespace geode::prelude;
+
 #define INIT_MANAGER(name) \
-    BetterEdit::log() << kDebugTypeInitializing << "Initializing " #name << log_end();   \
+    log::debug("Initializing {}", #name);  \
     name::initGlobal()
 
-void mod_main(HMODULE) {
+$execute {
     // matdash::create_console();
-    BetterEdit::log() << kDebugTypeInitializing << "Loading BetterEdit" << log_end();
-    BetterEdit::log() << kDebugTypeInitializing << "Applying patches" << log_end();
+    log::debug("Loading BetterEdit");
+    log::debug("Adding patches");
 
     // patch(0x1e62a6,
     //     {
@@ -67,22 +69,13 @@ void mod_main(HMODULE) {
     // INIT_MANAGER(SuperKeyboardManager);
     // INIT_MANAGER(SuperMouseManager);
 
-    BetterEdit::log() << kDebugTypeInitializing << "Loading tools" << log_end();
+    log::debug("Loading tools");
+
     // loadBEKeybinds();
-    loadEnterSearch();
-    loadTeleportScaleFix();
+    // loadEnterSearch();
+    // loadTeleportScaleFix();
     // loadFLAlertLayerFix();
-    loadPlaceObjectsBefore();
-    loadDashOrbLines();
+    // loadPlaceObjectsBefore();
+    // loadDashOrbLines();
 
-    BetterEdit::log() << kDebugTypeInitializing << "Adding Texture Sheets" << log_end();
-
-    BetterEdit::sharedState()->addTexture("BE_GameSheet01");
-    BetterEdit::sharedState()->addTexture("BE_ContextSheet01");
-
-    BetterEdit::log() << kDebugTypeInitializing << "Initializing GDMake hooks" << log_end();
-
-    // for (auto hook : matstuff::get_hooks()) {
-    //     hook();
-    // }
 }

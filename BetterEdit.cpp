@@ -27,7 +27,8 @@ std::string DebugTypeToStr(DebugType type) {
 }
 
 bool DSdictHasKey(DS_Dictionary* dict, std::string const& key) {
-    return std::string(dict->getKey(dict->getIndexOfKey(key.c_str()))) == key;
+    return false;
+    // return std::string(dict->getKey(dict->getIndexOfKey(key.c_str()))) == key;
 }
 
 log_stream::log_stream() {
@@ -98,10 +99,10 @@ std::vector<DebugMsg>& BetterEdit::internal_log() {
     set##_name_(_get_(#_name_))
 
 #define BE_SAVE_SETTING(__name__, _, _d_, __ctype__, _0, _1, _2, _3) \
-    BE_SAVE_##__ctype__##(#__name__, get##__name__(), _d_);
+    BE_SAVE_##__ctype__(#__name__, get##__name__(), _d_);
 #define BE_LOAD_SETTING(__name__, _, _d_, __ctype__, _0, _1, _2, _3) \
     if (DSdictHasKey(data, #__name__)) \
-        BE_LOAD_##__ctype__##(__name__, data->get##__ctype__##ForKey, _d_);
+        BE_LOAD_##__ctype__(__name__, data->get##__ctype__##ForKey, _d_);
 #define BE_DEFAULT_SETTING(__name__, _, __value__, __, ___, _0, _1, _2) \
     set##__name__(__value__);
 
@@ -123,6 +124,7 @@ bool BetterEdit::init() {
 }
 
 void BetterEdit::encodeDataTo(DS_Dictionary* data) {
+    /*
     BetterEdit::log() << kDebugTypeSaving << "Saving Settings" << log_end();
     STEP_SUBDICT(data, "settings",
         BE_SETTINGS(BE_SAVE_SETTING)
@@ -156,9 +158,11 @@ void BetterEdit::encodeDataTo(DS_Dictionary* data) {
 
     // BetterEdit::log() << kDebugTypeSaving << "Saving Keybinds" << log_end();
     // KeybindManager::get()->save();
+    */
 }
 
 void BetterEdit::dataLoaded(DS_Dictionary* data) {
+    /*
     BetterEdit::log() << kDebugTypeLoading << "Loading Settings" << log_end();
     STEP_SUBDICT_NC(data, "settings",
         BE_SETTINGS(BE_LOAD_SETTING)
@@ -184,7 +188,7 @@ void BetterEdit::dataLoaded(DS_Dictionary* data) {
                     data->getStringForKey("data")
                 });
             );
-    );
+    );*/
 }
 
 void BetterEdit::firstLoad() {}

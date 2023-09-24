@@ -4,7 +4,7 @@
 #include <string>
 #include <filesystem>
 #include <fstream>
-#include <Windows.h>
+// #include <Windows.h>
 
 namespace gdmake {
     namespace extra {
@@ -137,13 +137,14 @@ namespace gdmake {
         uintptr_t const absoluteAddress,
         std::vector<uint8_t> const& bytes
     ) {
-        return WriteProcessMemory(
-            GetCurrentProcess(),
-            reinterpret_cast<LPVOID>(absoluteAddress),
-            bytes.data(),
-            bytes.size(),
-            nullptr
-        );
+        return false;
+        // return WriteProcessMemory(
+        //     GetCurrentProcess(),
+        //     reinterpret_cast<LPVOID>(absoluteAddress),
+        //     bytes.data(),
+        //     bytes.size(),
+        //     nullptr
+        // );
     }
     using unknown_t = uintptr_t;
     using edx_t = uintptr_t;

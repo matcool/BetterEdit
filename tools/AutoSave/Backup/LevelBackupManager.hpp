@@ -85,7 +85,7 @@ class LevelBackupManager : public GManager {
     protected:
         CCDictionary* m_pLevels;
 
-        bool init();
+        bool init() override;
 
     public:
         void encodeDataTo(DS_Dictionary* data) override;
