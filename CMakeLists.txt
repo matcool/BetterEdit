@@ -14,15 +14,12 @@ add_library(${PROJECT_NAME} SHARED
     # hooks/EditLevelLayer.cpp
     # hooks/EditorPauseLayer.cpp
     # hooks/EditorUI.cpp
-    # hooks/freezeFix.cpp
-    # hooks/GJRotationControl.cpp
+    hooks/freezeFix.cpp
     hooks/HSVWidgetPopup.cpp
-    # hooks/LevelEditorLayer.cpp
-    # hooks/PauseLayer.cpp
-    # hooks/saveHook.cpp
+    hooks/LevelEditorLayer.cpp
+    hooks/PauseLayer.cpp
     hooks/SetGroupIDLayer.cpp
-    # hooks/SetupPickupTriggerPopup.cpp
-    # hooks/UILayer.cpp
+    hooks/SetupPickupTriggerPopup.cpp
 
     # utils/addTab.cpp
     # utils/BGLabel.cpp
@@ -60,8 +57,8 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
     # tools/Guidelines/*.cpp
     # tools/HighlightTriggers/*.cpp
     # tools/IDRemap/*.cpp
-    # tools/LevelPercent/*.cpp
-    # tools/other/*.cpp
+    tools/LevelPercent/*.cpp
+    tools/other/*.cpp
     # tools/PasteString/*.cpp
     # tools/Presets/*.cpp
     # tools/RGBColorInput/*.cpp
