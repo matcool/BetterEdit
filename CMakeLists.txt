@@ -18,10 +18,9 @@ add_library(${PROJECT_NAME} SHARED
     # hooks/GJRotationControl.cpp
     hooks/HSVWidgetPopup.cpp
     # hooks/LevelEditorLayer.cpp
-    # hooks/LoadingLayer.cpp
     # hooks/PauseLayer.cpp
     # hooks/saveHook.cpp
-    # hooks/SetGroupIDLayer.cpp
+    hooks/SetGroupIDLayer.cpp
     # hooks/SetupPickupTriggerPopup.cpp
     # hooks/UILayer.cpp
 
