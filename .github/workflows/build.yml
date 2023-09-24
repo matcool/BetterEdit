@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - v4-min-geoede
+      - v4-min-geode
 
 jobs:
   build:
