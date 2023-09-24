@@ -252,7 +252,7 @@ class KeybindManager : public GManager {
         bool m_bPropagateKeyPresses = false;
         static constexpr int s_nVersion = 2;
 
-        bool init();
+        bool init() override;
 
         void addCallback(KeybindCallback*, KeybindType, KeybindList const&);
         KeybindList getLoadedBinds(KeybindType, KeybindCallback*, bool*);
