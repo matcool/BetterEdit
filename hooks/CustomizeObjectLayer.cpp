@@ -26,14 +26,14 @@ public:
 						auto bytes = intToBytes(startID);
 						bytes.insert(bytes.begin(), 0xbf);
 
-						patchBytes(0x164fa5, bytes);
+						// patchBytes(0x164fa5, bytes);
 						this->onNextColorChannel(pSender);
 
 						g_nextFreeColorInput = txt;
 					}
 					else {
 						g_nextFreeColorInput = "";
-						patchBytes(0x164fa5, { 0xbf, 0x01, 0x00, 0x00, 0x00 });
+						// patchBytes(0x164fa5, { 0xbf, 0x01, 0x00, 0x00, 0x00 });
 					}
 
 					auto btn =
@@ -259,29 +259,30 @@ class $modify(CustomizeObjectLayer) {
 			this->m_customColorChannel = colorCountOnPage;
 		}
 
-		auto nextFreeBtn = getChild<CCMenuItemSpriteExtra*>(this->m_buttonMenu, 26);
-		if (nextFreeBtn) {
-			nextFreeBtn->setPositionX(nextFreeBtn->getPositionX() - 2.0f);
-		}
+		// TODO: disabling this
+		// auto nextFreeBtn = this->getChildByIDRecursive("next-free-button");
+		// if (nextFreeBtn) {
+		// 	nextFreeBtn->setPositionX(nextFreeBtn->getPositionX() - 2.0f);
+		// }
 
-		auto customNextSpr = ButtonSprite::create(
-			g_nextFreeColorInput.size() ? g_nextFreeColorInput.c_str() : "0", 20, true,
-			"goldFont.fnt", g_nextFreeColorInput.size() ? "GJ_button_02.png" : "GJ_button_04.png",
-			25, .6f
-		);
+		// auto customNextSpr = ButtonSprite::create(
+		// 	g_nextFreeColorInput.size() ? g_nextFreeColorInput.c_str() : "0", 20, true,
+		// 	"goldFont.fnt", g_nextFreeColorInput.size() ? "GJ_button_02.png" : "GJ_button_04.png",
+		// 	25, .6f
+		// );
 
-		auto customNextFreeBtn = CCMenuItemSpriteExtra::create(
-			customNextSpr, this, (SEL_MenuHandler)&CB::onCustomNextFree
-		);
-		customNextFreeBtn->setTag(NEXTFREE_TAG);
-		if (nextFreeBtn) {
-			customNextFreeBtn->setPosition(
-				nextFreeBtn->getPositionX() + 58.0f, nextFreeBtn->getPositionY()
-			);
-		}
+		// auto customNextFreeBtn = CCMenuItemSpriteExtra::create(
+		// 	customNextSpr, this, (SEL_MenuHandler)&CB::onCustomNextFree
+		// );
+		// customNextFreeBtn->setTag(NEXTFREE_TAG);
+		// if (nextFreeBtn) {
+		// 	customNextFreeBtn->setPosition(
+		// 		nextFreeBtn->getPositionX() + 58.0f, nextFreeBtn->getPositionY()
+		// 	);
+		// }
 
-		this->m_colorTabNodes->addObject(customNextFreeBtn);
-		this->m_buttonMenu->addChild(customNextFreeBtn);
+		// this->m_colorTabNodes->addObject(customNextFreeBtn);
+		// this->m_buttonMenu->addChild(customNextFreeBtn);
 
 		if (BetterEdit::getDisableNewColorSelection()) {
 			return true;
@@ -289,9 +290,10 @@ class $modify(CustomizeObjectLayer) {
 
 		this->m_titleLabel->setVisible(false);
 
-		if (auto a = getChild<CCLabelBMFont*>(this->m_buttonMenu, 1)) {
-			a->setPosition(210, 0);
-		}
+		// TODO: idk what this does
+		// if (auto a = this->getChildByIDRecursive("info-button")) {
+		// 	a->setPosition(210, 0);
+		// }
 
 		CCARRAY_FOREACH_B_TYPE(this->m_colorButtons, btn, ButtonSprite)
 		btn->getParent()->removeFromParent();

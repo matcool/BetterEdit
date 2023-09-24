@@ -16,7 +16,7 @@ add_library(${PROJECT_NAME} SHARED
     # hooks/EditorUI.cpp
     # hooks/freezeFix.cpp
     # hooks/GJRotationControl.cpp
-    # hooks/HSVWidgetPopup.cpp
+    hooks/HSVWidgetPopup.cpp
     # hooks/LevelEditorLayer.cpp
     # hooks/LoadingLayer.cpp
     # hooks/PauseLayer.cpp
