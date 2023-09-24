@@ -11,7 +11,7 @@ add_library(${PROJECT_NAME} SHARED
     BetterEdit.cpp
 
     hooks/CustomizeObjectLayer.cpp
-    # hooks/EditLevelLayer.cpp
+    hooks/EditLevelLayer.cpp
     # hooks/EditorPauseLayer.cpp
     # hooks/EditorUI.cpp
     hooks/freezeFix.cpp
@@ -21,10 +21,10 @@ add_library(${PROJECT_NAME} SHARED
     hooks/SetGroupIDLayer.cpp
     hooks/SetupPickupTriggerPopup.cpp
 
-    # utils/addTab.cpp
-    # utils/BGLabel.cpp
-    # utils/InfoButton.cpp
-    # utils/moveGameLayer.cpp
+    utils/addTab.cpp
+    utils/BGLabel.cpp
+    utils/InfoButton.cpp
+    utils/moveGameLayer.cpp
 )
 
 if (NOT DEFINED ENV{GEODE_SDK})
@@ -60,7 +60,7 @@ file(GLOB_RECURSE TOOLS_SOURCE_FILES
     tools/LevelPercent/*.cpp
     tools/other/*.cpp
     # tools/PasteString/*.cpp
-    # tools/Presets/*.cpp
+    tools/Presets/*.cpp
     # tools/RGBColorInput/*.cpp
     # tools/RotateSaws/*.cpp
     # # tools/Screenshot/*.cpp

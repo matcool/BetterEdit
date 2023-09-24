@@ -1,73 +1,78 @@
 #include "addTab.hpp"
+
 #include "../BetterEdit.hpp"
 
 using namespace gdmake;
 
 std::vector<std::tuple<std::string, addEditorTabFunc>> g_tabs;
 
-void addEditorTab(const char* spr, addEditorTabFunc bbar) {
-    g_tabs.push_back({ spr, bbar });
+void addEditorTab(char const* spr, addEditorTabFunc bbar) {
+	g_tabs.push_back({ spr, bbar });
 }
 
-void  EditorUI_setupCreateMenu(EditorUI* self) {
-    matdash::orig<&EditorUI_setupCreateMenu>(self);
+#include <Geode/modify/EditorUI.hpp>
 
-    if (BetterEdit::isEditorViewOnlyMode())
-        return;
+class $modify(EditorUI) {
+	void setupCreateMenu() {
+		EditorUI::setupCreateMenu();
 
-    auto pos = self->m_tabsMenu->getPosition();
+		if (BetterEdit::isEditorViewOnlyMode()) {
+			return;
+		}
 
-    for (auto [spr, bbarf] : g_tabs) {
-        auto newTab_off = cocos2d::CCSprite::createWithSpriteFrameName("GJ_tabOff_001.png");
-        auto off_aspr = cocos2d::CCSprite::createWithSpriteFrameName(spr.c_str());
+		auto pos = m_tabsMenu->getPosition();
 
-        off_aspr->setScale(.35f);
-        off_aspr->setPosition(newTab_off->getScaledContentSize() / 2);
+		for (auto [spr, bbarf] : g_tabs) {
+			auto newTab_off = cocos2d::CCSprite::createWithSpriteFrameName("GJ_tabOff_001.png");
+			auto off_aspr = cocos2d::CCSprite::createWithSpriteFrameName(spr.c_str());
 
-        newTab_off->addChild(off_aspr);
+			off_aspr->setScale(.35f);
+			off_aspr->setPosition(newTab_off->getScaledContentSize() / 2);
 
-        newTab_off->setOpacity(150);
+			newTab_off->addChild(off_aspr);
 
-        auto newTab_on = cocos2d::CCSprite::createWithSpriteFrameName("GJ_tabOn_001.png");
+			newTab_off->setOpacity(150);
 
-        newTab_on->addChild(off_aspr);
+			auto newTab_on = cocos2d::CCSprite::createWithSpriteFrameName("GJ_tabOn_001.png");
 
-        auto newTab = CCMenuItemToggler::create(
-            newTab_off,
-            newTab_on,
-            self,
-            (cocos2d::SEL_MenuHandler)&EditorUI::onSelectBuildTab
-        );
+			newTab_on->addChild(off_aspr);
 
-        newTab->setSizeMult(1.2f);
-        newTab->setClickable(false);
-        newTab->setContentSize(
-            extra::as<cocos2d::CCNode*>(self->m_tabsArray->objectAtIndex(0))->getContentSize()
-        );
+			auto newTab = CCMenuItemToggler::create(
+				newTab_off, newTab_on, this, (cocos2d::SEL_MenuHandler)&EditorUI::onSelectBuildTab
+			);
 
-        newTab->setTag(self->m_tabsArray->count());
+			newTab->setSizeMult(1.2f);
+			newTab->setClickable(false);
+			newTab->setContentSize(
+				extra::as<cocos2d::CCNode*>(m_tabsArray->objectAtIndex(0))->getContentSize()
+			);
 
-        auto bbar = bbarf(self);
+			newTab->setTag(m_tabsArray->count());
 
-        bbar->setVisible(false);
+			auto bbar = bbarf(this);
 
-        self->m_tabsArray->addObject(newTab);
-        self->m_tabsMenu->addChild(newTab);
-        self->m_createButtonBars->addObject(bbar);
-        self->addChild(bbar, 10);
-    }
+			bbar->setVisible(false);
 
-    // fix F1 & F2
-    patch(0x92044, { 0xb9, static_cast<uint8_t>(self->m_tabsArray->count()) });
-    patch(0x9207a, { 0x83, 0xf8, static_cast<uint8_t>(self->m_tabsArray->count() - 1) });
+			m_tabsArray->addObject(newTab);
+			m_tabsMenu->addChild(newTab);
+			m_createButtonBars->addObject(bbar);
+			this->addChild(bbar, 10);
+		}
 
-    auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
-    auto ratio = winSize.width / winSize.height;
+		// fix F1 & F2
+		patch(0x92044, { 0xb9, static_cast<uint8_t>(m_tabsArray->count()) });
+		patch(0x9207a, { 0x83, 0xf8, static_cast<uint8_t>(m_tabsArray->count() - 1) });
 
-    if (ratio > 1.5f)
-        self->m_tabsMenu->alignItemsHorizontallyWithPadding(-3.0f);
-    else
-        self->m_tabsMenu->alignItemsHorizontallyWithPadding(-1.0f);
+		auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
+		auto ratio = winSize.width / winSize.height;
 
-    self->m_tabsMenu->setPosition(pos);
-} MAT_GDMAKE_HOOK(0x7caf0, EditorUI_setupCreateMenu);
+		if (ratio > 1.5f) {
+			m_tabsMenu->alignItemsHorizontallyWithPadding(-3.0f);
+		}
+		else {
+			m_tabsMenu->alignItemsHorizontallyWithPadding(-1.0f);
+		}
+
+		m_tabsMenu->setPosition(pos);
+	}
+};
